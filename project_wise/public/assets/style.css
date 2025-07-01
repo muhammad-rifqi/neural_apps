@@ -181,6 +181,7 @@ body, html {
   flex-direction: column;
   justify-content: left;
   padding: 40px;
+  width:100%;
 }
 
 .welcome-section h2 {

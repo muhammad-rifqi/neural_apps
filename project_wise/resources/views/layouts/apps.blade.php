@@ -16,7 +16,7 @@
         <aside class="sidebar">
             <div class="top-section">
                 <div class="logo">💡 ProjectWise<sup>Beta</sup></div>
-                <button class="new-project">+ New project</button>
+                <button class="new-project" onclick="window.location.href='/project'">+ New project</button>
                 <aside class="project-list">
                     <ul>
                         <li>📄 NusaConnect</li>
