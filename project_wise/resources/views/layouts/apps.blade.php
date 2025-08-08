@@ -32,7 +32,7 @@
                         <li>📄 Data History</li>
                         <li>📄 Light Mode</li>
                         <li>📄 <a href="{{route('retraining')}}">Model Retraining</a> </li>
-                        <li>📄 My Model</li>
+                        <li>📄 <a href="{{ route('account') }}"> My Account </a> </li>
                         <li>📄 Update & Faq</li>
                         <li>📄 <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
