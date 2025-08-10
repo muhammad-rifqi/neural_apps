@@ -33,7 +33,7 @@
                         <li>📄 Light Mode</li>
                         <li>📄 <a href="{{route('retraining')}}">Model Retraining</a> </li>
                         <li>📄 <a href="{{ route('account') }}"> My Account </a> </li>
-                        <li>📄 Update & Faq</li>
+                        <li>📄 <a href="{{ route('faq') }}">  Update & Faq </a> </li>
                         <li>📄 <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
