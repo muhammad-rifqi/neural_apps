@@ -19,6 +19,7 @@
                 <button class="new-project" onclick="window.location.href='/project'">+ New project</button>
                 <aside class="project-list">
                     <ul>
+                        <li>📄 <a href="{{ route('study') }}">StudiYuk </a></li>
                         <li>📄 NusaConnect</li>
                         <li>📄 SiTani Pintar</li>
                         <li>📄 RuangUsaha</li>
@@ -31,7 +32,7 @@
                     <ul>
                         <li>📄 Data History</li>
                         <li>📄 Light Mode</li>
-                        <li>📄 <a href="{{route('retraining')}}">Model Retraining</a> </li>
+                        <li>📄 <a href="{{ route('retraining') }}">Model Retraining</a> </li>
                         <li>📄 <a href="{{ route('account') }}"> My Account </a> </li>
                         <li>📄 <a href="{{ route('faq') }}">  Update & Faq </a> </li>
                         <li>📄 <a href="{{ route('logout') }}"
