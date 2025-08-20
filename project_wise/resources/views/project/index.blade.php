@@ -27,7 +27,10 @@
                                 <div class="col-md-6">
                                     <label>Type of Project *</label>
                                     <select class="form-control" required>
-                                        <option disabled selected>Choose type of project</option>
+                                        <option>Choose type of project</option>
+                                        @foreach($project as $data)
+                                        <option value="{{$data->id}}">{{$data->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-6">
@@ -201,3 +204,9 @@
             </section>
         </main>
 @endsection
+
+@push('scripts') {{-- Pushing content to the 'scripts' stack --}}
+    <script>
+        
+    </script>
+@endpush
