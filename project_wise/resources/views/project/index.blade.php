@@ -37,6 +37,10 @@
                                     <label>Project Scale *</label>
                                     <select class="form-control" required>
                                         <option disabled selected>Choose project scale</option>
+                                        <option>Choose type of project</option>
+                                        @foreach($project as $rows)
+                                        <option value="{{$data->id}}">{{$rows->scale}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -56,6 +60,9 @@
                                     <label>Life Cycle Method *</label>
                                     <select class="form-control" required>
                                         <option disabled selected>Choose method</option>
+                                        @foreach($sdlcs as $sdlc)
+                                        <option value="{{$sdlc->id}}">{{$sdlc->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -67,6 +74,9 @@
                                     <label>Technologies Used *</label>
                                     <select class="form-control">
                                         <option disabled selected>Choose technology types</option>
+                                         @foreach($techs as $tech)
+                                         <option value="{{$tech->id}}">{{$tech->name}}</option>
+                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-4">

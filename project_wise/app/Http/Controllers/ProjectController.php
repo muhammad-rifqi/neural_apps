@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Projects;
+use App\Models\Sdlcs;
+use App\Models\Technologys;
 
 class ProjectController extends Controller
 {
@@ -15,7 +17,10 @@ class ProjectController extends Controller
     public function index()
     {
         $project = Projects::all();
-        return view('project.index',compact('project'));
+        $sdlcs = Sdlcs::all();
+        $techs = Technologys::all();
+        return view('project.index',compact('project','sdlcs','techs'));
+
     }
 
     /**
