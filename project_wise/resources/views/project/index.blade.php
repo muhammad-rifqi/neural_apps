@@ -120,6 +120,10 @@
                                         <label for="role">Role Name <span class="required">*</span></label>
                                         <select class="form-control" id="role" name="role">
                                         <option value="">Choose role</option>
+                                        @foreach($roles as $values)
+                                            <option value="{{$values}}">{{$values}}</option>
+                                        @endforeach
+                                        <option value=""></option>
                                         <!-- Tambahkan opsi lainnya di sini -->
                                         </select>
                                     </div>
