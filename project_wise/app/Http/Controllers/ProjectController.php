@@ -8,6 +8,9 @@ use App\Models\Sdlcs;
 use App\Models\Technologys;
 use App\Models\ExpertiseLevel;
 use App\Models\Risktype;
+use App\Models\Projecttype;
+use App\Models\Allocations;
+use Illuminate\Http\JsonResponse;
 
 
 class ProjectController extends Controller
@@ -47,7 +50,35 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+            $a = new Projects();
+            $a->type_project = $request->project_type;
+            $a->scale = $request->project_scale;
+            $a->start_date = $request->start_date;
+            $a->end_date = $request->end_date;
+            if($a->save()){
+                $lastId = $a->id;
+                $b = new Projecttype();
+                $b->project_id = $lastId;
+                $b->technology_type_id = $request->technology_type;
+                $b->tools_name = $request->technology_type_description;
+                if($b->save()){
+                    $c = new Allocations();
+                    $c->project_id = $lastId;
+                    $c->sdlc_method_id = $request->sdlc;
+                    $c->total_development_cost = $request->budge;
+                    $c->additional_cost = $request->cost_estimate;
+                    if($c->save()){
+                        return response()->json(["success"=>true], 200);
+                    }else{
+                        return response()->json(["success"=>false], 500);                        
+                    }
+                }else{
+                    return response()->json(["allocation"=>"failed"], 500);
+                }
+            }else{
+                return response()->json(["project_type"=>"failed"], 500);
+            }   
     }
 
     /**

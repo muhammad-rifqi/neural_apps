@@ -9,4 +9,6 @@ class Technologys extends Model
 {
     use HasFactory;
         protected $table = "technology_type";
+        const CREATED_AT = 'created_at';
+        const UPDATED_AT = 'last_updated_at';
 }

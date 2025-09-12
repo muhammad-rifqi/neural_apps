@@ -9,4 +9,6 @@ class ExpertiseLevel extends Model
 {
     use HasFactory;
     protected $table = "expertise_level";
+    const UPDATED_AT = 'last_updated_at';
+    const CREATED_AT = 'created_at';
 }

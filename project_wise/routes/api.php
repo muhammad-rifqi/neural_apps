@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/project_information', [App\Http\Controllers\ProjectController::class, 'store'])->name('projects_information');

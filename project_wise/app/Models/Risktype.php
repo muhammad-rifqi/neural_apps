@@ -9,4 +9,6 @@ class Risktype extends Model
 {
     use HasFactory;
     protected $table = 'risk_types';
+    const UPDATED_AT = 'last_updated_at';
+    const CREATED_AT = 'created_at';
 }
