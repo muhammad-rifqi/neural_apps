@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Projects extends Model
 {
     use HasFactory;
-    protected $table = "projects";
-    const UPDATED_AT = 'last_updated_at';
     const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'last_updated_at';
+    protected $table = "projects";
+    public $timestamps = false;
 }

@@ -5,11 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sdlcs extends Model
+class Projectscale extends Model
 {
     use HasFactory;
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'last_updated_at';
-    protected $table = "sdlc_method";
+     protected $table = "project_scale";
     public $timestamps = false;
 }

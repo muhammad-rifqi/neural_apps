@@ -23,6 +23,14 @@
                     <div class="tab-content text-left" id="myTabContent">
                         <div class="tab-pane fade show active p-3" id="home" role="tabpanel" aria-labelledby="home-tab">
 
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Project Name</label>
+                                   <input  class="form-control" type="text" id="project_name">
+                                </div>
+                            </div>
+                            <hr>
+
                             <div class="row" style="">
                                 <div class="col-md-6">
                                     <label>Type of Project *</label>
@@ -37,7 +45,6 @@
                                     <label>Project Scale *</label>
                                     <select class="form-control" id="project_scale" required>
                                         <option disabled selected>Choose project scale</option>
-                                        <option>Choose type of project</option>
                                         @foreach($project as $rows)
                                         <option value="{{$data->id}}">{{$rows->scale}}</option>
                                         @endforeach
@@ -96,14 +103,14 @@
                                     <label>Total Budget Estimate *</label>
                                     <div class="currency">
                                         <span>ID Rp</span>
-                                        <input type="text" id="budge" class="form-control" placeholder="Choose type of project">
+                                        <input type="number" id="budge" class="form-control" placeholder="Choose type of project">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label>Additional Cost Estimate</label>
                                     <div class="currency">
                                         <span>ID Rp</span>
-                                        <input type="text" id="cost_estimate" class="form-control" placeholder="Choose project scale">
+                                        <input type="number" id="cost_estimate" class="form-control" placeholder="Choose project scale">
                                     </div>
                                 </div>
                             </div>
@@ -231,6 +238,7 @@
     const g = document.getElementById("technology_use_description").value;
     const h = document.getElementById("budge").value;
     const i = document.getElementById("cost_estimate").value;
+    const j = document.getElementById("project_name").value;
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 
@@ -241,6 +249,7 @@
             'X-CSRF-TOKEN': csrfToken,
         },
         body: JSON.stringify({
+            "project_name" : j,
             "project_type" : a,
             "project_scale" : b,
             "start_date" : c,
@@ -253,29 +262,21 @@
         })
     })
     .then(response => response.json())
-    .then(data => {
-            swal({
-            title: "Apakah Kamu Sudah Yakin?",
-            text: "Data Sudah Benar??",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-            })
-            .then((willOut) => {
-                if (willOut) {
-                     swal("Sukses!", "Data Project Information berhasil disimpan. Silahkan Input Team Dan Resource Allocation", "success")
-                        .then(() => {
-                            // window.location.reload();
-                            return false;
-                        });
-                } else {
-                    console.log('NaN')
-                }
-            });
+    .then(data => {     
+        if(data.success){
+            swal("Sukses!", "Data Project Information berhasil disimpan. Silahkan Input Team Dan Resource Allocation", "success")
+            .then(() => {
+                const userAgent = window.navigator.userAgent;
+                localStorage.setItem('sess_id',userAgent + '====' + data?.id_allocation + '===' + data?.id_project)
+                window.location.reload();
+            });  
+        }else{
+            swal("Gagal!", "Data Project Information gagal disimpan.", "danger")
+            .then(() => {
+                window.location.reload();
+            });  
+        } 
     })
-
-
-
     }
 </script>
 

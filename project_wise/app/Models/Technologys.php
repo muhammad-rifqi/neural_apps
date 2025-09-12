@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Technologys extends Model
 {
     use HasFactory;
-        protected $table = "technology_type";
-        const CREATED_AT = 'created_at';
-        const UPDATED_AT = 'last_updated_at';
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'last_updated_at';
+    protected $table = "technology_type";
+    public $timestamps = false;
 }

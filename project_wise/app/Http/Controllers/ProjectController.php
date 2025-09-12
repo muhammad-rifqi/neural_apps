@@ -52,6 +52,8 @@ class ProjectController extends Controller
     {
         
             $a = new Projects();
+            $a->name = $request->project_name;
+            $a->name = $request->project_type;
             $a->type_project = $request->project_type;
             $a->scale = $request->project_scale;
             $a->start_date = $request->start_date;
@@ -60,8 +62,8 @@ class ProjectController extends Controller
                 $lastId = $a->id;
                 $b = new Projecttype();
                 $b->project_id = $lastId;
-                $b->technology_type_id = $request->technology_type;
-                $b->tools_name = $request->technology_type_description;
+                $b->technology_type_id = $request->technology_use;
+                $b->tools_name = $request->technology_use_description;
                 if($b->save()){
                     $c = new Allocations();
                     $c->project_id = $lastId;
@@ -69,7 +71,7 @@ class ProjectController extends Controller
                     $c->total_development_cost = $request->budge;
                     $c->additional_cost = $request->cost_estimate;
                     if($c->save()){
-                        return response()->json(["success"=>true], 200);
+                        return response()->json(["success"=>true, "id_project" => $lastId , "id_allocation" => $c->id], 200);
                     }else{
                         return response()->json(["success"=>false], 500);                        
                     }

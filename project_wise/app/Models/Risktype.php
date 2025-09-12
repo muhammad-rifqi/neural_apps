@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Risktype extends Model
 {
     use HasFactory;
-    protected $table = 'risk_types';
-    const UPDATED_AT = 'last_updated_at';
     const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'last_updated_at';
+    protected $table = 'risk_types';
+    public $timestamps = false;
 }
