@@ -36,8 +36,8 @@
                                     <label>Type of Project *</label>
                                     <select class="form-control" id="project_type" required>
                                         <option>Choose type of project</option>
-                                        @foreach($project as $data)
-                                        <option value="{{$data->id}}">{{$data->name}}</option>
+                                        @foreach($pt as $data)
+                                        <option value="{{$data->name}}">{{$data->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -45,8 +45,8 @@
                                     <label>Project Scale *</label>
                                     <select class="form-control" id="project_scale" required>
                                         <option disabled selected>Choose project scale</option>
-                                        @foreach($project as $rows)
-                                        <option value="{{$data->id}}">{{$rows->scale}}</option>
+                                        @foreach($ps as $rows)
+                                        <option value="{{$rows->name}}">{{$rows->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>

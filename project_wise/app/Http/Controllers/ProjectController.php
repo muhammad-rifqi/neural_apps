@@ -10,6 +10,8 @@ use App\Models\ExpertiseLevel;
 use App\Models\Risktype;
 use App\Models\Projecttype;
 use App\Models\Allocations;
+use App\Models\Projectscale;
+use App\Models\Projectcategory;
 use Illuminate\Http\JsonResponse;
 
 
@@ -28,7 +30,9 @@ class ProjectController extends Controller
         $roles = ['Roles1','Roles2','Roles3'];
         $exp = ExpertiseLevel::all();
         $rt = Risktype::all();
-        return view('project.index',compact('project','sdlcs','techs','roles','exp','rt'));
+        $pt = Projecttype::all();
+        $ps = Projectscale::all();
+        return view('project.index',compact('project','sdlcs','techs','roles','exp','rt','pt','ps'));
 
     }
 
@@ -53,14 +57,13 @@ class ProjectController extends Controller
         
             $a = new Projects();
             $a->name = $request->project_name;
-            $a->name = $request->project_type;
             $a->type_project = $request->project_type;
             $a->scale = $request->project_scale;
             $a->start_date = $request->start_date;
             $a->end_date = $request->end_date;
             if($a->save()){
                 $lastId = $a->id;
-                $b = new Projecttype();
+                $b = new Projectcategory();
                 $b->project_id = $lastId;
                 $b->technology_type_id = $request->technology_use;
                 $b->tools_name = $request->technology_use_description;
