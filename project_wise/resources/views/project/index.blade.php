@@ -26,7 +26,7 @@
                             <div class="row" style="">
                                 <div class="col-md-6">
                                     <label>Type of Project *</label>
-                                    <select class="form-control" required>
+                                    <select class="form-control" id="project_type" required>
                                         <option>Choose type of project</option>
                                         @foreach($project as $data)
                                         <option value="{{$data->id}}">{{$data->name}}</option>
@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label>Project Scale *</label>
-                                    <select class="form-control" required>
+                                    <select class="form-control" id="project_scale" required>
                                         <option disabled selected>Choose project scale</option>
                                         <option>Choose type of project</option>
                                         @foreach($project as $rows)
@@ -109,7 +109,7 @@
                             </div>
                             <div class="row p-2">
                                 <div class="col-md-12 p-2">
-                                    <button class="btn btn-dark w-100">Next Step</button>
+                                    <button class="btn btn-dark w-100" onclick="save1()">Next Section</button>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +123,6 @@
                                         @foreach($roles as $values)
                                             <option value="{{$values}}">{{$values}}</option>
                                         @endforeach
-                                        <option value=""></option>
                                         <!-- Tambahkan opsi lainnya di sini -->
                                         </select>
                                     </div>
@@ -139,6 +138,9 @@
                                         <label for="level">Expertise Level <span class="required">*</span></label>
                                         <select class="form-control" id="level" name="level">
                                         <option value="">Choose level</option>
+                                        @foreach($exp as $exps)
+                                            <option value="{{$exps->id}}">{{$exps->name}}</option>
+                                        @endforeach
                                         <!-- Tambahkan opsi lainnya di sini -->
                                         </select>
                                     </div>
@@ -154,7 +156,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-dark w-100">Next Step</button>
+                                    <button class="btn btn-dark w-100">Next Section</button>
                                 </div>
                             </div>
                             
@@ -167,9 +169,9 @@
                                     <label for="risk-type">Risk Type *</label>
                                     <select class="form-control" id="risk-type">
                                         <option disabled selected>Choose risk type</option>
-                                        <option>Financial</option>
-                                        <option>Operational</option>
-                                        <option>Compliance</option>
+                                        @foreach($rt as $rts)
+                                            <option value="{{$rts->id}}">{{$rts->name}}</option>
+                                        @endforeach
                                     </select>
                                     </div>
                                 </div>
@@ -208,7 +210,7 @@
 
                              <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-dark w-100">Next Step</button>
+                                    <button class="btn btn-dark w-100">Next Section</button>
                                 </div>
                             </div>
                             
@@ -217,10 +219,30 @@
                 </div>
             </section>
         </main>
-@endsection
 
-@push('scripts') {{-- Pushing content to the 'scripts' stack --}}
-    <script>
-        
-    </script>
-@endpush
+ <script>
+    function save1(){
+    const a = document.getElementById("project_type").value;
+    const b = document.getElementById("project_scale").value;
+
+
+            swal({
+            title: "Are you sure?",
+            text: "To Delete this Data ??",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willOut) => {
+                if (willOut) {
+                    window.location = '/delete_login_banner/' + id + '/' + foto;
+                } else {
+                    console.log('NaN')
+                }
+            });
+
+
+    }
+</script>
+
+@endsection
