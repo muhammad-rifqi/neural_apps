@@ -12,6 +12,8 @@ use App\Models\Projecttype;
 use App\Models\Allocations;
 use App\Models\Projectscale;
 use App\Models\Projectcategory;
+use App\Models\Teammember;
+use App\Models\Risk;
 use Illuminate\Http\JsonResponse;
 
 
@@ -27,7 +29,7 @@ class ProjectController extends Controller
         $project = Projects::all();
         $sdlcs = Sdlcs::all();
         $techs = Technologys::all();
-        $roles = ['Roles1','Roles2','Roles3'];
+        $roles = ['System Administrator','Frontend Dev','Backend Dev'];
         $exp = ExpertiseLevel::all();
         $rt = Risktype::all();
         $pt = Projecttype::all();
@@ -85,6 +87,43 @@ class ProjectController extends Controller
                 return response()->json(["project_type"=>"failed"], 500);
             }   
     }
+
+    public function team(Request $request)
+    {
+        
+            $a = new Teammember();
+            $a->allocation_id = $request->id_allocation;
+            $a->role = $request->role;
+            $a->quantity = $request->quantity;
+            $a->expertise_level_id = $request->level;
+            $a->avg_salary = $request->salary;
+            if($a->save()){
+                return response()->json(["success"=>true], 200); 
+            }else{
+                return response()->json(["success"=>false], 500); 
+            }
+
+                   
+    }
+
+    public function risk(Request $request)
+    {
+        
+            $a = new Risk();
+            $a->project_id = $request->id_project;
+            $a->risk_type_id = $request->risk_type;
+            $a->description = $request->description;
+            $a->impact_level = $request->impact_level;
+            $a->likelihood = $request->likelihood;
+            if($a->save()){
+                return response()->json(["success"=>true], 200); 
+            }else{
+                return response()->json(["success"=>false], 500); 
+            }
+
+                   
+    }
+
 
     /**
      * Display the specified resource.

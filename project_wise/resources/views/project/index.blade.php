@@ -4,7 +4,8 @@
         
         <main class="main">
             <section class="welcome-section">
-                <h2>Hi,{{ Auth::user()->name }}! Let’s power up your next project.</h2>
+                
+                <h2 style="margin-top:200px">Hi,{{ Auth::user()->name }}! Let’s power up your next project.</h2>
                 <div class="welcome-section_tab">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
@@ -116,7 +117,7 @@
                             </div>
                             <div class="row p-2">
                                 <div class="col-md-12 p-2">
-                                    <button class="btn btn-dark w-100" onclick="save1()">Next Section</button>
+                                    <button class="btn btn-dark w-100" onclick="save1()">Save</button>
                                 </div>
                             </div>
                         </div>
@@ -155,7 +156,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group salary">
                                         <label for="salary">Average Salary <span class="required">*</span></label>
-                                            <input class="form" style="width:150px; padding: 6px; border:1px solid #ccc; border-radius: 4px" type="number"  id="salary" name="salary" placeholder="Rp Average salary" />
+                                            <input class="form" id="salary" style="width:150px; padding: 6px; border:1px solid #ccc; border-radius: 4px" type="number"  id="salary" name="salary" placeholder="Rp Average salary" />
                                             <button class="btn btn-primary">+</button>
                                     </div>
                                 </div>
@@ -163,7 +164,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-dark w-100">Next Section</button>
+                                    <button class="btn btn-dark w-100" onclick="save2()">Save</button>
                                 </div>
                             </div>
                             
@@ -186,7 +187,7 @@
                                  <div class="col-md-3">
                                     <div class="form-group">
                                     <label for="description">Description *</label>
-                                    <input class="form-control" type="text" id="description" placeholder="Quantity"/>
+                                    <input class="form-control" type="text" id="description" placeholder="Description"/>
                                     </div>
                                 </div>
 
@@ -195,9 +196,9 @@
                                     <label for="impact-level">Impact Level *</label>
                                     <select class="form-control" id="impact-level">
                                         <option disabled selected>Choose level</option>
-                                        <option>Low</option>
-                                        <option>Medium</option>
-                                        <option>High</option>
+                                        <option value="low">Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high">High</option>
                                     </select>
                                     </div>
                                 </div>
@@ -207,9 +208,9 @@
                                     <label for="likelihood">Likelihood *</label><br>
                                     <select class="form" style="width:150px; padding: 6px; border:1px solid #ccc; border-radius: 4px" id="likelihood">
                                         <option disabled selected>Possibility</option>
-                                        <option>Unlikely</option>
-                                        <option>Possible</option>
-                                        <option>Likely</option>
+                                        <option value="unlikely">Unlikely</option>
+                                        <option value="possible">Possible</option>
+                                        <option value="like">Likely</option>
                                     </select> <button class="btn btn-primary">+</button>
                                     </div>
                                 </div>
@@ -217,7 +218,7 @@
 
                              <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-dark w-100">Next Section</button>
+                                    <button class="btn btn-dark w-100" onclick="save3()">Generate</button>
                                 </div>
                             </div>
                             
@@ -267,11 +268,92 @@
             swal("Sukses!", "Data Project Information berhasil disimpan. Silahkan Input Team Dan Resource Allocation", "success")
             .then(() => {
                 const userAgent = window.navigator.userAgent;
-                localStorage.setItem('sess_id',userAgent + '====' + data?.id_allocation + '===' + data?.id_project)
+                localStorage.setItem('sess_id',userAgent + '===' + data?.id_allocation + '===' + data?.id_project)
                 window.location.reload();
             });  
         }else{
             swal("Gagal!", "Data Project Information gagal disimpan.", "danger")
+            .then(() => {
+                window.location.reload();
+            });  
+        } 
+    })
+    }
+
+
+    function save2(){
+    const ddd = localStorage.getItem('sess_id').split('===')[1];
+    const aa = ddd;
+    const bb = document.getElementById("role").value;
+    const cc = document.getElementById("quantity").value;
+    const dd = document.getElementById("level").value;
+    const ee = document.getElementById("salary").value;
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+
+    fetch('http://localhost:8000/api/team', {
+    method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+        },
+        body: JSON.stringify({
+            "id_allocation" : aa,
+            "role" : bb,
+            "quantity" : cc,
+            "level" : dd,
+            "salary" : ee,
+        })
+    })
+    .then(response => response.json())
+    .then(data => {     
+        if(data.success){
+            swal("Sukses!", "Data Team berhasil disimpan. Silahkan Input Risk Dan Contrain", "success")
+            .then(() => {
+                window.location.reload();
+            });  
+        }else{
+            swal("Gagal!", "Data team gagal disimpan.", "danger")
+            .then(() => {
+                window.location.reload();
+            });  
+        } 
+    })
+    }
+
+    function save3(){
+    const www = localStorage.getItem('sess_id').split('===')[2];
+    const aaa = www;
+    const bbb = document.getElementById("risk-type").value;
+    const ccc = document.getElementById("description").value;
+    const ddd = document.getElementById("impact-level").value;
+    const eee = document.getElementById("likelihood").value;
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+
+    fetch('http://localhost:8000/api/risk', {
+    method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+        },
+        body: JSON.stringify({
+            "id_project" : aaa,
+            "risk_type" : bbb,
+            "description" : ccc,
+            "impact_level" : ddd,
+            "likelihood" : eee,
+        })
+    })
+    .then(response => response.json())
+    .then(data => {     
+        if(data.success){
+            swal("Sukses!", "Data Risk berhasil disimpan.", "success")
+            .then(() => {
+                window.location.reload();
+            });  
+        }else{
+            swal("Gagal!", "Data Risk.", "danger")
             .then(() => {
                 window.location.reload();
             });  
