@@ -64,6 +64,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+
+    <script>
+        function gantiwarna(e){
+            if(e == 'light'){
+                document.body.style.backgroundColor = 'white';
+                document.body.style.color = '#000';
+            }else{
+                document.body.style.backgroundColor = 'black';
+                document.body.style.color = '#fff';
+            }
+        }
+    </script>
+
 </body>
 
 </html>

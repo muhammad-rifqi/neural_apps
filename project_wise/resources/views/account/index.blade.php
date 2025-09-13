@@ -2,7 +2,7 @@
 
 @section('content')   
     <div class="container">
-        <h1 align="center">Great to see you, {{Auth::user()->name}}! Let’s boost performance with retraining.</h1>
+        <h1 align="center" style="margin-top: 50px">Great to see you, {{Auth::user()->name}}! Let’s boost performance with retraining.</h1>
         <p class="subtitle" align="center">
         Configure and initiate the retraining process to update and improve the accuracy of your predictive machine learning models.
         </p>
@@ -47,9 +47,9 @@
                         <h4 class="mt-4">Appearance Settings</h4>
                         <div class="form-group">
                             <label for="theme">Theme</label>
-                            <select class="form-control" id="theme" style="width:100%;">
-                                <option>Light</option>
-                                <option>Dark</option>
+                            <select class="form-control" id="theme" style="width:100%;" onchange="gantiwarna(this.value)">
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
                             </select>
                         </div>
                     </div>
