@@ -1,26 +1,39 @@
 @extends('layouts.apps')
 
-@section('content')        
+@section('content')      
+<style>
+    .nav-tabs .nav-link.active {
+      font-weight: bold;
+    }
+    .top-buttons {
+      text-align: right;
+    }
+    .top-buttons .btn {
+      margin-left: 8px;
+    }
+  </style>
+
         
         <main class="main">
             <section class="welcome-section">
                 
                 <h2 style="margin-top:200px">Hi,{{ Auth::user()->name }}! Let’s power up your next project.</h2>
                 <div class="welcome-section_tab">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+                      <!-- Tabs -->
+                    <ul class="nav nav-tabs mb-4">
                         <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                aria-controls="home" aria-selected="true">Project Information</a>
+                            <a class="nav-link active" href="{{route('projects')}}">Project Information</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                                aria-controls="profile" aria-selected="false">Team & Resource Allocation</a>
+                            <a class="nav-link" href="{{route('teamp')}}">Team & Resource Allocation</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                                aria-controls="contact" aria-selected="false">Initial Risk & Constrains</a>
+                            <a class="nav-link" href="{{route('riskp')}}">Initial Risk & Constrains</a>
                         </li>
                     </ul>
+
+
                     <div class="tab-content text-left" id="myTabContent">
                         <div class="tab-pane fade show active p-3" id="home" role="tabpanel" aria-labelledby="home-tab">
 
@@ -117,112 +130,11 @@
                             </div>
                             <div class="row p-2">
                                 <div class="col-md-12 p-2">
-                                    <button class="btn btn-dark w-100" onclick="save1()">Save</button>
+                                    <button class="btn btn-dark w-100" onclick="save1()">Next Section</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade p-3" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="role">Role Name <span class="required">*</span></label>
-                                        <select class="form-control" id="role" name="role">
-                                        <option value="">Choose role</option>
-                                        @foreach($roles as $values)
-                                            <option value="{{$values}}">{{$values}}</option>
-                                        @endforeach
-                                        <!-- Tambahkan opsi lainnya di sini -->
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                     <div class="form-group">
-                                        <label for="quantity">Quantity <span class="required">*</span></label>
-                                        <input class="form-control" type="number" id="quantity" name="quantity" placeholder="Quantity" />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="level">Expertise Level <span class="required">*</span></label>
-                                        <select class="form-control" id="level" name="level">
-                                        <option value="">Choose level</option>
-                                        @foreach($exp as $exps)
-                                            <option value="{{$exps->id}}">{{$exps->name}}</option>
-                                        @endforeach
-                                        <!-- Tambahkan opsi lainnya di sini -->
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group salary">
-                                        <label for="salary">Average Salary <span class="required">*</span></label>
-                                            <input class="form" id="salary" style="width:150px; padding: 6px; border:1px solid #ccc; border-radius: 4px" type="number"  id="salary" name="salary" placeholder="Rp Average salary" />
-                                            <button class="btn btn-primary">+</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <button class="btn btn-dark w-100" onclick="save2()">Save</button>
-                                </div>
-                            </div>
-                            
-                        </div>
-
-                        <div class="tab-pane fade p-3" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                            <div class="form-row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                    <label for="risk-type">Risk Type *</label>
-                                    <select class="form-control" id="risk-type">
-                                        <option disabled selected>Choose risk type</option>
-                                        @foreach($rt as $rts)
-                                            <option value="{{$rts->id}}">{{$rts->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    </div>
-                                </div>
-
-                                 <div class="col-md-3">
-                                    <div class="form-group">
-                                    <label for="description">Description *</label>
-                                    <input class="form-control" type="text" id="description" placeholder="Description"/>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                    <label for="impact-level">Impact Level *</label>
-                                    <select class="form-control" id="impact-level">
-                                        <option disabled selected>Choose level</option>
-                                        <option value="low">Low</option>
-                                        <option value="medium">Medium</option>
-                                        <option value="high">High</option>
-                                    </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                    <label for="likelihood">Likelihood *</label><br>
-                                    <select class="form" style="width:150px; padding: 6px; border:1px solid #ccc; border-radius: 4px" id="likelihood">
-                                        <option disabled selected>Possibility</option>
-                                        <option value="unlikely">Unlikely</option>
-                                        <option value="possible">Possible</option>
-                                        <option value="like">Likely</option>
-                                    </select> <button class="btn btn-primary">+</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                             <div class="row">
-                                <div class="col-md-12">
-                                    <button class="btn btn-dark w-100" onclick="save3()">Generate</button>
-                                </div>
-                            </div>
-                            
-                        </div>
+                        
                     </div>
                 </div>
             </section>
@@ -269,91 +181,10 @@
             .then(() => {
                 const userAgent = window.navigator.userAgent;
                 localStorage.setItem('sess_id',userAgent + '===' + data?.id_allocation + '===' + data?.id_project)
-                window.location.reload();
+                window.location.href('/teamp');
             });  
         }else{
             swal("Gagal!", "Data Project Information gagal disimpan.", "danger")
-            .then(() => {
-                window.location.reload();
-            });  
-        } 
-    })
-    }
-
-
-    function save2(){
-    const ddd = localStorage.getItem('sess_id').split('===')[1];
-    const aa = ddd;
-    const bb = document.getElementById("role").value;
-    const cc = document.getElementById("quantity").value;
-    const dd = document.getElementById("level").value;
-    const ee = document.getElementById("salary").value;
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-
-    fetch('http://localhost:8000/api/team', {
-    method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken,
-        },
-        body: JSON.stringify({
-            "id_allocation" : aa,
-            "role" : bb,
-            "quantity" : cc,
-            "level" : dd,
-            "salary" : ee,
-        })
-    })
-    .then(response => response.json())
-    .then(data => {     
-        if(data.success){
-            swal("Sukses!", "Data Team berhasil disimpan. Silahkan Input Risk Dan Contrain", "success")
-            .then(() => {
-                window.location.reload();
-            });  
-        }else{
-            swal("Gagal!", "Data team gagal disimpan.", "danger")
-            .then(() => {
-                window.location.reload();
-            });  
-        } 
-    })
-    }
-
-    function save3(){
-    const www = localStorage.getItem('sess_id').split('===')[2];
-    const aaa = www;
-    const bbb = document.getElementById("risk-type").value;
-    const ccc = document.getElementById("description").value;
-    const ddd = document.getElementById("impact-level").value;
-    const eee = document.getElementById("likelihood").value;
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-
-    fetch('http://localhost:8000/api/risk', {
-    method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken,
-        },
-        body: JSON.stringify({
-            "id_project" : aaa,
-            "risk_type" : bbb,
-            "description" : ccc,
-            "impact_level" : ddd,
-            "likelihood" : eee,
-        })
-    })
-    .then(response => response.json())
-    .then(data => {     
-        if(data.success){
-            swal("Sukses!", "Data Risk berhasil disimpan.", "success")
-            .then(() => {
-                window.location.reload();
-            });  
-        }else{
-            swal("Gagal!", "Data Risk.", "danger")
             .then(() => {
                 window.location.reload();
             });  

@@ -38,6 +38,34 @@ class ProjectController extends Controller
 
     }
 
+    public function riskp()
+    {
+        $project = Projects::all();
+        $sdlcs = Sdlcs::all();
+        $techs = Technologys::all();
+        $roles = ['System Administrator','Frontend Dev','Backend Dev'];
+        $exp = ExpertiseLevel::all();
+        $rt = Risktype::all();
+        $pt = Projecttype::all();
+        $ps = Projectscale::all();
+        return view('project.risk',compact('project','sdlcs','techs','roles','exp','rt','pt','ps'));
+
+    }
+
+    public function teamp()
+    {
+        $project = Projects::all();
+        $sdlcs = Sdlcs::all();
+        $techs = Technologys::all();
+        $roles = ['System Administrator','Frontend Dev','Backend Dev'];
+        $exp = ExpertiseLevel::all();
+        $rt = Risktype::all();
+        $pt = Projecttype::all();
+        $ps = Projectscale::all();
+        return view('project.team',compact('project','sdlcs','techs','roles','exp','rt','pt','ps'));
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -101,9 +129,7 @@ class ProjectController extends Controller
                 return response()->json(["success"=>true], 200); 
             }else{
                 return response()->json(["success"=>false], 500); 
-            }
-
-                   
+            }          
     }
 
     public function risk(Request $request)
@@ -119,9 +145,7 @@ class ProjectController extends Controller
                 return response()->json(["success"=>true], 200); 
             }else{
                 return response()->json(["success"=>false], 500); 
-            }
-
-                   
+            }         
     }
 
 

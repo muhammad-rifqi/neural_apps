@@ -22,6 +22,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/project', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects');
+Route::get('/teamp', [App\Http\Controllers\ProjectController::class, 'teamp'])->name('teamp');
+Route::get('/riskp', [App\Http\Controllers\ProjectController::class, 'riskp'])->name('riskp');
 Route::get('/retraining', [App\Http\Controllers\RetrainingController::class, 'index'])->name('retraining');
 Route::get('/account', [App\Http\Controllers\AccountController::class, 'index'])->name('account');
 Route::get('/faq', [App\Http\Controllers\FaqController::class, 'index'])->name('faq');
