@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class StudyController extends Controller
+class HistoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,7 @@ class StudyController extends Controller
      */
     public function index()
     {
-        return view('study.index');
+        return view('history.index');
     }
 
     /**
@@ -21,16 +21,6 @@ class StudyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function current()
-    {
-        return view('study.current');
-    }
-    public function recomendate()
-    {
-        return view('study.recomendate');
-    }
-
     public function create()
     {
         //

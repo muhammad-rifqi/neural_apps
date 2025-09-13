@@ -32,7 +32,7 @@
             <div class="bottom-links">
                 <aside class="project-list">
                     <ul>
-                        <li>📄 Data History</li>
+                        <li>📄 <a href="{{ route('history') }}"> Data History </a></li>
                         <li>📄 Light Mode</li>
                         <li>📄 <a href="{{ route('retraining') }}">Model Retraining</a> </li>
                         <li>📄 <a href="{{ route('account') }}"> My Account </a> </li>

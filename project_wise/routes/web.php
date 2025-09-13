@@ -26,4 +26,7 @@ Route::get('/retraining', [App\Http\Controllers\RetrainingController::class, 'in
 Route::get('/account', [App\Http\Controllers\AccountController::class, 'index'])->name('account');
 Route::get('/faq', [App\Http\Controllers\FaqController::class, 'index'])->name('faq');
 Route::get('/study', [App\Http\Controllers\StudyController::class, 'index'])->name('study');
+Route::get('/current', [App\Http\Controllers\StudyController::class, 'current'])->name('current');
+Route::get('/recomendate', [App\Http\Controllers\StudyController::class, 'recomendate'])->name('recomendate');
 Route::get('/result', [App\Http\Controllers\ResultController::class, 'index'])->name('result');
+Route::get('/history', [App\Http\Controllers\HistoryController::class, 'index'])->name('history');
