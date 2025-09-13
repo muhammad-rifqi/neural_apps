@@ -2,7 +2,7 @@
 
 @section('content')   
     <div class="container">
-        <h1 align="center">Great to see you, {{Auth::user()->name}}! Let’s boost performance with retraining.</h1>
+        <h1 align="center" style="margin-top:50px;">Great to see you, {{Auth::user()->name}}! Let’s boost performance with retraining.</h1>
         <p class="subtitle" align="center">
          Discover the latest product updates, feature enhancements, and answers to frequently asked questions.
     This section helps you stay up to date with system improvements, understand new capabilities,

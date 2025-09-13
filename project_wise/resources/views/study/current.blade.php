@@ -39,7 +39,7 @@
     <div class="container">
         <h1 align="center">Great to see you, {{Auth::user()->name}}! These Are the Recomendation result for study Yuk Project.</h1>
         <hr/>
-          <div class="container py-4">
+          <div class="container py-4" style="margin-top:50px;">
             <!-- Top Buttons -->
             <div class="d-flex justify-content-end mb-3">
               <button class="btn btn-dark">Download Result</button> &nbsp;&nbsp;
