@@ -13,11 +13,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="fullName">Full Name <span class="text-danger">*</span> <small class="text-muted">(required)</small></label>
-                                    <input type="text" class="form-control" id="fullName" value="Andika Noor Ismawan" required>
+                                    <input type="text" class="form-control" id="fullName" value="{{$user->fullname}}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="nickName">Nick Name <span class="text-danger">*</span> <small class="text-muted">(required)</small></label>
-                                    <input type="text" class="form-control" id="nickName" value="Andika" required>
+                                    <input type="text" class="form-control" id="nickName" value="{{$user->nick_name}}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="role">Role <span class="text-danger">*</span> <small class="text-muted">(required)</small></label>
@@ -27,18 +27,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="email">Email Address <span class="text-danger">*</span> <small class="text-muted">(required)</small></label>
-                                    <input type="email" class="form-control" id="email" value="noorismawanandika@gmail.com" required>
+                                    <input type="email" class="form-control" id="email" value="{{$user->email}}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="phone">Phone Number <span class="text-danger">*</span> <small class="text-muted">(required)</small></label>
-                                    <input type="tel" class="form-control is-invalid" id="phone" value="+62 81312004621" required>
-                                    <div class="invalid-feedback">
+                                    <input type="tel" class="form-control is-invalid" id="phone" value="{{$user->phone_number}}" required>
+                                    <!-- <div class="invalid-feedback">
                                         Please enter a valid phone number.
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="form-group">
                                     <label for="company">Company <span class="text-danger">*</span> <small class="text-muted">(required)</small></label>
-                                    <input type="text" class="form-control" id="company" value="Anugerah Nusa Teknologi" required>
+                                    <input type="text" class="form-control" id="company" value="{{$user->company}}" required>
                                 </div>
                             </div>
                 </div>

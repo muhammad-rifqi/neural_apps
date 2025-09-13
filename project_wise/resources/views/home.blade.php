@@ -12,8 +12,8 @@
 
         <h2>Hi, {{ Auth::user()->name }} ! Let’s power up your next project.</h2>
         <div class="buttons">
-            <button class="retrain-btn">Retraining Model</button>
-            <button class="new-project-btn">New Project</button>
+            <button class="retrain-btn" onclick="window.location.href='/retraining'">Retraining Model</button>
+            <button class="new-project-btn" onclick="window.location.href='/project'">New Project</button>
         </div>
     </section>
 </main>
