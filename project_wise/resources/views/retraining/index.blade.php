@@ -30,31 +30,31 @@
                         <tbody>
                         <tr>
                             <td>Confusion Matrix</td>
-                            <td><input type="text" class="form-control" id="acc" value="0 %" readonly></td>
+                            <td><input type="text" class="form-control" id="acc" value="0 %"></td>
                         </tr>
                         <tr>
                             <td>Accuracy Score</td>
-                            <td><input type="text" class="form-control" id="nbacc" value="0 %" readonly></td>
+                            <td><input type="text" class="form-control" id="nbacc" value="0 %"></td>
                         </tr>
                         <tr>
                             <td>Hybrid Accuracy</td>
-                            <td><input type="text" class="form-control" id="hybrid" value="0 %" readonly></td>
+                            <td><input type="text" class="form-control" id="hybrid" value="0 %"></td>
                         </tr>
                         <tr>
                             <td>Precision</td>
-                            <td><input type="text" class="form-control" id="prec" value="0 %" readonly></td>
+                            <td><input type="text" class="form-control" id="prec" value="0 %"></td>
                         </tr>
                         <tr>
                             <td>Recall</td>
-                            <td> <input type="text" class="form-control"  id="rec" value="0 %" readonly></td>
+                            <td> <input type="text" class="form-control"  id="rec" value="0 %" ></td>
                         </tr>
                         <tr>
                             <td>F1-Score</td>
-                            <td><input type="text" class="form-control" id="f1" value="0 %" readonly></td>
+                            <td><input type="text" class="form-control" id="f1" value="0 %" ></td>
                         </tr>
                         <tr>
                             <td>ROC-AUC</td>
-                            <td><input type="text" class="form-control" id="roc" value="0 %" readonly></td>
+                            <td><input type="text" class="form-control" id="roc" value="0 %" ></td>
                         </tr>
                         <tr>
                             <td>Data Scope <span class="text-primary">●</span></td>
@@ -66,7 +66,7 @@
                         </tr>
                         <tr>
                             <td>Training Epochs <span class="text-primary">●</span></td>
-                            <td><input type="text" class="form-control" value="50" readonly></td>
+                            <td><input type="text" class="form-control" value="50"></td>
                         </tr>
                         <tr>
                             <td>Amount of training</td>
@@ -77,8 +77,9 @@
                             <td> <div class="progress-bar">
                                     <div id="progress" class="progress">0%</div>
                                 </div> 
-                                <button id="startBtn" class="btn btn-default btn-block">Initiate Retraining</button> 
-                                <button class="btn btn-default btn-block" id="saveBtn">Save Model</button> 
+                                <button id="startBtn" class="btn btn-default btn-block" style="border:1px solid #000">Initiate Retraining</button> 
+                                <button class="btn btn-default btn-block" id="saveDB" style="border:1px solid #000">Save To DB</button> 
+                                <button class="btn btn-default btn-block" id="saveBtn" style="border:1px solid #000">Download Model</button>
                                 <button id="loadBtn" hidden> Load Model</button>
                             </td>
                         </tr>
