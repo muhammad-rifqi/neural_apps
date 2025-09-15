@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <title>Hybrid: ANN + GaussianNB + Metrics + Save/Load</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .log-box { background: #111; color: #0f0; padding: 10px; height: 200px; overflow-y: auto; font-size: 13px; }
+    .progress-bar { width: 100%; background: #ddd; border-radius: 5px; margin: 10px 0; }
+    .progress { height: 20px; width: 0%; background: #4caf50; border-radius: 5px; text-align: center; color: #fff; }
+    button { padding: 10px; margin-top: 10px; cursor: pointer; }
+    .metrics { margin-top: 18px; }
+    .metrics p { margin: 6px 0; }
+  </style>
+</head>
+<body>
+  <h2>Hybrid Retraining: ANN + Gaussian NaiveBayes</h2>
+  <p>Dataset: <b>2,200 project records (simulated)</b></p>
+
+  <div class="progress-bar">
+    <div id="progress" class="progress">0%</div>
+  </div>
+
+  <button id="startBtn">Initiate Retraining</button>
+  <button id="saveBtn">Save ANN Model</button>
+  <button id="loadBtn">Load ANN Model</button>
+
+  <div class="log-box" id="logBox"></div>
+
+  <div class="metrics">
+    <h3>Final Metrics</h3>
+    <p>ANN Accuracy: <span id="acc">-</span></p>
+    <p>NaiveBayes Accuracy: <span id="nbacc">-</span></p>
+    <p>Hybrid Accuracy: <span id="hybrid">-</span></p>
+    <p>Precision: <span id="prec">-</span></p>
+    <p>Recall: <span id="rec">-</span></p>
+    <p>F1-Score: <span id="f1">-</span></p>
+    <p>ROC-AUC: <span id="roc">-</span></p>
+  </div>
+
+  <script>
+    const logBox = document.getElementById("logBox");
+    const progressBar = document.getElementById("progress");
+    const accSpan = document.getElementById("acc");
+    const nbAccSpan = document.getElementById("nbacc");
+    const hybridSpan = document.getElementById("hybrid");
+    const precSpan = document.getElementById("prec");
+    const recSpan = document.getElementById("rec");
+    const f1Span = document.getElementById("f1");
+    const rocSpan = document.getElementById("roc");
+
+    let globalModel = null; // simpan ANN agar bisa disave/load
+
+    function addLog(txt) {
+      logBox.innerHTML += txt + "<br>";
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    // ======= GaussianNB =======
+    class GaussianNB {
+      constructor(epsilon = 1e-9) { this.epsilon=epsilon; this.classes=[]; this.classPrior={}; this.means={}; this.vars={}; }
+      fit(X,y){const n=X.length;const nf=X[0].length;const map={};for(let i=0;i<y.length;i++){const c=y[i];(map[c]=map[c]||[]).push(X[i]);}
+        this.classes=Object.keys(map).map(Number);
+        for(const c of this.classes){const rows=map[c];const count=rows.length;this.classPrior[c]=count/n;const mean=new Array(nf).fill(0);
+          for(const r of rows) for(let j=0;j<nf;j++) mean[j]+=r[j]; for(let j=0;j<nf;j++) mean[j]/=count;
+          const varr=new Array(nf).fill(0); for(const r of rows) for(let j=0;j<nf;j++){const d=r[j]-mean[j];varr[j]+=d*d;}
+          for(let j=0;j<nf;j++) varr[j]=varr[j]/count+this.epsilon; this.means[c]=mean; this.vars[c]=varr;}}
+      _logProb(x,c){const m=this.means[c],v=this.vars[c];let lp=Math.log(this.classPrior[c]+1e-12);for(let j=0;j<x.length;j++){const d=x[j]-m[j];lp+=-0.5*Math.log(2*Math.PI*v[j])-(d*d)/(2*v[j]);}return lp;}
+      predictSingle(x){let best=null,lp=-Infinity;for(const c of this.classes){const l=this._logProb(x,c);if(l>lp){lp=l;best=c;}}return best;}
+      predict(X){return X.map(x=>this.predictSingle(x));}
+    }
+
+    // ======= Metrics =======
+    function calculateMetrics(y_true,y_prob,t=0.5){let TP=0,TN=0,FP=0,FN=0;for(let i=0;i<y_true.length;i++){const a=y_true[i];const p=(y_prob[i]>=t)?1:0;
+        if(p===1&&a===1)TP++; if(p===0&&a===0)TN++; if(p===1&&a===0)FP++; if(p===0&&a===1)FN++;}const prec=TP+FP===0?0:TP/(TP+FP);const rec=TP+FN===0?0:TP/(TP+FN);
+        const f1=(prec+rec===0)?0:(2*prec*rec)/(prec+rec);return{precision:prec,recall:rec,f1};}
+
+    // ======= Retraining =======
+    document.getElementById("startBtn").addEventListener("click", async () => {
+      addLog("[INFO] Training ulang hybrid...");
+      const n=2200,f=10; const xs=tf.randomNormal([n,f]); const ys=tf.randomUniform([n,1]).greater(tf.scalar(0.5)).toFloat();
+      const xsArr=await xs.array(); const ysArr=(await ys.array()).map(v=>v[0]);
+
+      // ANN
+      const model=tf.sequential();
+      model.add(tf.layers.dense({units:32,activation:"relu",inputShape:[f]}));
+      model.add(tf.layers.dense({units:16,activation:"relu"}));
+      model.add(tf.layers.dense({units:1,activation:"sigmoid"}));
+      model.compile({optimizer:"adam",loss:"binaryCrossentropy",metrics:["accuracy"]});
+
+      await model.fit(xs,ys,{epochs:5,batchSize:32});
+      globalModel=model; // simpan global
+
+      const evalRes=model.evaluate(xs,ys); const annAcc=(await evalRes[1].data())[0];
+      accSpan.innerText=(annAcc*100).toFixed(2)+"%";
+
+      const annPred=(await model.predict(xs).array()).map(v=>v[0]);
+
+      // NB
+      const nb=new GaussianNB(); nb.fit(xsArr,ysArr);
+      const nbPred=nb.predict(xsArr);
+      let nbCorrect=0;for(let i=0;i<ysArr.length;i++) if(nbPred[i]===ysArr[i]) nbCorrect++;
+      nbAccSpan.innerText=(nbCorrect/ysArr.length*100).toFixed(2)+"%";
+
+      // Hybrid
+      let hCorrect=0;for(let i=0;i<ysArr.length;i++){const annVote=annPred[i]>=0.5?1:0;const nbVote=nbPred[i];const hv=(annVote+nbVote)>=1?1:0;if(hv===ysArr[i])hCorrect++;}
+      hybridSpan.innerText=(hCorrect/ysArr.length*100).toFixed(2)+"%";
+
+      const m=calculateMetrics(ysArr,annPred);precSpan.innerText=(m.precision*100).toFixed(2)+"%";recSpan.innerText=(m.recall*100).toFixed(2)+"%";f1Span.innerText=(m.f1*100).toFixed(2)+"%";
+      addLog("✔ Training selesai");
+    });
+
+    // ======= Save ANN =======
+    document.getElementById("saveBtn").addEventListener("click", async () => {
+      if(!globalModel){ addLog("[ERR] Belum ada model ANN"); return; }
+      await globalModel.save("downloads://hybrid_ann_model");
+      addLog("✔ ANN model saved (hybrid_ann_model.json + weights.bin)");
+    });
+
+    // ======= Load ANN =======
+    document.getElementById("loadBtn").addEventListener("click", async () => {
+      const [file]=await window.showOpenFilePicker({types:[{description:"ANN Model",accept:{'application/json':['.json']}}]});
+      const fileData=await file.getFile(); const url=URL.createObjectURL(fileData);
+      globalModel=await tf.loadLayersModel(url);
+      addLog("✔ ANN model loaded dari file");
+      // tes prediksi 1 input acak
+      const x=tf.randomNormal([1,10]); const prob=(await globalModel.predict(x).data())[0];
+      addLog("Prediksi sample: "+prob.toFixed(3));
+    });
+  </script>
+</body>
+</html>

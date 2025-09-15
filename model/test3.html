@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <title>Save & Load Hybrid Model</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+</head>
+<body>
+  <h2>Hybrid: Save & Load (ANN + NaiveBayes)</h2>
+  <button id="trainBtn">Train & Save Hybrid</button>
+  <button id="loadBtn">Load Hybrid</button>
+
+  <pre id="log"></pre>
+
+  <script>
+    const log = msg => document.getElementById("log").innerText += msg + "\n";
+
+    // GaussianNB sederhana
+    class GaussianNB {
+      constructor(eps=1e-9) { this.eps=eps; this.classes=[]; this.classPrior={}; this.means={}; this.vars={}; }
+      fit(X, y) {
+        const n=X.length, nf=X[0].length, map={};
+        for(let i=0;i<y.length;i++){ const c=y[i]; (map[c]=map[c]||[]).push(X[i]); }
+        this.classes=Object.keys(map).map(Number);
+        for(const c of this.classes){
+          const rows=map[c], count=rows.length;
+          this.classPrior[c]=count/n;
+          const mean=new Array(nf).fill(0);
+          for(const r of rows) for(let j=0;j<nf;j++) mean[j]+=r[j];
+          for(let j=0;j<nf;j++) mean[j]/=count;
+          const varr=new Array(nf).fill(0);
+          for(const r of rows) for(let j=0;j<nf;j++){const d=r[j]-mean[j]; varr[j]+=d*d;}
+          for(let j=0;j<nf;j++) varr[j]=varr[j]/count+this.eps;
+          this.means[c]=mean; this.vars[c]=varr;
+        }
+      }
+      _logProb(x,c){const m=this.means[c],v=this.vars[c];let lp=Math.log(this.classPrior[c]+1e-12);for(let j=0;j<x.length;j++){const d=x[j]-m[j];lp+=-0.5*Math.log(2*Math.PI*v[j])-(d*d)/(2*v[j]);}return lp;}
+      predictSingle(x){let best=null,bestLp=-Infinity;for(const c of this.classes){const lp=this._logProb(x,c);if(lp>bestLp){bestLp=lp;best=c;}}return best;}
+      predict(X){return X.map(x=>this.predictSingle(x));}
+    }
+
+    // ====== TRAIN & SAVE ======
+    document.getElementById("trainBtn").onclick = async () => {
+      log("[INFO] Training Hybrid...");
+
+      const n=200, f=4;
+      const xs=tf.randomNormal([n,f]);
+      const ys=tf.randomUniform([n,1]).greater(tf.scalar(0.5)).toFloat();
+
+      const xsArr=await xs.array();
+      const ysArr=(await ys.array()).map(v=>v[0]);
+
+      // ANN
+      const model=tf.sequential();
+      model.add(tf.layers.dense({units:8,activation:"relu",inputShape:[f]}));
+      model.add(tf.layers.dense({units:1,activation:"sigmoid"}));
+      model.compile({optimizer:"adam",loss:"binaryCrossentropy",metrics:["accuracy"]});
+      await model.fit(xs,ys,{epochs:5,verbose:0});
+      log("✔ ANN trained");
+
+      // Save ANN to downloads
+      await model.save("downloads://hybrid_ann_model");
+      log("✔ ANN model saved (check downloads)");
+
+      // NB
+      const nb=new GaussianNB();
+      nb.fit(xsArr,ysArr);
+      const nbModel={classPrior:nb.classPrior,means:nb.means,vars:nb.vars,classes:nb.classes};
+      const blob=new Blob([JSON.stringify(nbModel)],{type:"application/json"});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement("a");
+      a.href=url; a.download="hybrid_nb_model.json"; a.click();
+      log("✔ NB model saved (hybrid_nb_model.json)");
+    };
+
+    // ====== LOAD HYBRID ======
+    document.getElementById("loadBtn").onclick = async () => {
+      log("[INFO] Loading Hybrid...");
+
+      // Load ANN
+      // Pilih file hybrid_ann_model.json dari file input (atau bisa host di server)
+      const [file]=await window.showOpenFilePicker({types:[{description:"ANN Model",accept:{'application/json':['.json']}}]});
+      const fileData=await file.getFile();
+      const url=URL.createObjectURL(fileData);
+      const model=await tf.loadLayersModel(url);
+      log("✔ ANN loaded");
+
+      // Load NB
+      const [file2]=await window.showOpenFilePicker({types:[{description:"NaiveBayes",accept:{'application/json':['.json']}}]});
+      const fileData2=await file2.getFile();
+      const nbJson=JSON.parse(await fileData2.text());
+      const nb=new GaussianNB();
+      nb.classPrior=nbJson.classPrior; nb.means=nbJson.means; nb.vars=nbJson.vars; nb.classes=nbJson.classes;
+      log("✔ NB loaded");
+
+      // Tes prediksi
+      const x=tf.randomNormal([1,4]);
+      const annProb=(await model.predict(x).data())[0];
+      const nbPred=nb.predict([Array(4).fill(0).map((_,i)=>Math.random())])[0];
+      log("Pred ANN Prob: "+annProb.toFixed(3));
+      log("Pred NB: "+nbPred);
+    };
+  </script>
+</body>
+</html>

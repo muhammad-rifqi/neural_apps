@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ANN Retraining with TensorFlow.js</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .log-box { background: #111; color: #0f0; padding: 10px; height: 200px; overflow-y: auto; font-size: 14px; }
+    .progress-bar { width: 100%; background: #ddd; border-radius: 5px; margin: 10px 0; }
+    .progress { height: 20px; width: 0%; background: #4caf50; border-radius: 5px; text-align: center; color: #fff; }
+    button { padding: 10px; margin-top: 10px; cursor: pointer; }
+    .metrics { margin-top: 20px; }
+    .metrics p { margin: 4px 0; }
+  </style>
+</head>
+<body>
+  <h2>ANN Retraining (TensorFlow.js)</h2>
+  <p>Dataset: <b>2,200 project records (simulated)</b></p>
+
+  <div class="progress-bar">
+    <div id="progress" class="progress">0%</div>
+  </div>
+
+  <button id="startBtn">Initiate Retraining</button>
+
+  <div class="log-box" id="logBox"></div>
+
+  <div class="metrics">
+    <h3>Final Metrics</h3>
+    <p>Accuracy Score: <span id="acc">-</span></p>
+    <p>Loss: <span id="loss">-</span></p>
+  </div>
+
+  <script>
+    const logBox = document.getElementById("logBox");
+    const progressBar = document.getElementById("progress");
+    const accSpan = document.getElementById("acc");
+    const lossSpan = document.getElementById("loss");
+
+    // Fungsi untuk menambah log
+    function addLog(text) {
+      logBox.innerHTML += text + "<br>";
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    document.getElementById("startBtn").addEventListener("click", async () => {
+      addLog("[INFO] Starting ANN retraining with TensorFlow.js...");
+
+      // === 1. Buat data dummy (2200 record, 10 fitur) ===
+      const numSamples = 2200;
+      const numFeatures = 10;
+      const xs = tf.randomNormal([numSamples, numFeatures]);
+      const ys = tf.randomUniform([numSamples, 1]).greater(tf.scalar(0.5)).toFloat(); // binary 0/1
+
+      // === 2. Definisikan model ANN ===
+      const model = tf.sequential();
+      model.add(tf.layers.dense({ units: 32, activation: "relu", inputShape: [numFeatures] }));
+      model.add(tf.layers.dense({ units: 16, activation: "relu" }));
+      model.add(tf.layers.dense({ units: 1, activation: "sigmoid" }));
+
+      model.compile({
+        optimizer: tf.train.adam(0.001),
+        loss: "binaryCrossentropy",
+        metrics: ["accuracy"]
+      });
+
+      // === 3. Training ===
+      const epochs = 20;
+      await model.fit(xs, ys, {
+        epochs,
+        batchSize: 32,
+        validationSplit: 0.2,
+        callbacks: {
+          onEpochEnd: async (epoch, logs) => {
+            let progress = Math.round(((epoch + 1) / epochs) * 100);
+            progressBar.style.width = progress + "%";
+            progressBar.innerText = progress + "%";
+            addLog(`[Epoch ${epoch+1}/${epochs}] acc: ${logs.acc.toFixed(3)}, val_acc: ${logs.val_acc.toFixed(3)}, loss: ${logs.loss.toFixed(3)}, val_loss: ${logs.val_loss.toFixed(3)}`);
+          },
+          onTrainEnd: async (logs) => {
+            addLog("✔ Training complete.");
+            // Evaluasi model
+            const evalResult = model.evaluate(xs, ys);
+            const loss = (await evalResult[0].data())[0].toFixed(3);
+            const acc = (await evalResult[1].data())[0].toFixed(3);
+            accSpan.innerText = acc * 100 + "%";
+            lossSpan.innerText = loss;
+            addLog(`Final Model -> acc: ${acc}, loss: ${loss}`);
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

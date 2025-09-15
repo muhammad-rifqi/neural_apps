@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <title>Hybrid: ANN + GaussianNB + Metrics</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .log-box { background: #111; color: #0f0; padding: 10px; height: 200px; overflow-y: auto; font-size: 13px; }
+    .progress-bar { width: 100%; background: #ddd; border-radius: 5px; margin: 10px 0; }
+    .progress { height: 20px; width: 0%; background: #4caf50; border-radius: 5px; text-align: center; color: #fff; }
+    button { padding: 10px; margin-top: 10px; cursor: pointer; }
+    .metrics { margin-top: 18px; }
+    .metrics p { margin: 6px 0; }
+  </style>
+</head>
+<body>
+  <h2>Hybrid Retraining: ANN + Gaussian NaiveBayes</h2>
+  <p>Dataset: <b>2,200 project records (simulated)</b></p>
+
+  <div class="progress-bar">
+    <div id="progress" class="progress">0%</div>
+  </div>
+
+  <button id="startBtn">Initiate Retraining</button>
+
+  <div class="log-box" id="logBox"></div>
+
+  <div class="metrics">
+    <h3>Final Metrics</h3>
+    <p>ANN Accuracy: <span id="acc">-</span></p>
+    <p>NaiveBayes Accuracy: <span id="nbacc">-</span></p>
+    <p>Hybrid Accuracy: <span id="hybrid">-</span></p>
+    <p>Precision: <span id="prec">-</span></p>
+    <p>Recall: <span id="rec">-</span></p>
+    <p>F1-Score: <span id="f1">-</span></p>
+    <p>ROC-AUC: <span id="roc">-</span></p>
+  </div>
+
+  <script>
+    const logBox = document.getElementById("logBox");
+    const progressBar = document.getElementById("progress");
+    const accSpan = document.getElementById("acc");
+    const nbAccSpan = document.getElementById("nbacc");
+    const hybridSpan = document.getElementById("hybrid");
+    const precSpan = document.getElementById("prec");
+    const recSpan = document.getElementById("rec");
+    const f1Span = document.getElementById("f1");
+    const rocSpan = document.getElementById("roc");
+
+    function addLog(txt) {
+      logBox.innerHTML += txt + "<br>";
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    // ======= Implementasi Gaussian Naive Bayes sederhana =======
+    class GaussianNB {
+      constructor(epsilon = 1e-9) {
+        this.epsilon = epsilon;
+        this.classes = [];
+        this.classPrior = {}; // P(c)
+        this.means = {}; // per-class mean vector
+        this.vars = {};  // per-class var vector
+      }
+
+      fit(X, y) {
+        // X: array of arrays, y: array of labels (0 or 1)
+        const n = X.length;
+        const nFeatures = X[0].length;
+        const classMap = {};
+        for (let i = 0; i < y.length; i++) {
+          const c = y[i];
+          classMap[c] = classMap[c] || [];
+          classMap[c].push(X[i]);
+        }
+        this.classes = Object.keys(classMap).map(k => Number(k));
+        for (const c of this.classes) {
+          const rows = classMap[c];
+          const count = rows.length;
+          this.classPrior[c] = count / n;
+          // compute mean
+          const mean = new Array(nFeatures).fill(0);
+          for (let r of rows) for (let j = 0; j < nFeatures; j++) mean[j] += r[j];
+          for (let j = 0; j < nFeatures; j++) mean[j] /= count;
+          // compute variance (population)
+          const varr = new Array(nFeatures).fill(0);
+          for (let r of rows) for (let j = 0; j < nFeatures; j++) {
+            const d = r[j] - mean[j];
+            varr[j] += d * d;
+          }
+          for (let j = 0; j < nFeatures; j++) varr[j] = varr[j] / count + this.epsilon;
+          this.means[c] = mean;
+          this.vars[c] = varr;
+        }
+      }
+
+      // compute log probability for single x and class c
+      _logProb(x, c) {
+        const mean = this.means[c];
+        const varr = this.vars[c];
+        let logProb = Math.log(this.classPrior[c] + 1e-12);
+        for (let j = 0; j < x.length; j++) {
+          const diff = x[j] - mean[j];
+          // gaussian log-pdf: -0.5*log(2πσ^2) - (diff^2)/(2σ^2)
+          logProb += -0.5 * Math.log(2 * Math.PI * varr[j]) - (diff * diff) / (2 * varr[j]);
+        }
+        return logProb;
+      }
+
+      predictSingle(x) {
+        let bestC = null;
+        let bestLog = -Infinity;
+        for (const c of this.classes) {
+          const lp = this._logProb(x, c);
+          if (lp > bestLog) { bestLog = lp; bestC = c; }
+        }
+        return bestC;
+      }
+
+      predict(X) {
+        return X.map(x => this.predictSingle(x));
+      }
+
+      // optional: predict probability (soft) for class 1 (useful if needed)
+      predictProbaSingle(x) {
+        const logps = this.classes.map(c => this._logProb(x, c));
+        const maxLog = Math.max(...logps);
+        const exps = logps.map(lp => Math.exp(lp - maxLog));
+        const sum = exps.reduce((a,b)=>a+b,0);
+        return exps.map(e => e / sum); // array of probabilities aligned to this.classes
+      }
+    }
+
+    // ======= Metrik helper (Precision, Recall, F1, ROC-AUC) =======
+    function calculateMetrics(y_true, y_prob, threshold=0.5) {
+      let TP = 0, TN = 0, FP = 0, FN = 0;
+      for (let i = 0; i < y_true.length; i++) {
+        const actual = y_true[i];
+        const pred = (y_prob[i] >= threshold) ? 1 : 0;
+        if (pred === 1 && actual === 1) TP++;
+        if (pred === 0 && actual === 0) TN++;
+        if (pred === 1 && actual === 0) FP++;
+        if (pred === 0 && actual === 1) FN++;
+      }
+      const precision = TP + FP === 0 ? 0 : TP / (TP + FP);
+      const recall = TP + FN === 0 ? 0 : TP / (TP + FN);
+      const f1 = (precision + recall === 0) ? 0 : (2 * precision * recall) / (precision + recall);
+
+      // ROC-AUC via thresholds 0..1 (trapezoid)
+      const thresholds = [...Array(101).keys()].map(i => i / 100);
+      const tpr = [], fpr = [];
+      for (let t of thresholds) {
+        let tp=0, fn=0, fp=0, tn=0;
+        for (let i = 0; i < y_true.length; i++) {
+          const pr = (y_prob[i] >= t) ? 1 : 0;
+          const ac = y_true[i];
+          if (pr === 1 && ac === 1) tp++;
+          if (pr === 0 && ac === 1) fn++;
+          if (pr === 1 && ac === 0) fp++;
+          if (pr === 0 && ac === 0) tn++;
+        }
+        const _tpr = (tp + fn === 0) ? 0 : tp / (tp + fn);
+        const _fpr = (fp + tn === 0) ? 0 : fp / (fp + tn);
+        tpr.push(_tpr); fpr.push(_fpr);
+      }
+      // trapezoid integrate fpr (x) vs tpr (y) sorted by fpr ascending
+      // thresholds generated from 0->1 produce fpr not necessarily monotonic but it's ok for approximate AUC:
+      let auc = 0;
+      for (let i = 1; i < fpr.length; i++) {
+        const dx = Math.abs(fpr[i] - fpr[i-1]);
+        const avgY = (tpr[i] + tpr[i-1]) / 2;
+        auc += dx * avgY;
+      }
+
+      return {
+        precision, recall, f1, roc_auc: auc
+      };
+    }
+
+    // ======= Main: hybrid training flow =======
+    document.getElementById("startBtn").addEventListener("click", async () => {
+      addLog("[INFO] Memulai retraining hybrid (ANN + GaussianNB)...");
+      progressBar.style.width = "0%"; progressBar.innerText = "0%";
+
+      // 1) Buat dataset dummy (2200 x 10)
+      const numSamples = 2200;
+      const numFeatures = 10;
+      const xs = tf.randomNormal([numSamples, numFeatures]);
+      const ys = tf.randomUniform([numSamples, 1]).greater(tf.scalar(0.5)).toFloat();
+
+      const xsArray = await xs.array();
+      const ysArray = (await ys.array()).map(v => v[0]);
+
+      // 2) ANN model (TensorFlow.js)
+      const model = tf.sequential();
+      model.add(tf.layers.dense({ units: 32, activation: "relu", inputShape: [numFeatures] }));
+      model.add(tf.layers.dense({ units: 16, activation: "relu" }));
+      model.add(tf.layers.dense({ units: 1, activation: "sigmoid" }));
+      model.compile({ optimizer: tf.train.adam(0.001), loss: "binaryCrossentropy", metrics: ["accuracy"] });
+
+      const epochs = 10;
+      addLog("[INFO] Training ANN (" + epochs + " epochs)...");
+      await model.fit(xs, ys, {
+        epochs,
+        batchSize: 32,
+        validationSplit: 0.2,
+        callbacks: {
+          onEpochEnd: async (epoch, logs) => {
+            const p = Math.round(((epoch + 1) / epochs) * 100);
+            progressBar.style.width = p + "%";
+            progressBar.innerText = p + "%";
+            const accVal = (logs.acc !== undefined) ? logs.acc : (logs.acc ? logs.acc : (logs.accuracy || 0));
+            const valAccVal = (logs.val_acc !== undefined) ? logs.val_acc : (logs.val_accuracy || 0);
+            addLog(`[Epoch ${epoch+1}/${epochs}] acc: ${Number(accVal).toFixed(3)}, val_acc: ${Number(valAccVal).toFixed(3)}`);
+            await tf.nextFrame();
+          }
+        }
+      });
+
+      // Evaluate ANN
+      const evalRes = model.evaluate(xs, ys);
+      const annAcc = (await evalRes[1].data())[0];
+      accSpan.innerText = (annAcc * 100).toFixed(2) + "%";
+
+      // ANN predictions (probabilities)
+      const annPredTensor = model.predict(xs);
+      const annPredArray = (await annPredTensor.array()).map(a => a[0]); // array of probs
+
+      // 3) Gaussian Naive Bayes
+      addLog("[INFO] Training Gaussian Naive Bayes...");
+      const gnb = new GaussianNB();
+      gnb.fit(xsArray, ysArray);
+
+      // Evaluate NB (hard predictions)
+      const nbPreds = gnb.predict(xsArray);
+      let nbCorrect = 0;
+      for (let i = 0; i < ysArray.length; i++) if (nbPreds[i] === ysArray[i]) nbCorrect++;
+      const nbAcc = nbCorrect / ysArray.length;
+      nbAccSpan.innerText = (nbAcc * 100).toFixed(2) + "%";
+
+      // 4) Hybrid voting (ANN prob -> vote, NB vote) simple majority
+      let hybridCorrect = 0;
+      const hybridPreds = [];
+      for (let i = 0; i < xsArray.length; i++) {
+        const annVote = annPredArray[i] >= 0.5 ? 1 : 0;
+        const nbVote = nbPreds[i];
+        const hybridVote = (annVote + nbVote) >= 1 ? 1 : 0;
+        hybridPreds.push(hybridVote);
+        if (hybridVote === ysArray[i]) hybridCorrect++;
+      }
+      const hybridAcc = hybridCorrect / ysArray.length;
+      hybridSpan.innerText = (hybridAcc * 100).toFixed(2) + "%";
+
+      // 5) Hitung metrik dari ANN probabilitas (precision, recall, f1, roc_auc)
+      const metrics = calculateMetrics(ysArray, annPredArray, 0.5);
+      precSpan.innerText = (metrics.precision * 100).toFixed(2) + "%";
+      recSpan.innerText  = (metrics.recall * 100).toFixed(2) + "%";
+      f1Span.innerText   = (metrics.f1 * 100).toFixed(2) + "%";
+      rocSpan.innerText  = (metrics.roc_auc * 100).toFixed(2) + "%";
+
+      addLog("✔ Retraining selesai. Semua metrik dihitung.");
+    });
+  </script>
+</body>
+</html>
