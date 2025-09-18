@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Projects;
+use App\Models\Allocations;
 
 class StudyController extends Controller
 {
@@ -13,6 +15,7 @@ class StudyController extends Controller
      */
     public function index()
     {
+
         return view('study.index');
     }
 
@@ -24,11 +27,15 @@ class StudyController extends Controller
 
     public function current()
     {
-        return view('study.current');
+        $data = Projects::orderBy('id', 'desc')->first();
+        $alloc = Allocations::where('project_id','=', $data->id)->first();
+        return view('study.current', compact('data','alloc'));
     }
     public function recomendate()
     {
-        return view('study.recomendate');
+        $data = Projects::orderBy('id', 'desc')->first();
+        $alloc = Allocations::where('project_id','=', $data->id)->first();
+        return view('study.recomendate', compact('data','alloc'));
     }
 
     public function create()

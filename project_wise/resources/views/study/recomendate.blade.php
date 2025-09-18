@@ -59,42 +59,42 @@
               </li>
             </ul>
 
-            <!-- Project Information -->
+             <!-- Project Information -->
             <h5 class="section-title">Project Information</h5>
             <div class="row mb-3">
                 <div class="col-md-4">
                 <div class="label-text">Project Name</div>
-                <input type="text"  class="form-control" value="Study Yuk" readonly>
+                <input type="text"  class="form-control" value="{{$data->name}}" readonly>
                 </div>
                 <div class="col-md-4">
                 <div class="label-text">Project Type</div>
-                <input type="text"  class="form-control" value="Software Development" readonly>
+                <input type="text"  class="form-control" value="{{$data->type_project}}" readonly>
                 </div>
                 <div class="col-md-4">
                 <div class="label-text">Project Scale</div>
-                <input type="text"   class="form-control" value="Medium" readonly>
+                <input type="text"   class="form-control" value="{{$data->scale}}" readonly>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-4">
                 <div class="label-text">Estimated Budget</div>
-                <input type="text"  class="form-control" value="Rp 300.000.000" readonly>
+                <input type="text"  class="form-control" value="Rp {{$alloc->total_development_cost}}" readonly>
                 </div>
                 <div class="col-md-4">
                 <div class="label-text">Estimated Additional Cost</div>
-                <input type="text"  class="form-control" value="Rp 35.000.000" readonly>
+                <input type="text"  class="form-control" value="Rp {{$alloc->additional_cost}}" readonly>
                 </div>
                 <div class="col-md-4">
                 <div class="label-text">Life Cycle Method</div>
-                <input type="text"  class="form-control" value="Prototype" readonly>
+                <input type="text"  class="form-control" value="{{$alloc->sdlc_method_id}}" readonly>
                 </div>
             </div>
 
             <div class="row mb-4">
                 <div class="col-md-4">
                 <div class="label-text">Project Duration</div>
-                <input type="text"  class="form-control" value="9 Weeks" readonly>
+                <input type="text"  class="form-control" value="{{$alloc->duration_months}}" readonly>
                 </div>
             </div>
 
