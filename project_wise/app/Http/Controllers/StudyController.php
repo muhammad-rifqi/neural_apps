@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Projects;
 use App\Models\Allocations;
+use App\Models\Teammember;
 
 class StudyController extends Controller
 {
@@ -15,8 +16,10 @@ class StudyController extends Controller
      */
     public function index()
     {
-
-        return view('study.index');
+        $data = Projects::orderBy('id', 'desc')->first();
+        $alloc = Allocations::where('project_id','=', $data->id)->first();
+        $teams = Teammember::where('project_id','=', $data->id)->first();
+        return view('study.index',compact('data','alloc','team'));
     }
 
     /**

@@ -146,7 +146,7 @@
               <input type="text" class="form-control" value="Estimated project running in weeks" readonly>
             </div>
             <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="9" readonly>
+              <input type="text" class="form-control" value="{{$alloc->duration_months}}" readonly>
             </div>
             <div class="col-md-4 text-center">
               <input type="text" class="form-control" value="12" readonly>
@@ -164,7 +164,7 @@
               <input type="text" class="form-control" value="Estimated budget" readonly>
             </div>
             <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="Rp 300.000.000" readonly>
+              <input type="text" class="form-control" value="Rp {{$alloc->total_development_cost}}" readonly>
             </div>
             <div class="col-md-4 text-center">
               <input type="text" class="form-control" value="Rp 350.000.000" readonly>
@@ -176,7 +176,7 @@
               <input type="text" class="form-control" value="Estimated additional cost" readonly>
             </div>
             <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="Rp 35.000.000" readonly>
+              <input type="text" class="form-control" value="Rp {{$alloc->additional_cost}}" readonly>
             </div>
             <div class="col-md-4 text-center">
               <input type="text" class="form-control" value="Rp 50.000.000" readonly>
