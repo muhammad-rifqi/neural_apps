@@ -11,15 +11,15 @@ class StudyController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     *1234
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $data = Projects::orderBy('id', 'desc')->first();
         $alloc = Allocations::where('project_id','=', $data->id)->first();
-        $teams = Teammember::where('project_id','=', $data->id)->first();
-        return view('study.index',compact('data','alloc','team'));
+        $teams = Teammember::where('allocation_id','=', $alloc->id)->first();
+        return view('study.index',compact('data','alloc','teams'));
     }
 
     /**
