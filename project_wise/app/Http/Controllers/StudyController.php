@@ -14,9 +14,9 @@ class StudyController extends Controller
      *1234
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $data = Projects::orderBy('id', 'desc')->first();
+        $data = Projects::where('id', '=', $id)->first();
         $alloc = Allocations::where('project_id','=', $data->id)->first();
         $teams = Teammember::where('allocation_id','=', $alloc->id)->first();
         return view('study.index',compact('data','alloc','teams'));
@@ -28,17 +28,19 @@ class StudyController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function current()
+    public function current($id)
     {
-        $data = Projects::orderBy('id', 'desc')->first();
+        $data = Projects::where('id', '=', $id)->first();
         $alloc = Allocations::where('project_id','=', $data->id)->first();
-        return view('study.current', compact('data','alloc'));
+        $teams = Teammember::where('allocation_id','=', $alloc->id)->first();
+        return view('study.current', compact('data','alloc','teams'));
     }
-    public function recomendate()
+    public function recomendate($id)
     {
-        $data = Projects::orderBy('id', 'desc')->first();
+        $data = Projects::where('id', '=', $id)->first();
         $alloc = Allocations::where('project_id','=', $data->id)->first();
-        return view('study.recomendate', compact('data','alloc'));
+        $teams = Teammember::where('allocation_id','=', $alloc->id)->first();
+        return view('study.recomendate', compact('data','alloc','teams'));
     }
 
     public function create()

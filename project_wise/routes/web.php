@@ -27,8 +27,8 @@ Route::get('/riskp', [App\Http\Controllers\ProjectController::class, 'riskp'])->
 Route::get('/retraining', [App\Http\Controllers\RetrainingController::class, 'index'])->name('retraining');
 Route::get('/account', [App\Http\Controllers\AccountController::class, 'index'])->name('account');
 Route::get('/faq', [App\Http\Controllers\FaqController::class, 'index'])->name('faq');
-Route::get('/study', [App\Http\Controllers\StudyController::class, 'index'])->name('study');
-Route::get('/current', [App\Http\Controllers\StudyController::class, 'current'])->name('current');
-Route::get('/recomendate', [App\Http\Controllers\StudyController::class, 'recomendate'])->name('recomendate');
+Route::get('/study/{id}', [App\Http\Controllers\StudyController::class, 'index']);
+Route::get('/current/{id}', [App\Http\Controllers\StudyController::class, 'current']);
+Route::get('/recomendate/{id}', [App\Http\Controllers\StudyController::class, 'recomendate']);
 Route::get('/result', [App\Http\Controllers\ResultController::class, 'index'])->name('result');
 Route::get('/history', [App\Http\Controllers\HistoryController::class, 'index'])->name('history');

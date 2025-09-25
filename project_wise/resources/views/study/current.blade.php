@@ -47,15 +47,15 @@
             </div>
 
             <!-- Tabs -->
-            <ul class="nav nav-tabs mb-4">
+           <ul class="nav nav-tabs mb-4">
               <li class="nav-item">
-                <a class="nav-link" href="{{route('study')}}">Analysis &amp; Scoring</a>
+                <a class="nav-link" href="{{url('study/'.$data->id)}}">Analysis &amp; Scoring</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="{{route('current')}}">Current Plan</a>
+                <a class="nav-link active" href="{{url('current/'.$data->id)}}">Current Plan</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{route('recomendate')}}">AI Recommendations</a>
+                <a class="nav-link" href="{{url('recomendate/'.$data->id)}}">AI Recommendations</a>
               </li>
             </ul>
 
