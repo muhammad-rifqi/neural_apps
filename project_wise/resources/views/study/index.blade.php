@@ -194,7 +194,7 @@
               <input type="text" class="form-control" value="Total team size" readonly>
             </div>
             <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="19" readonly>
+              <input type="text" class="form-control" value="{{$teams->quantity}}" readonly>
             </div>
             <div class="col-md-4 text-center">
               <input type="text" class="form-control" value="17" readonly>
@@ -206,7 +206,7 @@
               <input type="text" class="form-control" value="Average team expenditure per" readonly>
             </div>
             <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="Rp 141.000.000" readonly>
+              <input type="text" class="form-control" value="Rp {{$teams->avg_salary}}" readonly>
             </div>
             <div class="col-md-4 text-center">
               <input type="text" class="form-control" value="Rp 126.000.000" readonly>
