@@ -24,7 +24,7 @@
             <div class="top-section">
                 <div class="logo">💡 ProjectWise<sup>Beta</sup></div>
                 <button class="new-project" onclick="window.location.href='/project'">+ New project</button>
-                <aside class="project-list">
+                <aside class="project-list" style="height:200px; overflow-y: scroll; overflow-x:hidden">
                     <ul>
                         @foreach($projects_list as $rows)
                             <li>📄 <a href="{{ url('/study/' . $rows->id) }}">{{ $rows->name }}</a></li>

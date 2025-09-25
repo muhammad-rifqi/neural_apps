@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use App\Models\Projects;
 
 class HistoryController extends Controller
 {
@@ -13,7 +13,8 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        return view('history.index');
+        $data = Projects::all();
+        return view('history.index',compact('data'));
     }
 
     /**
