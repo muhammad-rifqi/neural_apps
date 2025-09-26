@@ -1,7 +1,3 @@
-<?php
-    use App\Models\Projects;
-    $projects_list = Projects::all();
-?>
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -19,6 +15,10 @@
 </head>
 
 <body>
+    <?php
+        use App\Models\Projects;
+        $projects_list = Projects::all();
+    ?>
     <div class="container_native">
         <aside class="sidebar">
             <div class="top-section">

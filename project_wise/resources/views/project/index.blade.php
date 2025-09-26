@@ -172,16 +172,18 @@
             "technology_use_description" : g,
             "budge" : h,
             "cost_estimate" : i,
-        })
+        }),
+        credentials: "same-origin" 
     })
     .then(response => response.json())
     .then(data => {     
+        console.log(data)
         if(data.success){
             swal("Sukses!", "Data Project Information berhasil disimpan. Silahkan Input Team Dan Resource Allocation", "success")
             .then(() => {
                 const userAgent = window.navigator.userAgent;
                 localStorage.setItem('sess_id',userAgent + '===' + data?.id_allocation + '===' + data?.id_project)
-                window.location.href('/teamp');
+                window.location.href='/teamp';
             });  
         }else{
             swal("Gagal!", "Data Project Information gagal disimpan.", "danger")
