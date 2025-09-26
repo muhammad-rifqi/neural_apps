@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Projects;
 use App\Models\Allocations;
 use App\Models\Teammember;
+use App\Models\Projectcategory;
+use App\Models\Risk;
 
 class StudyController extends Controller
 {
@@ -23,7 +25,7 @@ class StudyController extends Controller
     {
         $data = Projects::where('id', '=', $id)->first();
         $alloc = Allocations::where('project_id','=', $data->id)->first();
-        $teams = Teammember::where('allocation_id','=', $alloc->id)->first();
+        $teams = Teammember::where('allocation_id','=', $alloc->id)->first();   
         return view('study.index',compact('data','alloc','teams'));
     }
 
@@ -37,8 +39,10 @@ class StudyController extends Controller
     {
         $data = Projects::where('id', '=', $id)->first();
         $alloc = Allocations::where('project_id','=', $data->id)->first();
-        $teams = Teammember::where('allocation_id','=', $alloc->id)->first();
-        return view('study.current', compact('data','alloc','teams'));
+        $teams = Teammember::where('allocation_id','=', $alloc->id)->get();
+        $pc = Projectcategory::where('project_id','=', $data->id)->get();
+        $ris = Risk::where('project_id','=', $data->id)->get();
+        return view('study.current', compact('data','alloc','teams','pc','ris'));
     }
     public function recomendate($id)
     {
