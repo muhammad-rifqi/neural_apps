@@ -89,27 +89,27 @@
                             </div>
 
                             <hr>
-
-                            <div class="row">
-                                <div class="col-md-6">
+                             
+                            <div class="row tech-row">
+                                <div class="col-md-5">
                                     <label>Technologies Used *</label>
-                                    <select class="form-control" id="technology_use">
-                                        <option disabled selected>Choose technology types</option>
-                                         @foreach($techs as $tech)
-                                         <option value="{{$tech->id}}">{{$tech->name}}</option>
-                                         @endforeach
+                                    <select class="form-control" id="technology_use" required>
+                                        <option value="-">Choose Technology</option>
+                                        @foreach($techs as $tech)
+                                        <option value="{{$tech->id}}-{{$tech->name}}">{{$tech->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <label>&nbsp;</label>
                                     <input type="text" id="technology_use_description" class="form-control" placeholder="Write down what technology will be used">
                                 </div>
                                 <div class="col-md-2">
                                     <label>&nbsp;</label><br>
-                                    <button type="button" class="btn btn-primary">+</button>
+                                    <button type="button" class="btn btn-primary" onclick="setLocalStorage()">Add Temp</button>
                                 </div>
                             </div>
-
+                        
                             <hr>
 
                             <div class="row">
@@ -140,14 +140,51 @@
             </section>
         </main>
 
+<!-- <script>
+  new Choices('#technology_use', {
+    removeItemButton: true,
+    placeholder: true,
+    placeholderValue: 'Choose Technology'
+  });
+</script> -->
+
+
  <script>
+
+    function setLocalStorage(){
+        var tuse = document.getElementById('technology_use').value.split('-');
+        var tusedesc = document.getElementById('technology_use_description').value;
+        localStorage.setItem('tech-'+tuse[0],tuse[1+'-'+]tusedesc);
+        swal("Success!", "Technology Have Been Save!", "success")
+            .then(() => {
+               return false;
+            });  
+    }
+
+
+
     function save1(){
+    
+    var t1 = localStorage.getItem('tech1');
+    var t2 = localStorage.getItem('tech2');
+    var t3 = localStorage.getItem('tech3');
+    var t4 = localStorage.getItem('tech4');
+    var t5 = localStorage.getItem('tech5');
+    var t6 = localStorage.getItem('tech6');
+    var t7 = localStorage.getItem('tech7');
+    var t8 = localStorage.getItem('tech8');
+    if(t1 == "" || t2 == "" || t3 == "" || t4 == "" || t5 == "" || t6 == "" || t7 == "" || t8 == ""){
+        alert('Technology Have Been Save'); return false;
+    }
+
     const a = document.getElementById("project_type").value;
     const b = document.getElementById("project_scale").value;
     const c = document.getElementById("start_date").value;
     const d = document.getElementById("end_date").value;
     const e = document.getElementById("sdlc").value;
-    const f = document.getElementById("technology_use").value;
+    const ffff = document.getElementById("technology_use");
+    const gabung = Array.from(ffff.selectedOptions).map(opt => opt.value);
+    const f = gabung.join(",");
     const g = document.getElementById("technology_use_description").value;
     const h = document.getElementById("budge").value;
     const i = document.getElementById("cost_estimate").value;
@@ -155,7 +192,7 @@
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 
-    fetch('http://localhost:8000/api/project_information', {
+    fetch('/api/project_information', {
     method: 'POST',
         headers: {
             'Content-Type': 'application/json',

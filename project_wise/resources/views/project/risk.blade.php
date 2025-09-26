@@ -74,14 +74,14 @@
                                         <option value="unlikely">Unlikely</option>
                                         <option value="possible">Possible</option>
                                         <option value="like">Likely</option>
-                                    </select> <button class="btn btn-primary">+</button>
+                                    </select> <button class="btn btn-primary" onclick="save3()">add</button>
                                     </div>
                                 </div>
                             </div>
 
                              <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-dark w-100" onclick="save3()">Generate</button>
+                                    <button class="btn btn-dark w-100" onclick="generate()">Generate</button>
                                 </div>
                             </div>    
                         </div>
@@ -101,7 +101,7 @@
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 
-    fetch('http://localhost:8000/api/risk', {
+    fetch('/api/risk', {
     method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -129,6 +129,11 @@
             });  
         } 
     })
+    }
+
+
+    function generate(){
+        alert('oke');
     }
 </script>
 

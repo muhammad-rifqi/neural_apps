@@ -69,16 +69,29 @@
                                     <div class="form-group salary">
                                         <label for="salary">Average Salary <span class="required">*</span></label>
                                             <input class="form" id="salary" style="width:150px; padding: 6px; border:1px solid #ccc; border-radius: 4px" type="number"  id="salary" name="salary" placeholder="Rp Average salary" />
-                                            <button class="btn btn-primary">+</button>
+                                            <button class="btn btn-primary" onclick="save2()">Add</button>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-dark w-100" onclick="save2()">Next Section</button>
+                                   
+                                
+
+
                                 </div>
                             </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-dark w-100" onclick="next()">Next Section</button>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -86,6 +99,11 @@
         </main>
 
  <script>
+
+function next(){
+    window.location.href='/riskp';
+}
+
 function save2(){
     const ddd = localStorage.getItem('sess_id').split('===')[1];
     const aa = ddd;
@@ -96,7 +114,7 @@ function save2(){
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 
-    fetch('http://localhost:8000/api/team', {
+    fetch('/api/team', {
     method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -115,7 +133,7 @@ function save2(){
         if(data.success){
             swal("Sukses!", "Data Team berhasil disimpan. Silahkan Input Risk Dan Contrain", "success")
             .then(() => {
-                window.location.href='/riskp';
+                window.location.reload();
             });  
         }else{
             swal("Gagal!", "Data team gagal disimpan.", "danger")
