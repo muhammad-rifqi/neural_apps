@@ -14,6 +14,11 @@ class StudyController extends Controller
      *1234
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index($id)
     {
         $data = Projects::where('id', '=', $id)->first();
