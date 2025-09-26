@@ -152,39 +152,39 @@
  <script>
 
     function setLocalStorage(){
-        var tuse = document.getElementById('technology_use').value.split('-');
+        var tuse = document.getElementById('technology_use').value;
+        if(tuse == "-"){
+            alert('please choose'); return false;
+        }else{
+        var tuse2 = tuse.split('-');
         var tusedesc = document.getElementById('technology_use_description').value;
-        localStorage.setItem('tech-'+tuse[0],tuse[1+'-'+]tusedesc);
+        localStorage.setItem('tech-'+tuse2[0],tuse2[1]+'-'+tusedesc);
         swal("Success!", "Technology Have Been Save!", "success")
             .then(() => {
                return false;
-            });  
+            });     
+        }
     }
 
 
 
     function save1(){
-    
-    var t1 = localStorage.getItem('tech1');
-    var t2 = localStorage.getItem('tech2');
-    var t3 = localStorage.getItem('tech3');
-    var t4 = localStorage.getItem('tech4');
-    var t5 = localStorage.getItem('tech5');
-    var t6 = localStorage.getItem('tech6');
-    var t7 = localStorage.getItem('tech7');
-    var t8 = localStorage.getItem('tech8');
-    if(t1 == "" || t2 == "" || t3 == "" || t4 == "" || t5 == "" || t6 == "" || t7 == "" || t8 == ""){
-        alert('Technology Have Been Save'); return false;
-    }
+
+   let techArray = [];     
+
+    Object.keys(localStorage).forEach(key => {
+        if (key.startsWith("tech-")) {
+            let value = localStorage.getItem(key);
+            techArray.push({ id: key, name: value.split('-')[0], tools :  value.split('-')[1]});
+        }
+    });
 
     const a = document.getElementById("project_type").value;
     const b = document.getElementById("project_scale").value;
     const c = document.getElementById("start_date").value;
     const d = document.getElementById("end_date").value;
     const e = document.getElementById("sdlc").value;
-    const ffff = document.getElementById("technology_use");
-    const gabung = Array.from(ffff.selectedOptions).map(opt => opt.value);
-    const f = gabung.join(",");
+    const f = techArray;
     const g = document.getElementById("technology_use_description").value;
     const h = document.getElementById("budge").value;
     const i = document.getElementById("cost_estimate").value;
@@ -214,7 +214,7 @@
     })
     .then(response => response.json())
     .then(data => {     
-        console.log(data)
+        // console.log(data)
         if(data.success){
             swal("Sukses!", "Data Project Information berhasil disimpan. Silahkan Input Team Dan Resource Allocation", "success")
             .then(() => {
@@ -225,7 +225,7 @@
         }else{
             swal("Gagal!", "Data Project Information gagal disimpan.", "danger")
             .then(() => {
-                window.location.reload();
+                // window.location.reload();
             });  
         } 
     })
