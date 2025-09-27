@@ -48,8 +48,10 @@ class StudyController extends Controller
     {
         $data = Projects::where('id', '=', $id)->first();
         $alloc = Allocations::where('project_id','=', $data->id)->first();
-        $teams = Teammember::where('allocation_id','=', $alloc->id)->first();
-        return view('study.recomendate', compact('data','alloc','teams'));
+        $teams = Teammember::where('allocation_id','=', $alloc->id)->get();
+        $pc = Projectcategory::where('project_id','=', $data->id)->get();
+        $ris = Risk::where('project_id','=', $data->id)->get();
+        return view('study.recomendate', compact('data','alloc','teams','pc','ris'));
     }
 
     public function create()
