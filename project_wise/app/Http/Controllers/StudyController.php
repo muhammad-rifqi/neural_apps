@@ -31,7 +31,7 @@ class StudyController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     * 
      * @return \Illuminate\Http\Response
      */
 
@@ -51,7 +51,7 @@ class StudyController extends Controller
         $teams = Teammember::where('allocation_id','=', $alloc->id)->get();
         $pc = Projectcategory::where('project_id','=', $data->id)->get();
         $ris = Risk::where('project_id','=', $data->id)->get();
-        return view('study.recomendate', compact('data','alloc','teams','pc','ris'));
+        return view('study.recomendate', compact('data','alloc','teams','pc','ris' ));
     }
 
     public function create()
