@@ -151,6 +151,29 @@
 
  <script>
 
+    function predict(project) {
+      // Hitung durasi manual (minggu)
+      const start = new Date(project.startDate);
+      const end = new Date(project.endDate);
+      const durationWeeks = Math.ceil((end - start) / (1000 * 60 * 60 * 24 * 7));
+
+      // Linear regression sederhana (dummy):
+      let budgetFactor = 1;
+      if (project.scale === "Medium") budgetFactor = 1.5;
+      if (project.scale === "Large") budgetFactor = 2;
+
+      let lifecycleFactor = project.lifecycle === "Agile" ? 1.2 : project.lifecycle === "Scrum" ? 1.1 : 1;
+
+      const estimatedBudget = project.budget * budgetFactor * lifecycleFactor;
+      const estimatedAdditional = project.addCost * lifecycleFactor;
+
+      return {
+        weeks: durationWeeks,
+        budget: estimatedBudget,
+        additional: estimatedAdditional
+      };
+    }
+
     function setLocalStorage(){
         var tuse = document.getElementById('technology_use').value;
         if(tuse == "-"){
@@ -168,7 +191,7 @@
 
 
 
-    function save1(){
+function save1(){
 
    let techArray = [];     
 
@@ -192,6 +215,24 @@
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 
+    const project = {
+        name: document.getElementById("project_name").value,
+        type: document.getElementById("project_type").value,
+        scale: document.getElementById("project_scale").value,
+        startDate: document.getElementById("start_date").value,
+        endDate: document.getElementById("end_date").value,
+        tech: "javascript",
+        budget: parseFloat(document.getElementById("budge").value),
+        addCost: parseFloat(document.getElementById("cost_estimate").value),
+        lifecycle: document.getElementById("sdlc").value
+    };
+
+    const result = predict(project);
+
+    ${result.weeks}
+    ${result.budget.toLocaleString()}
+    ${result.additional.toLocaleString()}
+
     fetch('/api/project_information', {
     method: 'POST',
         headers: {
@@ -209,6 +250,9 @@
             "technology_use_description" : g,
             "budge" : h,
             "cost_estimate" : i,
+            "weeks" : result.weeks,
+            "budget" : result.budget.toLocaleString(),
+            "additional" : result.additional.toLocaleString(),
         }),
         credentials: "same-origin" 
     })
@@ -231,5 +275,4 @@
     })
     }
 </script>
-
 @endsection

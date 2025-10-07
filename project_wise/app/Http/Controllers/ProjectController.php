@@ -127,6 +127,9 @@ class ProjectController extends Controller
             $c->sdlc_method_id = $request->input('sdlc');
             $c->total_development_cost = $request->input('budge');
             $c->additional_cost = $request->input('cost_estimate');
+            $c->ai_total_cost = $request->input('budget');
+            $c->ai_additional_cost = $request->input('additional');
+            $c->ai_duration_weeks = $request->input('weeks');
 
             if (!$c->save()) {
                 throw new \Exception("Allocation gagal disimpan");
