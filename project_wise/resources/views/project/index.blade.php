@@ -226,12 +226,7 @@ function save1(){
         addCost: parseFloat(document.getElementById("cost_estimate").value),
         lifecycle: document.getElementById("sdlc").value
     };
-
     const result = predict(project);
-
-    ${result.weeks}
-    ${result.budget.toLocaleString()}
-    ${result.additional.toLocaleString()}
 
     fetch('/api/project_information', {
     method: 'POST',
