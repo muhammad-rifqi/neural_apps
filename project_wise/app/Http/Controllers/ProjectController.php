@@ -177,6 +177,9 @@ class ProjectController extends Controller
             $a->description = $request->description;
             $a->impact_level = $request->impact_level;
             $a->likelihood = $request->likelihood;
+            $a->total_team = $request->total_team;
+            $a->total_salary = $request->total_salary;
+            $a->avg_salary = $request->avg_salary;
             if($a->save()){
                 return response()->json(["success"=>true], 200); 
             }else{

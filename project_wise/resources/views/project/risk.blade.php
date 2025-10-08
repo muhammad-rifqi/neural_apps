@@ -100,6 +100,32 @@
     const eee = document.getElementById("likelihood").value;
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+    let riskPrediction = "";
+
+    if (ddd === "high" && eee === "like") {
+        riskPrediction = "Critical Risk";
+    } else if (ddd === "high" && eee === "possible") {
+        riskPrediction = "High Risk";
+    } else if (ddd === "medium" && eee === "like") {
+        riskPrediction = "High Risk";
+    } else if (ddd === "medium" && eee === "possible") {
+        riskPrediction = "Medium Risk";
+    } else if (ddd === "low" && eee === "like") {
+        riskPrediction = "Medium Risk";
+    } else {
+        riskPrediction = "Low Risk";
+    }
+
+
+
+function getRiskTypeName(id) {
+    switch (id) {
+        case "1": return "Finance";
+        case "2": return "Operational";
+        case "3": return "Compliance";
+        default: return "Unknown";
+    }
+}
 
     fetch('/api/risk', {
     method: 'POST',
@@ -113,6 +139,8 @@
             "description" : ccc,
             "impact_level" : ddd,
             "likelihood" : eee,
+            "risk_prediction" : riskPrediction,
+            "risk_type" : getRiskTypeName(bbb),
         })
     })
     .then(response => response.json())

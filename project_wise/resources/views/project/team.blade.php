@@ -113,6 +113,30 @@ function save2(){
     const ee = document.getElementById("salary").value;
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+      let productivity = 1.0;
+      let salaryMultiplier = 1.0;
+
+      if (dd == 1) { // Ahli
+        productivity = 1.2;
+        salaryMultiplier = 1.5;
+      } else if (dd == 2) { // Menengah
+        productivity = 1.0;
+        salaryMultiplier = 1.0;
+      } else if (dd == 3) { // Pemula
+        productivity = 0.8;
+        salaryMultiplier = 0.7;
+      }
+
+      let roleBonus = 1.0;
+      if (bb == 1) roleBonus = 1.3; 
+      if (bb == 2) roleBonus = 1.1; 
+      if (bb == 3) roleBonus = 1.2; 
+
+      // Hitung estimasi
+      const totalTeam = Math.round(quantity * productivity * roleBonus);
+      const totalSalary = quantity * salary * salaryMultiplier;
+      const avgTeamSalary = Math.round(totalSalary / totalTeam);
+
 
     fetch('/api/team', {
     method: 'POST',
@@ -126,6 +150,9 @@ function save2(){
             "quantity" : cc,
             "level" : dd,
             "salary" : ee,
+            "total_team" : totalTeam,
+            "total_salary" : totalSalary,
+            "avg_salary" : avgTeamSalary,
         })
     })
     .then(response => response.json())
