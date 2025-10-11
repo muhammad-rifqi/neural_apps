@@ -34,7 +34,7 @@
                         @endforeach        
                     </ul>
                 </aside>
-            </div>
+            </div> 
             <div class="bottom-links">
                 <aside class="project-list">
                     <ul>
