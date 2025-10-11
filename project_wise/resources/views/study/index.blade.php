@@ -59,36 +59,7 @@
               </li>
             </ul>
 
-            <!-- Content -->
-            <div class="row">
-              <!-- Left: Score -->
-              <div class="col-md-4">
-                <div class="score-box">
-                  <h5 class="mb-3">Project Health Score</h5>
-                  <div class="score-value">73</div>
-                  <div class="score-label text-white bg-dark d-inline-block px-3 py-1 rounded">Moderate</div>
-                  <p class="mt-3 text-muted small">
-                    Project aspect is acceptable but may need attention to avoid potential issues.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Right: Summary -->
-              <div class="col-md-8">
-                <div class="summary-box">
-                  <h5 class="mb-3 font-weight-bold">Summary Description</h5>
-                  <p>
-                    A project health score of 73 indicates a moderate condition. This suggests the project is progressing with a reasonable degree of stability. Most foundational elements are in place, but there may be imbalances or inefficiencies in areas like budget allocation, team composition, or risk mitigation that could impact overall outcomes if left unaddressed.
-                  </p>
-                  <p>
-                    While the project is still on track, it is recommended to review key metrics and implement minor adjustments. Proactive refinements at this stage can elevate performance, minimize risks, and strengthen the likelihood of project success.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <?php
+             <?php
             $tim_a = ($teams->quantity / $teams->total_team) * 100;
             if($tim_a >= 90 && $tim_a <= 100){
               $nilai = "Perfect";
@@ -160,7 +131,69 @@
             }
 
            $tI =  ceil($totalImpact / $countImpact); 
+             if($tI >= 90 && $tI <= 100){
+              $rrr = "Critical Risk";
+              $rrrd = "Critical Risk";
+            }
+
+            if($tI >= 70 && $tI <= 89){
+              $rrr = "High Risk";
+              $rrrd = "High Risk";
+            }
+
+            if($tI >= 50 && $tI <= 69){
+              $rrr = "Risk";
+              $rrrd = "Risk ";
+            }
+
+            if($tI >= 1 && $tI <= 49){
+              $rrr = "Safe";
+              $rrrd = "Safe Risk";
+            }
+
+
+          $total_semuanya = ($tI + $waktu + $hasil_akhir + $tim_a) / 4;
+          if($total_semuanya >= 81 && $total_semuanya <= 100){
+            $result = "Perfect";
+          }
+          if($total_semuanya >= 61 && $total_semuanya <= 80){
+            $result = "Moderat";
+          }
+          if($total_semuanya <= 60){
+            $result = "Bad";
+          }
           ?>
+
+            <!-- Content -->
+            <div class="row">
+              <!-- Left: Score -->
+              <div class="col-md-4">
+                <div class="score-box">
+                  <h5 class="mb-3">Project Health Score</h5>
+                  <div class="score-value">{{ceil($total_semuanya)}}</div>
+                  <div class="score-label text-white bg-dark d-inline-block px-3 py-1 rounded">{{$result}}</div>
+                  <p class="mt-3 text-muted small">
+                    Project aspect is acceptable but may need attention to avoid potential issues.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Right: Summary -->
+              <div class="col-md-8">
+                <div class="summary-box">
+                  <h5 class="mb-3 font-weight-bold">Summary Description</h5>
+                  <p>
+                    A project health score of 73 indicates a moderate condition. This suggests the project is progressing with a reasonable degree of stability. Most foundational elements are in place, but there may be imbalances or inefficiencies in areas like budget allocation, team composition, or risk mitigation that could impact overall outcomes if left unaddressed.
+                  </p>
+                  <p>
+                    While the project is still on track, it is recommended to review key metrics and implement minor adjustments. Proactive refinements at this stage can elevate performance, minimize risks, and strengthen the likelihood of project success.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+         
           <h5 class="section-title">Category Breakdown</h5>
           <table class="table table-custom">
             <thead class="d-none">
@@ -198,9 +231,9 @@
               </tr>
               <tr>
                 <td><input type="text" class="form-control" value="Risk Exposure" readonly></td>
-                <td><input type="text" class="form-control" value="{{$tI}}" readonly></td>
-                <td><input type="text" class="form-control" value="High Risk" readonly></td>
-                <td><input type="text" class="form-control"  class="form-control"  value="Need further mitigation" readonly></td>
+                <td><input type="text" class="form-control" value="{{ceil($tI)}}" readonly></td>
+                <td><input type="text" class="form-control" value="{{$rrr}}" readonly></td>
+                <td><input type="text" class="form-control"  class="form-control"  value="{{$rrrd}}" readonly></td>
               </tr>
             </tbody>
           </table>
