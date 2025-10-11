@@ -16,6 +16,7 @@ use App\Models\Teammember;
 use App\Models\Risk;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use DateTime;
 
 
 class ProjectController extends Controller
@@ -64,12 +65,16 @@ class ProjectController extends Controller
         $project = Projects::all();
         $sdlcs = Sdlcs::all();
         $techs = Technologys::all();
-        $roles = ['System Administrator','Frontend Dev','Backend Dev'];
+        $roles_team = array(
+            array('id' => 1, 'name' => 'System Administrator'),
+            array('id' => 2, 'name' => 'Frontend Dev'),
+            array('id' => 3, 'name' => 'Backend Dev')
+        );
         $exp = ExpertiseLevel::all();
         $rt = Risktype::all();
         $pt = Projecttype::all();
         $ps = Projectscale::all();
-        return view('project.team',compact('project','sdlcs','techs','roles','exp','rt','pt','ps'));
+        return view('project.team',compact('project','sdlcs','techs','roles_team','exp','rt','pt','ps'));
 
     }
 
@@ -94,6 +99,12 @@ class ProjectController extends Controller
         DB::beginTransaction();
 
         try {
+
+            $date1 = new DateTime($request->input('start_date'));
+            $date2 = new DateTime($request->input('end_date'));
+            $diff = $date1->diff($date2);
+            $weeks = floor($diff->days / 7);
+
             $a = new Projects();
             $a->name = $request->input('project_name');
             $a->type_project = $request->input('project_type');
@@ -125,6 +136,7 @@ class ProjectController extends Controller
             $c = new Allocations();
             $c->project_id = $lastId;
             $c->sdlc_method_id = $request->input('sdlc');
+            $c->duration_months = $weeks;
             $c->total_development_cost = $request->input('budge');
             $c->additional_cost = $request->input('cost_estimate');
             $c->ai_total_cost = $request->input('budget');
@@ -154,13 +166,25 @@ class ProjectController extends Controller
 
     public function team(Request $request)
     {
+            if($request->role == 1){
+                $r = "System Administrator";
+            }
+            if($request->role == 2){
+                $r = "Frontend Dev";
+            }
+            if($request->role == 3){
+                $r = "Bcakend Dev";
+            }
         
             $a = new Teammember();
             $a->allocation_id = $request->id_allocation;
-            $a->role = $request->role;
+            $a->role = $r;
             $a->quantity = $request->quantity;
             $a->expertise_level_id = $request->level;
             $a->avg_salary = $request->salary;
+            $a->total_team = $request->total_team;
+            $a->total_salary = $request->total_salary;
+            $a->total_avg_salary = $request->total_avg_salary;
             if($a->save()){
                 return response()->json(["success"=>true], 200); 
             }else{
@@ -171,15 +195,24 @@ class ProjectController extends Controller
     public function risk(Request $request)
     {
         
+            if($request->impact_level == 'high'){
+                $vvv = 80;
+            }
+            if($request->impact_level == 'medium'){
+                $vvv = 50;
+            }
+            if($request->impact_level == 'low'){
+                $vvv = 10;
+            }
             $a = new Risk();
             $a->project_id = $request->id_project;
             $a->risk_type_id = $request->risk_type;
             $a->description = $request->description;
             $a->impact_level = $request->impact_level;
             $a->likelihood = $request->likelihood;
-            $a->total_team = $request->total_team;
-            $a->total_salary = $request->total_salary;
-            $a->avg_salary = $request->avg_salary;
+            $a->risk_prediction = $request->risk_prediction;
+            $a->risk_type_prediction = $request->risk_type_prediction;
+            $a->val = $vvv;
             if($a->save()){
                 return response()->json(["success"=>true], 200); 
             }else{

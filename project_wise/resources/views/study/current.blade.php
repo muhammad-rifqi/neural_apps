@@ -144,7 +144,7 @@
                 <div class="row mb-2">
                     <div class="col-md-2"><input type="text" class="form-control" value="{{$riskproj->risk_type_id}}" readonly></div>
                     <div class="col-md-5"><input type="text" class="form-control" value="{{$riskproj->description}}" readonly></div>
-                    <div class="col-md-2"><input type="text" class="form-control" value="{{$riskproj->impact}}" readonly></div>
+                    <div class="col-md-2"><input type="text" class="form-control" value="{{$riskproj->impact_level}}" readonly></div>
                     <div class="col-md-3"><input type="text" class="form-control" value="{{$riskproj->likelihood}}" readonly></div>
                 </div>
 

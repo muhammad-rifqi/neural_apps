@@ -88,6 +88,79 @@
             </div>
           </div>
 
+          <?php
+            $tim_a = ($teams->quantity / $teams->total_team) * 100;
+            if($tim_a >= 90 && $tim_a <= 100){
+              $nilai = "Perfect";
+              $keterangannya = "Perfect Team";
+            }
+
+            if($tim_a >= 70 && $tim_a <= 89){
+              $nilai = "Good";
+              $keterangannya = "Good Team";
+            }
+
+            if($tim_a >= 50 && $tim_a <= 69){
+              $nilai = "Enough";
+              $keterangannya = "Enough Team";
+            }
+
+            if($tim_a >= 1 && $tim_a <= 49){
+              $nilai = "Bad";
+              $keterangannya = "Bad Team";
+            }
+
+            $angka_bersih = str_replace(",", "", $alloc->ai_total_cost);
+            $hasil1 = (int)$angka_bersih;
+            $angka_bersih2 = str_replace(",", "", $alloc->ai_additional_cost);
+            $hasil2 = (int)$angka_bersih2;
+            $hasil3 = $alloc->additional_cost + $alloc->total_development_cost;
+            $hasil4 = $hasil1 + $hasil2 ;
+            $hasil_akhir = ($hasil3 / $hasil4) * 100;
+
+            if($hasil_akhir >= 90 && $hasil_akhir <= 100){
+              $bd = "Perfect";
+              $bdk = "Perfect Budged";
+            }
+
+            if($hasil_akhir >= 70 && $hasil_akhir <= 89){
+              $bd = "Good";
+              $bdk = "Good Budged";
+            }
+
+            if($hasil_akhir >= 50 && $hasil_akhir <= 69){
+              $bd = "Enough";
+              $bdk = "Enough Budged";
+            }
+
+            if($hasil_akhir >= 1 && $hasil_akhir <= 49){
+              $bd = "Bad";
+              $bdk = "Bad Budged";
+            }
+
+            $waktu = ($alloc->duration_months / $alloc->ai_duration_weeks) * 100;
+             if($waktu >= 90 && $waktu <= 100){
+              $wkt = "Perfect";
+              $wktk = "Perfect Time";
+            }
+
+            if($waktu >= 70 && $waktu <= 89){
+              $wkt = "Good";
+              $wktk = "Good Time";
+            }
+
+            if($waktu >= 50 && $waktu <= 69){
+              $wkt = "Enough";
+              $wktk = "Enough Time";
+            }
+
+            if($waktu >= 1 && $waktu <= 49){
+              $wkt = "Bad";
+              $wktk = "Bad Time";
+            }
+
+           $tI =  ceil($totalImpact / $countImpact); 
+          ?>
           <h5 class="section-title">Category Breakdown</h5>
           <table class="table table-custom">
             <thead class="d-none">
@@ -101,31 +174,31 @@
             <tbody>
               <tr>
                 <td><input type="text" class="form-control" value="Team Readiness" readonly></td>
-                <td><input type="text" class="form-control" value="82" readonly></td>
-                <td><input type="text" class="form-control" value="Good" readonly></td>
-                <td><input type="text" class="form-control" value="Team is quite complete & proportional" readonly></td>
+                <td><input type="text" class="form-control" value="{{ceil($tim_a)}}" readonly></td>
+                <td><input type="text" class="form-control" value="{{$nilai}}" readonly></td>
+                <td><input type="text" class="form-control" value="{{$keterangannya}}" readonly></td>
               </tr>
               <tr>
                 <td><input type="text" class="form-control" value="Budget Adequacy" readonly></td>
-                <td><input type="text" class="form-control" value="65" readonly></td>
-                <td><input type="text" class="form-control" value="Medium" readonly></td>
-                <td><input type="text" class="form-control"  value="Budget is tight, but still feasible" readonly></td>
+                <td><input type="text" class="form-control" value="{{ceil($hasil_akhir)}}" readonly></td>
+                <td><input type="text" class="form-control" value="{{$bd}}" readonly></td>
+                <td><input type="text" class="form-control"  value="{{$bdk}}" readonly></td>
               </tr>
               <tr>
                 <td><input type="text" class="form-control" value="Timeline Feasibility" readonly></td>
-                <td><input type="text" class="form-control" value="71" readonly></td>
-                <td><input type="text" class="form-control" value="Moderate" readonly></td>
-                <td><input type="text" class="form-control"  value="Aggressive schedule, potential for delays" readonly></td>
+                <td><input type="text" class="form-control" value="{{ceil($waktu)}}" readonly></td>
+                <td><input type="text" class="form-control" value="{{$wkt}}" readonly></td>
+                <td><input type="text" class="form-control"  value="{{$wktk}}" readonly></td>
               </tr>
               <tr>
                 <td><input type="text" class="form-control" value="Technology Relevance" readonly></td>
-                <td><input type="text" class="form-control" value="90" readonly></td>
+                <td><input type="text" class="form-control" value="85" readonly></td>
                 <td><input type="text" class="form-control" value="Excellent" readonly></td>
                 <td><input type="text" class="form-control"  class="form-control"  value="Tools used are very appropriate" readonly></td>
               </tr>
               <tr>
                 <td><input type="text" class="form-control" value="Risk Exposure" readonly></td>
-                <td><input type="text" class="form-control" value="58" readonly></td>
+                <td><input type="text" class="form-control" value="{{$tI}}" readonly></td>
                 <td><input type="text" class="form-control" value="High Risk" readonly></td>
                 <td><input type="text" class="form-control"  class="form-control"  value="Need further mitigation" readonly></td>
               </tr>
@@ -149,7 +222,7 @@
               <input type="text" class="form-control" value="{{$alloc->duration_months}}" readonly>
             </div>
             <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="12" readonly>
+              <input type="text" class="form-control" value="{{$alloc->ai_duration_weeks}}" readonly>
             </div>
           </div>
 
@@ -167,7 +240,7 @@
               <input type="text" class="form-control" value="Rp {{$alloc->total_development_cost}}" readonly>
             </div>
             <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="Rp 350.000.000" readonly>
+              <input type="text" class="form-control" value="Rp {{$hasil1}}" readonly>
             </div>
           </div>
 
@@ -179,7 +252,7 @@
               <input type="text" class="form-control" value="Rp {{$alloc->additional_cost}}" readonly>
             </div>
             <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="Rp 50.000.000" readonly>
+              <input type="text" class="form-control" value="Rp {{$hasil2}}" readonly>
             </div>
           </div>
 
@@ -197,7 +270,7 @@
               <input type="text" class="form-control" value="{{$teams->quantity}}" readonly>
             </div>
             <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="17" readonly>
+              <input type="text" class="form-control" value="{{$teams->total_team}}" readonly>
             </div>
           </div>
 
@@ -209,7 +282,7 @@
               <input type="text" class="form-control" value="Rp {{$teams->avg_salary}}" readonly>
             </div>
             <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="Rp 126.000.000" readonly>
+              <input type="text" class="form-control" value="Rp {{$teams->total_avg_salary}}" readonly>
             </div>
           </div>
 

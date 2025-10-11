@@ -35,6 +35,13 @@
     }
   </style>
 
+    @php
+    $angka_bersih = str_replace(",", "", $alloc->ai_total_cost);
+    $hasil = (int)$angka_bersih;
+
+    $angka_bersih2 = str_replace(",", "", $alloc->ai_additional_cost);
+    $hasil2 = (int)$angka_bersih2;
+    @endphp
 
     <div class="container">
         <h1 align="center" style="margin-top:50px;">Great to see you, {{Auth::user()->name}}! These Are the Recomendation result for study Yuk Project.</h1>
@@ -79,22 +86,22 @@
             <div class="row mb-3">
                 <div class="col-md-4">
                 <div class="label-text">Estimated Budget</div>
-                <input type="text"  class="form-control" value="Rp {{$alloc->total_development_cost}}" readonly>
+                <input type="text"  class="form-control" value="Rp {{$hasil}}" readonly>
                 </div>
                 <div class="col-md-4">
                 <div class="label-text">Estimated Additional Cost</div>
-                <input type="text"  class="form-control" value="Rp {{$alloc->additional_cost}}" readonly>
+                <input type="text"  class="form-control" value="Rp {{$hasil2}}" readonly>
                 </div>
                 <div class="col-md-4">
                 <div class="label-text">Life Cycle Method</div>
-                <input type="text"  class="form-control" value="{{$alloc->sdlc_method_id}}" readonly>
+                <input type="text"  class="form-control" value="{{$alloc->sdlc_method_id}} week" readonly>
                 </div>
             </div>
 
             <div class="row mb-4">
                 <div class="col-md-4">
                 <div class="label-text">Project Duration</div>
-                <input type="text"  class="form-control" value="{{$alloc->duration_months}}" readonly>
+                <input type="text"  class="form-control" value="{{$alloc->ai_duration_weeks}}" readonly>
                 </div>
             </div>
 
@@ -123,11 +130,18 @@
                 </div>
 
                 @foreach($teams as $teamsmem)
+                @php
+                    $levels = [
+                        1 => 'Ahli',
+                        2 => 'Menengah',
+                        3 => 'Pemula'
+                    ];
+                @endphp
                     <div class="row mb-2">
                         <div class="col-md-3"><input type="text" class="form-control" value="{{$teamsmem->role}}" readonly></div>
-                        <div class="col-md-2"><input type="text" class="form-control" value="{{$teamsmem->quantity}}" readonly></div>
-                        <div class="col-md-3"><input type="text" class="form-control" value="{{$teamsmem->expertise_level_id}}" readonly></div>
-                        <div class="col-md-4"><input type="text" class="form-control" value="Rp {{$teamsmem->avg_salary}}" readonly></div>
+                        <div class="col-md-2"><input type="text" class="form-control" value="{{$teamsmem->total_team}}" readonly></div>
+                        <div class="col-md-3"><input type="text" class="form-control" value="{{ $levels[$teamsmem->expertise_level_id] ?? 'Tidak diketahui' }}" readonly></div>
+                        <div class="col-md-4"><input type="text" class="form-control" value="Rp {{$teamsmem->total_avg_salary}}" readonly></div>
                     </div>
                 @endforeach
 
@@ -143,9 +157,9 @@
                 @foreach($ris as $riskproj)
 
                 <div class="row mb-2">
-                    <div class="col-md-2"><input type="text" class="form-control" value="{{$riskproj->risk_type_id}}" readonly></div>
-                    <div class="col-md-5"><input type="text" class="form-control" value="{{$riskproj->description}}" readonly></div>
-                    <div class="col-md-2"><input type="text" class="form-control" value="{{$riskproj->impact}}" readonly></div>
+                    <div class="col-md-2"><input type="text" class="form-control" value="{{$riskproj->risk_prediction}}" readonly></div>
+                    <div class="col-md-5"><input type="text" class="form-control" value="Perlu Perbaikan Pada {{$riskproj->risk_type_prediction}}" readonly></div>
+                    <div class="col-md-2"><input type="text" class="form-control" value="{{$riskproj->impact_level}}" readonly></div>
                     <div class="col-md-3"><input type="text" class="form-control" value="{{$riskproj->likelihood}}" readonly></div>
                 </div>
 

@@ -126,7 +126,6 @@ function getRiskTypeName(id) {
         default: return "Unknown";
     }
 }
-
     fetch('/api/risk', {
     method: 'POST',
         headers: {
@@ -140,7 +139,7 @@ function getRiskTypeName(id) {
             "impact_level" : ddd,
             "likelihood" : eee,
             "risk_prediction" : riskPrediction,
-            "risk_type" : getRiskTypeName(bbb),
+            "risk_type_prediction" : getRiskTypeName(bbb),
         })
     })
     .then(response => response.json())
@@ -161,7 +160,7 @@ function getRiskTypeName(id) {
 
 
     function generate(){
-        alert('oke');
+        window.location.href='/project';
     }
 </script>
 

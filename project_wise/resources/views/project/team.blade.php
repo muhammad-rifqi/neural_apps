@@ -40,10 +40,11 @@
                                         <label for="role">Role Name <span class="required">*</span></label>
                                         <select class="form-control" id="role" name="role">
                                         <option value="">Choose role</option>
-                                        @foreach($roles as $values)
-                                            <option value="{{$values}}">{{$values}}</option>
-                                        @endforeach
-                                        <!-- Tambahkan opsi lainnya di sini -->
+                                        <?php
+                                        $jum = count($roles_team);
+                                        for($i = 0; $i < $jum; $i++){
+                                           echo"<option value=".$roles_team[$i]['id'].">".$roles_team[$i]['name']."</option>";
+                                        }?>
                                         </select>
                                     </div>
                                 </div>
@@ -133,8 +134,8 @@ function save2(){
       if (bb == 3) roleBonus = 1.2; 
 
       // Hitung estimasi
-      const totalTeam = Math.round(quantity * productivity * roleBonus);
-      const totalSalary = quantity * salary * salaryMultiplier;
+      const totalTeam = Math.round(cc * productivity * roleBonus);
+      const totalSalary = cc * ee * salaryMultiplier;
       const avgTeamSalary = Math.round(totalSalary / totalTeam);
 
 
@@ -152,7 +153,7 @@ function save2(){
             "salary" : ee,
             "total_team" : totalTeam,
             "total_salary" : totalSalary,
-            "avg_salary" : avgTeamSalary,
+            "total_avg_salary" : avgTeamSalary,
         })
     })
     .then(response => response.json())

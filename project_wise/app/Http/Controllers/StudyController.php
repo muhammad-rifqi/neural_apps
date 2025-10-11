@@ -26,7 +26,10 @@ class StudyController extends Controller
         $data = Projects::where('id', '=', $id)->first();
         $alloc = Allocations::where('project_id','=', $data->id)->first();
         $teams = Teammember::where('allocation_id','=', $alloc->id)->first();   
-        return view('study.index',compact('data','alloc','teams'));
+        $resiko = Risk::where('project_id','=', $data->id)->get();   
+        $totalImpact = $resiko->sum('val');
+        $countImpact = $resiko->count('val');
+        return view('study.index',compact('data','alloc','teams','resiko','totalImpact','countImpact'));
     }
 
     /**
