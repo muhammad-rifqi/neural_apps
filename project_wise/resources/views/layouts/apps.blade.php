@@ -18,32 +18,36 @@
 
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
- 
+ <style>
+    .white-text {
+  color: white;
+}
+</style>
 </head>
 
 <body>
     <div class="container_native">
         <aside class="sidebar">
             <div class="top-section">
-                <div class="logo">💡 ProjectWise<sup>Beta</sup></div>
+                <div class="logo" id="warna_logo">💡 ProjectWise<sup>Beta</sup></div>
                 <button class="new-project" onclick="window.location.href='/project'">+ New project</button>
-                <aside class="project-list" style="height:200px; overflow-y: scroll; overflow-x:hidden">
+                <aside class="project-list" id="warna_box" style="height:200px; overflow-y: scroll; overflow-x:hidden;">
                     <ul>
                         @foreach($projects_list as $rows)
-                            <li>📄 <a href="{{ url('/study/' . $rows->id) }}">{{ $rows->name }}</a></li>
+                            <li>📄 <a href="{{ url('/study/' . $rows->id) }}" class="warna_text">{{ $rows->name }}</a></li>
                         @endforeach        
                     </ul>
                 </aside>
             </div> 
             <div class="bottom-links">
-                <aside class="project-list">
+                <aside class="project-list" id="warna_box2">
                     <ul>
-                        <li>📄 <a href="{{ route('history') }}"> Data History </a></li>
+                        <li>📄 <a href="{{ route('history') }}" class="warna_text"> Data History </a></li>
                         <li>📄 Light Mode</li>
-                        <li>📄 <a href="{{ route('retraining') }}">Model Retraining</a> </li>
-                        <li>📄 <a href="{{ route('account') }}"> My Account </a> </li>
-                        <li>📄 <a href="{{ route('faq') }}">  Update & Faq </a> </li>
-                        <li>📄 <a href="{{ route('logout') }}"
+                        <li>📄 <a href="{{ route('retraining') }}" class="warna_text">Model Retraining</a> </li>
+                        <li>📄 <a href="{{ route('account') }}" class="warna_text"> My Account </a> </li>
+                        <li>📄 <a href="{{ route('faq') }}" class="warna_text">  Update & Faq </a> </li>
+                        <li>📄 <a href="{{ route('logout') }}" class="warna_text"
                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
@@ -73,14 +77,24 @@
 
     <script>
         function gantiwarna(e){
-            if(e == 'light'){
-                document.body.style.backgroundColor = 'white';
-                document.body.style.color = '#000';
-            }else{
-                document.body.style.backgroundColor = 'black';
-                document.body.style.color = '#fff';
+            var yyy = localStorage.setItem('warna', e);
+            var lll = localStorage.getItem('warna');
+                if(lll == 'light'){
+                    document.body.style.backgroundColor = 'white';
+                    document.body.style.color = '#000';
+                    document.getElementById("warna_box").style.backgroundColor = 'white';
+                    document.getElementById("warna_text").classList.add('white-color'); 
+                    document.getElementById("warna_logo").style.color = 'white';
+                    document.getElementById("warna_box2").style.backgroundColor = 'white';
+                }else{
+                    document.body.style.backgroundColor = 'black';
+                    document.body.style.color = '#fff';
+                    document.getElementById("warna_box").style.backgroundColor = 'black';
+                    document.getElementById("warna_text").classList.add('white-color'); 
+                    document.getElementById("warna_logo").style.color = 'black';
+                    document.getElementById("warna_box2").style.backgroundColor = 'black';
+                }
             }
-        }
     </script>
 
 </body>

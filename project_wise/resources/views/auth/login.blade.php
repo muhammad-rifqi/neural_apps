@@ -46,14 +46,15 @@
                         </span>
                      @enderror
 
-                    <button type="submit" class="login-btn">{{ __('Login') }}</button>
+                    <button type="submit" class="login-btn" >{{ __('Login') }}</button>
                 </form>
 
-                <div class="divider">Or continue with</div>
+                <div class="divider">Or Register</div>
                 <div class="social-login">
-                    <button class="facebook">f</button>
+                    <!-- <button class="facebook">f</button>
                     <button class="google">G</button>
-                    <button class="apple"></button>
+                    <button class="apple"></button> -->
+                    <button style="width:100%;" onclick="window.location.href='/register'">Register</button>
                 </div>
             </div>
         </main>

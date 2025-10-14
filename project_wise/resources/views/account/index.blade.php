@@ -48,6 +48,7 @@
                         <div class="form-group">
                             <label for="theme">Theme</label>
                             <select class="form-control" id="theme" style="width:100%;" onchange="gantiwarna(this.value)">
+                                <option value="-">Pilih Warna</option>
                                 <option value="light">Light</option>
                                 <option value="dark">Dark</option>
                             </select>

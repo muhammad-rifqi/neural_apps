@@ -1,39 +1,14 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ __('ProjectWise Login') }}</title>
-    <link rel="stylesheet" href="{{ asset('assets/style.css')}}" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-</head>
+@extends('layouts.app')
 
-<body>
-    <div class="container_native">
-        <aside class="sidebar">
-            <div class="top-section">
-                <div class="logo">💡 ProjectWise<sup>Beta</sup></div>
-                <button class="new-project">+ New project</button>
-            </div>
-            <div class="bottom-links">
-                <button class="light-mode">🌞 Light mode</button>
-                <a href="#" class="faq">Updates & FAQ</a>
-            </div>
-        </aside>
-        <main class="main">
-            <div class="col-md-6 text-left">
-                <h1 class="title text-center">💡 ProjectWise <sup class="beta">Beta</sup></h1>
-                <p class="description text-center">
-                    A smart application that helps project managers predict resource needs and continuously identify
-                    risks.
-                    With real-time data analysis and scenario simulation, it enables faster, more accurate, and
-                    responsible decision-making.
-                </p>
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Register') }}</div>
 
-                <form method="POST" action="{{ route('register') }}">
+                <div class="card-body">
+                    <form method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <div class="row mb-3">
@@ -88,20 +63,15 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-dark w-100">
+                                <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
                             </div>
                         </div>
                     </form>
-
-
-                <div class="divider text-center">Or Login</div>
-                <div class="social-login">
-                    <button style="width:100%;" onclick="window.location.href='/login'">Login</button>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
-</body>
-</html>
+</div>
+@endsection
