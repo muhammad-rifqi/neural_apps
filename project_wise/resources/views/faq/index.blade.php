@@ -10,7 +10,7 @@
         </p>
         <hr/><br />
            
-            <div class="table-responsive">
+            <div class="table-responsive" style="height: 500px; overflow-y:scroll">
                 <table class="table table-bordered table-striped w-100">
                     <thead class="thead-default">
                     <tr>

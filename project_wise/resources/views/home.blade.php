@@ -10,7 +10,7 @@
         </div>
         @endif
 
-        <h2>Hi, {{ Auth::user()->name }} ! Let’s power up your next project.</h2>
+        <h2 id="warna_text">Hi, {{ Auth::user()->name }} ! Let’s power up your next project.</h2>
         <div class="buttons">
             <button class="retrain-btn" onclick="window.location.href='/retraining'">Retraining Model</button>
             <button class="new-project-btn" onclick="window.location.href='/project'">New Project</button>

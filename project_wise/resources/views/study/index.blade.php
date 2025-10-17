@@ -36,7 +36,7 @@
   </style>
 
 
-    <div class="container">
+    <div class="container" style="height: 800px; overflow-y:scroll">
         <h1 align="center" style="margin-top:50px;">Great to see you, {{Auth::user()->name}}! These Are the Recomendation result for study Yuk Project.</h1>
         <hr/>
           <div class="container py-4">
@@ -167,7 +167,7 @@
             <!-- Content -->
             <div class="row">
               <!-- Left: Score -->
-              <div class="col-md-4">
+              <div class="col-md-4 text-dark">
                 <div class="score-box">
                   <h5 class="mb-3">Project Health Score</h5>
                   <div class="score-value">{{ceil($total_semuanya)}}</div>
@@ -179,7 +179,7 @@
               </div>
 
               <!-- Right: Summary -->
-              <div class="col-md-8">
+              <div class="col-md-8 text-dark">
                 <div class="summary-box">
                   <h5 class="mb-3 font-weight-bold">Summary Description</h5>
                   <p>

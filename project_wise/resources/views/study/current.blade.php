@@ -36,7 +36,7 @@
   </style>
 
 
-    <div class="container">
+    <div class="container" style="height: 800px; overflow-y:scroll">
         <h1 align="center" style="margin-top:50px;">Great to see you, {{Auth::user()->name}}! These Are the Recomendation result for study Yuk Project.</h1>
         <hr/>
           <div class="container py-4">

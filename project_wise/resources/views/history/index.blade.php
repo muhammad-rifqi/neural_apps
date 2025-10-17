@@ -1,7 +1,7 @@
 @extends('layouts.apps')
 @section('content')   
 
- <div class="container">
+ <div class="container" style="height: 600px; overflow-y:scroll">
         <h1 align="center" style="margin-top: 50px">Great to see you, {{Auth::user()->name}}! Let’s Learn your post project.</h1>
         <hr/><br />
 

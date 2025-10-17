@@ -43,7 +43,7 @@
                 <aside class="project-list" id="warna_box2">
                     <ul>
                         <li>📄 <a href="{{ route('history') }}" class="warna_text"> Data History </a></li>
-                        <li>📄 Light Mode</li>
+                        <li>📄 <a href="#" class="warna_text" onclick="localStorage.setItem('warna', 'light'); window.location.href='/home';">  Light Mode </a> </li>
                         <li>📄 <a href="{{ route('retraining') }}" class="warna_text">Model Retraining</a> </li>
                         <li>📄 <a href="{{ route('account') }}" class="warna_text"> My Account </a> </li>
                         <li>📄 <a href="{{ route('faq') }}" class="warna_text">  Update & Faq </a> </li>
@@ -76,23 +76,40 @@
         crossorigin="anonymous"></script>
 
     <script>
+        window.addEventListener("load",() => {
+            var mmm =localStorage.getItem('warna');
+              if(mmm == '' || mmm == undefined || mmm == 'light'){
+                    document.body.style.backgroundColor = 'white';
+                    document.body.style.color = '#000';
+                    document.getElementById("warna_logo").style.color = 'black';
+                    document.getElementById("warna_text").style.color='black';
+                }else{
+                    document.body.style.backgroundColor = 'black';
+                    document.body.style.color = '#fff';
+                    document.getElementById("warna_logo").style.color = 'black';
+                    document.getElementById("warna_text").style.color='white';
+                }
+        })
+
+
+
         function gantiwarna(e){
             var yyy = localStorage.setItem('warna', e);
             var lll = localStorage.getItem('warna');
                 if(lll == 'light'){
                     document.body.style.backgroundColor = 'white';
                     document.body.style.color = '#000';
-                    document.getElementById("warna_box").style.backgroundColor = 'white';
-                    document.getElementById("warna_text").classList.add('white-color'); 
-                    document.getElementById("warna_logo").style.color = 'white';
-                    document.getElementById("warna_box2").style.backgroundColor = 'white';
+                    // document.getElementById("warna_box").style.backgroundColor = 'white';
+                    document.getElementById("warna_text").style.color='black';
+                    document.getElementById("warna_logo").style.color = 'black';
+                    // document.getElementById("warna_box2").style.backgroundColor = 'white';
                 }else{
                     document.body.style.backgroundColor = 'black';
                     document.body.style.color = '#fff';
-                    document.getElementById("warna_box").style.backgroundColor = 'black';
-                    document.getElementById("warna_text").classList.add('white-color'); 
+                    // document.getElementById("warna_box").style.backgroundColor = 'black';
+                    document.getElementById("warna_text").style.color='white'; 
                     document.getElementById("warna_logo").style.color = 'black';
-                    document.getElementById("warna_box2").style.backgroundColor = 'black';
+                    // document.getElementById("warna_box2").style.backgroundColor = 'black';
                 }
             }
     </script>
