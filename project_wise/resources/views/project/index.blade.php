@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sistem Prediksi Proyek</title>
+<title>Project Wise</title>
 <!-- Load Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -55,9 +55,10 @@ min-width: 0;
 <body class="p-4 sm:p-8">
 
 <div class="max-w-4xl mx-auto">
-<header class="text-center mb-10">
+<header class="text-left mb-10">
 <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-700">Predictive Project Planner</h1>
 <p class="text-gray-500 mt-2">Masukkan detail proyek untuk memprediksi keberhasilan menggunakan model Stacking (GB → ANN → NB).</p>
+<p class="text-red-500 mt-2"><a href="#">[ kembali ke dashboard ]</a></p>
 </header>
 
 <form id="predictionForm" class="space-y-8">
