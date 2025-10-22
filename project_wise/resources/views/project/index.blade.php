@@ -58,7 +58,7 @@ min-width: 0;
 <header class="text-left mb-10">
 <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-700">Predictive Project Planner</h1>
 <p class="text-gray-500 mt-2">Masukkan detail proyek untuk memprediksi keberhasilan menggunakan model Stacking (GB → ANN → NB).</p>
-<p class="text-red-500 mt-2"><a href="#">[ kembali ke dashboard ]</a></p>
+<p class="text-red-500 mt-2"><a href="/home">[ kembali ke dashboard ]</a></p>
 </header>
 
 <form id="predictionForm" class="space-y-8">
