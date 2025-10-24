@@ -265,4 +265,9 @@ class ProjectController extends Controller
     {
         //
     }
+
+    public function new(Request $request)
+    {
+        echo json_encode($request->all());
+    }
 }

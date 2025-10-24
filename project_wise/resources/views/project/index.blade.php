@@ -7,6 +7,7 @@
 <!-- Load Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+ <meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
 body {
 font-family: 'Inter', sans-serif;
@@ -513,6 +514,8 @@ raw_risk_data
 };
 }
 
+
+
 // --- 3. Simulasi Model Pipeline & Prediksi ---
 function predict(features) {
 
@@ -675,8 +678,6 @@ inputTeamSize: features.total_team_members
 }
 };
 }
-
-// --- 4. Fungsi Pembuatan Laporan Detail (Diperbarui untuk Rekomendasi) ---
 
 function generateReportHTML(features, result) {
 const projectDurationWeeks = features.duration_months * 4.3; // Approx 4.3 weeks per month
@@ -903,6 +904,7 @@ document.getElementById('predictionForm').addEventListener('submit', function(e)
 e.preventDefault();
 
 const features = engineerFeatures();
+
 if (!features) {
 document.getElementById('resultContainer').classList.add('hidden');
 return;
@@ -934,6 +936,66 @@ predictionDetail.innerHTML = `Model memprediksi proyek **Berisiko Tinggi Gagal**
 
 // Generate dan Tampilkan Laporan Detail
 reportContent.innerHTML = generateReportHTML(features, result);
+
+ const project = {
+        projectName: features.projectName,
+        project_type: features.project_type,
+        project_scale: feature.project_scale,
+        startDate: feature.startDate,
+        endDate: feature.endDate,
+        raw_tech_data: feature.raw_tech_data,
+        raw_team_data: feature.raw_team_data,
+        raw_risk_data: feature.raw_risk_data,
+        base_budget_input: feature.base_budget_input,
+        contingency_cost_input: feature.contingency_cost_input,
+        sdlc_method: feature.sdlc_method,
+        duration_months : feature.duration_months,
+        total_input_cost : feature.total_input_cost,
+        total_team_members :  feature.total_team_members,
+        total_weighted_salary : feature.total_weighted_salary,
+        avg_member_salary : feature.avg_member_salary,
+        avg_expertise_score : feature.avg_expertise_score,
+        risk_count : feature.risk_count,
+        avg_impact_level : feature.avg_impact_level,
+        avg_likelihood : feature.avg_likelihood,
+        tech_count : feature.tech_count,
+        distinct_tech_count : feature. distinct_tech_count,
+        probability : result.probability,
+        prediction : result.prediction,
+        recommendations : result.recommendations,
+        derivedMetrics : result.derivedMetrics
+    };
+
+    fetch('/api/project_new', {
+    method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+        },
+        body: JSON.stringify(),
+        credentials: "same-origin" 
+    })
+    .then(response => response.json())
+    .then(data => {     
+        console.log(data)
+        // if(data.success){
+        //     swal("Sukses!", "Data Project Information berhasil disimpan. Silahkan Input Team Dan Resource Allocation", "success")
+        //     .then(() => {
+        //         const userAgent = window.navigator.userAgent;
+        //         localStorage.setItem('sess_id',userAgent + '===' + data?.id_allocation + '===' + data?.id_project)
+        //         window.location.href='/teamp';
+        //     });  
+        // }else{
+        //     swal("Gagal!", "Data Project Information gagal disimpan.", "danger")
+        //     .then(() => {
+        //         // window.location.reload();
+        //     });  
+        // } 
+    })
+
+
+
+
 });
 
 // Initialize default inputs

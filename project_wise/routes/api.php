@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/project_information', [App\Http\Controllers\ProjectController::class, 'store'])->name('projects_information');
 Route::post('/team', [App\Http\Controllers\ProjectController::class, 'team'])->name('team');
 Route::post('/risk', [App\Http\Controllers\ProjectController::class, 'risk'])->name('risk');
+Route::post('/project_new', [App\Http\Controllers\ProjectController::class, 'new'])->name('projects_new');
 
 
 // Route::middleware('auth:sanctum')->group(function () {
