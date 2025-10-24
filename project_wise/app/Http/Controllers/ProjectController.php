@@ -268,6 +268,108 @@ class ProjectController extends Controller
 
     public function new(Request $request)
     {
-        echo json_encode($request->all());
+
+        echo json_encode($request->derivedMetrics);
+
+        // DB::beginTransaction();
+
+        // try {
+        //     $projectId = DB::table('projectx')->insertGetId([
+        //         'projectName' => $request->projectName,
+        //         'project_type' => $request->project_type,
+        //         'project_scale' => $request->project_scale,
+        //         'startDate' => $request->startDate,
+        //         'endDate' => $request->endDate,
+        //         'base_budget_input' => $request->base_budget_input,
+        //         'contingency_cost_input' => $request->contingency_cost_input,
+        //         'sdlc_method' => $request->sdlc_method,
+        //         'duration_months' => $request->duration_months,
+        //         'total_input_cost' => $request->total_input_cost,
+        //         'total_team_members' => $request->total_team_members,
+        //         'total_weighted_salary' => $request->total_weighted_salary,
+        //         'avg_member_salary' => $request->avg_member_salary,
+        //         'avg_expertise_score' => $request->avg_expertise_score,
+        //         'risk_count' => $request->risk_count,
+        //         'avg_impact_level' => $request->avg_impact_level,
+        //         'avg_likelihood' => $request->avg_likelihood,
+        //         'tech_count' => $request->tech_count,
+        //         'distinct_tech_count' => $request->distinct_tech_count,
+        //     ]);
+
+        //     // 2️⃣ Simpan teknologi
+        //     foreach ($request->raw_tech_data as $tech) {
+        //         DB::table('raw_tech_data')->insert([
+        //             'project_id' => $projectId,
+        //             'category_id' => $tech['category_id'],
+        //             'category_name' => $tech['category_name'],
+        //             'name' => $tech['name'],
+        //         ]);
+        //     }
+
+        //     // 3️⃣ Simpan tim
+        //     foreach ($request->raw_team_data as $team) {
+        //         DB::table('raw_team_data')->insert([
+        //             'project_id' => $projectId,
+        //             'role' => $team['role'],
+        //             'qty' => $team['qty'],
+        //             'expertise' => $team['expertise'],
+        //             'salary' => $team['salary'],
+        //         ]);
+        //     }
+
+        //     // 4️⃣ Simpan risiko
+        //     foreach ($request->raw_risk_data as $risk) {
+        //         DB::table('raw_risk_data')->insert([
+        //             'project_id' => $projectId,
+        //             'category_id' => $risk['category_id'],
+        //             'category_name' => $risk['category_name'],
+        //             'impact' => $risk['impact'],
+        //             'likelihood' => $risk['likelihood'],
+        //         ]);
+        //     }
+
+        //      $projectId = DB::table('outputs')->insert([
+        //         'project_id' => $projectId,
+        //         'probability' => $request->probability,
+        //         'prediction' => $request->prediction,
+        //     ]);
+
+        //      // 4️⃣ Simpan rekomendasi
+        //     foreach ($request->recommendations as $rek) {
+        //         DB::table('recommendations')->insert([
+        //             'project_id' => $projectId,
+        //             'type' => $rek['type'],
+        //             'text' => $rek['text'],
+        //         ]);
+        //     }
+
+        //      // 4️⃣ Simpan rekomendasi
+        //     foreach ($request->derivedMetrics as $der) {
+        //         DB::table('derivedMetrics')->insert([
+        //             'project_id' => $projectId,
+        //             'TRS' => $der['TRS'],
+        //             'projectedLaborCost' => $der['projectedLaborCost'],
+        //             'recommendedContingency' => $der['recommendedContingency'],
+        //             'avgExpertise' => $der['avgExpertise'],
+        //             'techDiversity' => $der['techDiversity'],
+        //             'techComplexity' => $der['techComplexity'],
+        //             'inputTeamSize' => $der['inputTeamSize'],
+        //         ]);
+        //     }
+
+        //     DB::commit();
+
+        //     return response()->json([
+        //         'status' => 'success',
+        //         'project_id' => $projectId
+        //     ]);
+
+        // } catch (\Exception $e) {
+        //     DB::rollback();
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => $e->getMessage()
+        //     ], 500);
+        // }
     }
 }

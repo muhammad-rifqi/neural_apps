@@ -936,34 +936,35 @@ predictionDetail.innerHTML = `Model memprediksi proyek **Berisiko Tinggi Gagal**
 
 // Generate dan Tampilkan Laporan Detail
 reportContent.innerHTML = generateReportHTML(features, result);
-
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  
  const project = {
         projectName: features.projectName,
         project_type: features.project_type,
-        project_scale: feature.project_scale,
-        startDate: feature.startDate,
-        endDate: feature.endDate,
-        raw_tech_data: feature.raw_tech_data,
-        raw_team_data: feature.raw_team_data,
-        raw_risk_data: feature.raw_risk_data,
-        base_budget_input: feature.base_budget_input,
-        contingency_cost_input: feature.contingency_cost_input,
-        sdlc_method: feature.sdlc_method,
-        duration_months : feature.duration_months,
-        total_input_cost : feature.total_input_cost,
-        total_team_members :  feature.total_team_members,
-        total_weighted_salary : feature.total_weighted_salary,
-        avg_member_salary : feature.avg_member_salary,
-        avg_expertise_score : feature.avg_expertise_score,
-        risk_count : feature.risk_count,
-        avg_impact_level : feature.avg_impact_level,
-        avg_likelihood : feature.avg_likelihood,
-        tech_count : feature.tech_count,
-        distinct_tech_count : feature. distinct_tech_count,
+        project_scale: features.project_scale,
+        startDate: features.startDate,
+        endDate: features.endDate,
+        raw_tech_data: features.raw_tech_data,
+        raw_team_data: features.raw_team_data,
+        raw_risk_data: features.raw_risk_data,
+        base_budget_input: features.base_budget_input,
+        contingency_cost_input: features.contingency_cost_input,
+        sdlc_method: features.sdlc_method,
+        duration_months : features.duration_months,
+        total_input_cost : features.total_input_cost,
+        total_team_members :  features.total_team_members,
+        total_weighted_salary : features.total_weighted_salary,
+        avg_member_salary : features.avg_member_salary,
+        avg_expertise_score : features.avg_expertise_score,
+        risk_count : features.risk_count,
+        avg_impact_level : features.avg_impact_level,
+        avg_likelihood : features.avg_likelihood,
+        tech_count : features.tech_count,
+        distinct_tech_count : features. distinct_tech_count,
         probability : result.probability,
         prediction : result.prediction,
         recommendations : result.recommendations,
-        derivedMetrics : result.derivedMetrics
+        derivedMetrics : result.derivedMetrics,
     };
 
     fetch('/api/project_new', {
@@ -972,7 +973,7 @@ reportContent.innerHTML = generateReportHTML(features, result);
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': csrfToken,
         },
-        body: JSON.stringify(),
+        body: JSON.stringify(project),
         credentials: "same-origin" 
     })
     .then(response => response.json())
