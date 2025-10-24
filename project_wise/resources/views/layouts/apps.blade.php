@@ -1,6 +1,6 @@
  <?php
-    use App\Models\Projects;
-    $projects_list = Projects::all();
+    use App\Models\Projectx;
+    $projects_list = Projectx::all();
 ?>
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -35,7 +35,7 @@
                 <aside class="project-list" id="warna_box" style="height:200px; overflow-y: scroll; overflow-x:hidden;">
                     <ul>
                         @foreach($projects_list as $rows)
-                            <li>📄 <a href="{{ url('/study/' . $rows->id) }}" class="warna_text">{{ $rows->name }}</a></li>
+                            <li>📄 <a href="{{ url('/study/' . $rows->id) }}" class="warna_text">{{ $rows->projectName }}</a></li>
                         @endforeach        
                     </ul>
                 </aside>

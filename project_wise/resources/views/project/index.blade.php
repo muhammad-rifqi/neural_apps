@@ -993,10 +993,6 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute
             });  
         } 
     })
-
-
-
-
 });
 
 // Initialize default inputs
