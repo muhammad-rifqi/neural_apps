@@ -979,19 +979,19 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute
     .then(response => response.json())
     .then(data => {     
         console.log(data)
-        // if(data.success){
-        //     swal("Sukses!", "Data Project Information berhasil disimpan. Silahkan Input Team Dan Resource Allocation", "success")
-        //     .then(() => {
-        //         const userAgent = window.navigator.userAgent;
-        //         localStorage.setItem('sess_id',userAgent + '===' + data?.id_allocation + '===' + data?.id_project)
-        //         window.location.href='/teamp';
-        //     });  
-        // }else{
-        //     swal("Gagal!", "Data Project Information gagal disimpan.", "danger")
-        //     .then(() => {
-        //         // window.location.reload();
-        //     });  
-        // } 
+        if(data.success){
+            swal("Sukses!", "Data Project Information berhasil disimpan. Silahkan Input Team Dan Resource Allocation", "success")
+            .then(() => {
+                // const userAgent = window.navigator.userAgent;
+                // localStorage.setItem('sess_id',userAgent + '===' + data?.id_allocation + '===' + data?.id_project)
+                window.location.href='/project';
+            });  
+        }else{
+            swal("Gagal!", "Data Project Information gagal disimpan.", "danger")
+            .then(() => {
+                window.location.reload();
+            });  
+        } 
     })
 
 
