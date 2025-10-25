@@ -1,330 +1,346 @@
-@extends('layouts.apps')
+<!DOCTYPE html>
+<html lang="id">
 
-@section('content')   
-<style>
-    .score-box {
-      border-radius: 12px;
-      background: #f8f9fa;
-      padding: 30px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .score-value {
-      font-size: 48px;
-      font-weight: bold;
-    }
-    .score-label {
-      font-size: 18px;
-      font-weight: 600;
-      margin-top: 10px;
-    }
-    .summary-box {
-      border-radius: 12px;
-      background: #fff;
-      padding: 30px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .nav-tabs .nav-link.active {
-      font-weight: bold;
-    }
-    .top-buttons {
-      text-align: right;
-    }
-    .top-buttons .btn {
-      margin-left: 8px;
-    }
-  </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Wise</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        .card {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .input-group label {
+            font-weight: 600;
+        }
+
+        .prediction-result {
+            transition: all 0.5s ease;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Style untuk Header Kolom */
+        .header-grid {
+            display: grid;
+            gap: 0.75rem;
+            /* gap-3 */
+            margin-bottom: 0.5rem;
+            /* mb-2 */
+            padding-left: 0.75rem;
+            /* px-3 for alignment */
+            padding-right: 0.75rem;
+            /* px-3 for alignment */
+        }
+
+        .header-item {
+            font-weight: 600;
+            /* font-semibold */
+            color: #4b5563;
+            /* text-gray-600 */
+            font-size: 0.875rem;
+            /* text-sm */
+        }
+
+        .report-section {
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Mobile adjustment for input groups */
+        @media (max-width: 640px) {
+            .input-group>* {
+                min-width: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="p-4 sm:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="text-left mb-10">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-700">Predictive Project Planner</h1>
+            <p class="text-gray-500 mt-2">Masukkan detail proyek untuk memprediksi keberhasilan menggunakan model
+                Stacking (GB → ANN → NB).</p>
+            <p class="text-red-500 mt-2"><a href="/home">[ kembali ke dashboard ]</a></p>
+        </header>
 
 
-    <div class="container" style="height: 800px; overflow-y:scroll">
-        <h1 align="center" style="margin-top:50px;">Great to see you, {{Auth::user()->name}}! These Are the Recomendation result for study Yuk Project.</h1>
-        <hr/>
-          <div class="container py-4">
-            <!-- Top Buttons -->
-            <div class="d-flex justify-content-end mb-3">
-              <button class="btn btn-dark">Download Result</button> &nbsp;&nbsp; 
-              <button class="btn btn-outline-secondary">More</button>
+        <div id="resultContainer"
+            class="prediction-result mt-10 p-6 rounded-xl text-center bg-white border border-gray-300">
+            <h3 class="text-2xl font-bold mb-4 text-blue-700">Hasil Prediksi &amp; Laporan Rekomendasi</h3>
+
+            <div class="p-4 mb-6 rounded-lg inline-block">
+                <p class="text-xl font-bold text-gray-700">Status Prediksi Pipeline:</p>
+                <div id="predictionOutput" class="text-3xl font-extrabold p-2 rounded-lg mt-1 bg-red-200 text-red-700">
+                    GAGAL</div>
+                <p id="predictionDetail" class="text-gray-600 mt-2 text-sm">Model memprediksi proyek **Berisiko Tinggi
+                    Gagal** dengan probabilitas gabungan: <strong>53.15%</strong>. Harap tinjau laporan rinci di bawah.
+                </p>
             </div>
 
-            <!-- Tabs -->
-            <ul class="nav nav-tabs mb-4">
-              <li class="nav-item">
-                <a class="nav-link active" href="{{url('study/'.$data->id)}}">Analysis &amp; Scoring</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{url('current/'.$data->id)}}">Current Plan</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{url('recomendate/'.$data->id)}}">AI Recommendations</a>
-              </li>
-            </ul>
+            <div id="detailedReport" class="text-left mt-8 p-4 border border-gray-100 rounded-lg bg-gray-50">
+                <h4 class="text-xl font-bold text-gray-800 mb-6">Laporan Rencana Aksi Proyek</h4>
+                <div id="reportContent">
+                    <div class="report-section">
+                        <h5 class="text-lg font-semibold text-gray-700 mb-3">1. Kerangka Waktu dan Fase Proyek</h5>
+                        <p class="mb-3 text-sm text-gray-600">Durasi total proyek diperkirakan 6 bulan (sekitar 26
+                            minggu), dimulai dari 1 Jan 2025 hingga 1 Jul 2025.</p>
+                        <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+                            <thead class="bg-blue-100">
+                                <tr>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-blue-800 uppercase">Fase
+                                    </th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-blue-800 uppercase">Durasi
+                                        (Minggu)</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-blue-800 uppercase">Kegiatan
+                                        Utama</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 text-sm">
+                                <tr>
+                                    <td class="px-3 py-2 whitespace-nowrap">Penemuan &amp; Akuisisi Data</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">2</td>
+                                    <td class="px-3 py-2">Definisi metrik, identifikasi sumber data.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2 whitespace-nowrap">Pemrosesan Data &amp; Rekayasa Fitur</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">4</td>
+                                    <td class="px-3 py-2">Pembersihan data, normalisasi, pembuatan fitur.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2 whitespace-nowrap">Pengembangan Model &amp; Evaluasi</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">4</td>
+                                    <td class="px-3 py-2">Pelatihan model, *tuning* hyperparameter, validasi.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2 whitespace-nowrap">Integrasi &amp; Penerapan (Deployment)</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">2</td>
+                                    <td class="px-3 py-2">Membangun API, mengemas model (Docker), integrasi sistem.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2 whitespace-nowrap">Pemantauan &amp; Serah Terima Akhir</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">2</td>
+                                    <td class="px-3 py-2">Mengatur dasbor pemantauan kinerja model.</td>
+                                </tr>
+                                <tr class="bg-gray-100 font-bold">
+                                    <td class="px-3 py-2 whitespace-nowrap">TOTAL</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">14</td>
+                                    <td class="px-3 py-2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-             <?php
-            $tim_a = ($teams->quantity / $teams->total_team) * 100;
-            if($tim_a >= 90 && $tim_a <= 100){
-              $nilai = "Perfect";
-              $keterangannya = "Perfect Team";
-            }
+                    <div class="report-section">
+                        <h5 class="text-lg font-semibold text-gray-700 mb-3">2. Rekomendasi Anggaran Proyek (Berdasarkan
+                            Model)</h5>
+                        <p class="mb-3 text-sm text-gray-600">Model memproyeksikan total biaya tenaga kerja selama 6
+                            bulan dan merekomendasikan dana kontingensi berdasarkan skor risiko.</p>
 
-            if($tim_a >= 70 && $tim_a <= 89){
-              $nilai = "Good";
-              $keterangannya = "Good Team";
-            }
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <p class="text-sm font-medium text-green-700">A. Biaya Tenaga Kerja (Projected)</p>
+                                <p class="text-xl font-bold text-green-900">Rp 198.000</p>
+                                <p class="text-xs text-gray-500">* Berdasarkan total gaji tim input (4) dan durasi.</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <p class="text-sm font-medium text-yellow-700">B. Dana Kontingensi (Direkomendasikan)
+                                </p>
+                                <p class="text-xl font-bold text-yellow-900">Rp 19.008</p>
+                                <p class="text-xs text-gray-500">* Skala risiko (TRS 12.0/25) mempengaruhi rekomendasi
+                                    ini.</p>
+                            </div>
+                            <div class="bg-blue-100 p-4 rounded-lg">
+                                <p class="text-sm font-medium text-blue-700">C. TOTAL ANGGARAN PROYEKSI</p>
+                                <p class="text-xl font-extrabold text-blue-900">Rp 226.908</p>
+                                <p class="text-xs text-gray-500">* Total (A + B + Est. Infrastruktur).</p>
+                            </div>
+                        </div>
 
-            if($tim_a >= 50 && $tim_a <= 69){
-              $nilai = "Enough";
-              $keterangannya = "Enough Team";
-            }
+                        <div class="mt-4 text-sm text-gray-600 p-3 bg-gray-100 rounded-lg">
+                            <p class="font-semibold text-base text-gray-800 mb-1">Perbandingan Anggaran Input:</p>
+                            <p>Anggaran Pokok Input: <span class="font-bold">Rp 150.000</span></p>
+                            <p>Kontingensi Input: <span class="font-bold">Rp 25.000</span></p>
+                            <p class="mt-2 italic text-xs">Pastikan anggaran input Anda mencukupi total proyeksi dan
+                                kontingensi yang direkomendasikan model untuk manajemen risiko yang optimal.</p>
+                        </div>
+                    </div>
 
-            if($tim_a >= 1 && $tim_a <= 49){
-              $nilai = "Bad";
-              $keterangannya = "Bad Team";
-            }
+                    <div class="report-section">
+                        <h5 class="text-lg font-semibold text-gray-700 mb-3">3. Analisis Tim dan Rekomendasi Expertise
+                        </h5>
+                        <p class="mb-3 text-sm text-gray-600">Tim input Anda terdiri dari 4 anggota. Berikut analisis
+                            model terhadap keahlian rata-rata tim:</p>
 
-            $angka_bersih = str_replace(",", "", $alloc->ai_total_cost);
-            $hasil1 = (int)$angka_bersih;
-            $angka_bersih2 = str_replace(",", "", $alloc->ai_additional_cost);
-            $hasil2 = (int)$angka_bersih2;
-            $hasil3 = $alloc->additional_cost + $alloc->total_development_cost;
-            $hasil4 = $hasil1 + $hasil2 ;
-            $hasil_akhir = ($hasil3 / $hasil4) * 100;
+                        <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                            <p class="text-sm font-medium text-gray-700">Skor Keahlian Rata-Rata Tim:</p>
+                            <p class="text-3xl font-extrabold text-blue-700">3.25/5.0</p>
+                            <p class="text-sm mt-2"><span class="text-green-600">Level keahlian ini optimal.</span> Tim
+                                ini mampu mengatasi tantangan teknis dengan baik.</p>
+                        </div>
 
-            if($hasil_akhir >= 90 && $hasil_akhir <= 100){
-              $bd = "Perfect";
-              $bdk = "Perfect Budged";
-            }
+                        <h6 class="text-md font-semibold text-gray-600 mb-2">Rincian Tim Input (Untuk Referensi):</h6>
+                        <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+                            <thead class="bg-green-100">
+                                <tr>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-green-800 uppercase">Role
+                                    </th>
+                                    <th class="px-3 py-2 text-center text-xs font-medium text-green-800 uppercase">Qty
+                                    </th>
+                                    <th class="px-3 py-2 text-center text-xs font-medium text-green-800 uppercase">
+                                        Expertise (1-5)</th>
+                                    <th class="px-3 py-2 text-right text-xs font-medium text-green-800 uppercase">Gaji
+                                        Bulanan (Rp)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 text-sm">
 
-            if($hasil_akhir >= 70 && $hasil_akhir <= 89){
-              $bd = "Good";
-              $bdk = "Good Budged";
-            }
+                                <tr>
+                                    <td class="px-3 py-2 whitespace-nowrap">Project Manager</td>
+                                    <td class="px-3 py-2 whitespace-nowrap text-center">1</td>
+                                    <td class="px-3 py-2 whitespace-nowrap text-center">4</td>
+                                    <td class="px-3 py-2 whitespace-nowrap text-right">12.000</td>
+                                </tr>
 
-            if($hasil_akhir >= 50 && $hasil_akhir <= 69){
-              $bd = "Enough";
-              $bdk = "Enough Budged";
-            }
+                                <tr>
+                                    <td class="px-3 py-2 whitespace-nowrap">Developer</td>
+                                    <td class="px-3 py-2 whitespace-nowrap text-center">3</td>
+                                    <td class="px-3 py-2 whitespace-nowrap text-center">3</td>
+                                    <td class="px-3 py-2 whitespace-nowrap text-right">7.000</td>
+                                </tr>
 
-            if($hasil_akhir >= 1 && $hasil_akhir <= 49){
-              $bd = "Bad";
-              $bdk = "Bad Budged";
-            }
+                            </tbody>
+                        </table>
+                    </div>
 
-            $waktu = ($alloc->duration_months / $alloc->ai_duration_weeks) * 100;
-             if($waktu >= 90 && $waktu <= 100){
-              $wkt = "Perfect";
-              $wktk = "Perfect Time";
-            }
+                    <div class="report-section">
+                        <h5 class="text-lg font-semibold text-gray-700 mb-3">4. Analisis dan Rekomendasi Teknologi</h5>
+                        <p class="mb-3 text-sm text-gray-600">Model mengevaluasi jumlah teknologi spesifik dan
+                            diversifikasi kategorinya.</p>
 
-            if($waktu >= 70 && $waktu <= 89){
-              $wkt = "Good";
-              $wktk = "Good Time";
-            }
+                        <div class="grid grid-cols-2 gap-4 bg-gray-100 p-4 rounded-lg mb-4">
+                            <div>
+                                <p class="text-sm font-medium text-gray-700">Kompleksitas (Jumlah Spesifik):</p>
+                                <p class="text-2xl font-bold text-purple-700">2 | Rendah</p>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-700">Diversifikasi (Jumlah Kategori):</p>
+                                <p class="text-2xl font-bold text-purple-700">1 Kategori | Kurang Diversifikasi</p>
+                            </div>
+                        </div>
+                        <p class="text-sm mt-2 font-medium"><span class="text-yellow-600">Diversifikasi Rendah:</span>
+                            Semua teknologi berfokus pada Frontend. Pastikan kategori penting lainnya (Database, Cloud)
+                            tidak diabaikan.</p>
 
-            if($waktu >= 50 && $waktu <= 69){
-              $wkt = "Enough";
-              $wktk = "Enough Time";
-            }
+                        <h6 class="text-md font-semibold text-gray-600 mt-4 mb-2">Rincian Teknologi Input (Untuk
+                            Referensi):</h6>
+                        <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+                            <thead class="bg-purple-100">
+                                <tr>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-purple-800 uppercase">
+                                        Kategori</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-purple-800 uppercase">Nama
+                                        Spesifik</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 text-sm">
 
-            if($waktu >= 1 && $waktu <= 49){
-              $wkt = "Bad";
-              $wktk = "Bad Time";
-            }
+                                <tr>
+                                    <td class="px-3 py-2 whitespace-nowrap">Frontend</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">React</td>
+                                </tr>
 
-           $tI =  ceil($totalImpact / $countImpact); 
-             if($tI >= 90 && $tI <= 100){
-              $rrr = "Critical Risk";
-              $rrrd = "Critical Risk";
-            }
+                                <tr>
+                                    <td class="px-3 py-2 whitespace-nowrap">Frontend</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">PostgreSQL</td>
+                                </tr>
 
-            if($tI >= 70 && $tI <= 89){
-              $rrr = "High Risk";
-              $rrrd = "High Risk";
-            }
+                            </tbody>
+                        </table>
+                    </div>
 
-            if($tI >= 50 && $tI <= 69){
-              $rrr = "Risk";
-              $rrrd = "Risk ";
-            }
+                    <div class="report-section">
+                        <h5 class="text-lg font-semibold text-gray-700 mb-3">5. Analisis dan Rekomendasi Risiko Awal
+                        </h5>
+                        <p class="mb-3 text-sm text-gray-600">Model menghitung skor risiko total berdasarkan input
+                            Dampak dan Kemungkinan (D*K).</p>
 
-            if($tI >= 1 && $tI <= 49){
-              $rrr = "Safe";
-              $rrrd = "Safe Risk";
-            }
+                        <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                            <p class="text-sm font-medium text-gray-700">Skor Risiko Gabungan (Total Risk Score - TRS):
+                            </p>
+                            <div class="flex justify-between items-center mt-1">
+                                <p class="text-3xl font-extrabold text-red-700">12.0/25.0</p>
+                                <span
+                                    class="px-3 py-1 rounded-full text-sm font-bold bg-yellow-200 text-yellow-800">Signifikan</span>
+                            </div>
+                            <p class="text-sm mt-2">Risiko rata-rata per item risiko: <span
+                                    class="font-bold">12.0</span>. </p>
+                        </div>
 
+                        <h6 class="text-md font-semibold text-gray-600 mt-4 mb-2">Rincian Risiko Input (Untuk
+                            Referensi):</h6>
+                        <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+                            <thead class="bg-red-100">
+                                <tr>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-red-800 uppercase">Kategori
+                                        Risiko</th>
+                                    <th class="px-3 py-2 text-center text-xs font-medium text-red-800 uppercase">Dampak
+                                        (1-5)</th>
+                                    <th class="px-3 py-2 text-center text-xs font-medium text-red-800 uppercase">
+                                        Kemungkinan (1-5)</th>
+                                    <th class="px-3 py-2 text-center text-xs font-medium text-red-800 uppercase">Tingkat
+                                        Risiko (D*K)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 text-sm">
 
-          $total_semuanya = ($tI + $waktu + $hasil_akhir + $tim_a) / 4;
-          if($total_semuanya >= 81 && $total_semuanya <= 100){
-            $result = "Perfect";
-          }
-          if($total_semuanya >= 61 && $total_semuanya <= 80){
-            $result = "Moderat";
-          }
-          if($total_semuanya <= 60){
-            $result = "Bad";
-          }
-          ?>
+                                <tr>
+                                    <td class="px-3 py-2 whitespace-nowrap">Technical</td>
+                                    <td class="px-3 py-2 whitespace-nowrap text-center">4</td>
+                                    <td class="px-3 py-2 whitespace-nowrap text-center">3</td>
+                                    <td class="px-3 py-2 whitespace-nowrap text-center font-semibold">12.0</td>
+                                </tr>
 
-            <!-- Content -->
-            <div class="row">
-              <!-- Left: Score -->
-              <div class="col-md-4 text-dark">
-                <div class="score-box">
-                  <h5 class="mb-3">Project Health Score</h5>
-                  <div class="score-value">{{ceil($total_semuanya)}}</div>
-                  <div class="score-label text-white bg-dark d-inline-block px-3 py-1 rounded">{{$result}}</div>
-                  <p class="mt-3 text-muted small">
-                    Project aspect is acceptable but may need attention to avoid potential issues.
-                  </p>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="report-section border-b-0">
+                        <h5 class="text-lg font-semibold text-gray-700 mb-3">6. Rekomendasi Aksi Cepat (Model Gabungan)
+                        </h5>
+                        <ul class="list-disc list-inside text-left mx-auto max-w-full space-y-2 text-sm">
+                            <li class="text-red-600 font-medium">**Fokus Risiko:** Tingkat Risiko Gabungan (Dampak *
+                                Kemungkinan) adalah 12.0/25. Segera prioritaskan Rencana Mitigasi untuk kategori risiko
+                                kritis.</li>
+                            <li class="text-red-600 font-medium">**Diversitas Teknologi:** Hanya 1 kategori teknologi
+                                yang tercakup. Untuk proyek skala Medium, pastikan cakupan teknologi (misalnya,
+                                Database, Cloud, DevOps) memadai untuk menghindari celah fungsional.</li>
+                            <li class="text-green-600">**Dana Kontingensi:** Anggaran kontingensi Anda kuat dan melebihi
+                                rekomendasi berbasis risiko. Ini memberikan *buffer* yang baik terhadap biaya tak
+                                terduga.</li>
+                        </ul>
+                    </div>
                 </div>
-              </div>
-
-              <!-- Right: Summary -->
-              <div class="col-md-8 text-dark">
-                <div class="summary-box">
-                  <h5 class="mb-3 font-weight-bold">Summary Description</h5>
-                  <p>
-                    A project health score of 73 indicates a moderate condition. This suggests the project is progressing with a reasonable degree of stability. Most foundational elements are in place, but there may be imbalances or inefficiencies in areas like budget allocation, team composition, or risk mitigation that could impact overall outcomes if left unaddressed.
-                  </p>
-                  <p>
-                    While the project is still on track, it is recommended to review key metrics and implement minor adjustments. Proactive refinements at this stage can elevate performance, minimize risks, and strengthen the likelihood of project success.
-                  </p>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
 
-         
-          <h5 class="section-title">Category Breakdown</h5>
-          <table class="table table-custom">
-            <thead class="d-none">
-              <tr>
-                <th>Category</th>
-                <th>Score</th>
-                <th>Status</th>
-                <th>Notes</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><input type="text" class="form-control" value="Team Readiness" readonly></td>
-                <td><input type="text" class="form-control" value="{{ceil($tim_a)}}" readonly></td>
-                <td><input type="text" class="form-control" value="{{$nilai}}" readonly></td>
-                <td><input type="text" class="form-control" value="{{$keterangannya}}" readonly></td>
-              </tr>
-              <tr>
-                <td><input type="text" class="form-control" value="Budget Adequacy" readonly></td>
-                <td><input type="text" class="form-control" value="{{ceil($hasil_akhir)}}" readonly></td>
-                <td><input type="text" class="form-control" value="{{$bd}}" readonly></td>
-                <td><input type="text" class="form-control"  value="{{$bdk}}" readonly></td>
-              </tr>
-              <tr>
-                <td><input type="text" class="form-control" value="Timeline Feasibility" readonly></td>
-                <td><input type="text" class="form-control" value="{{ceil($waktu)}}" readonly></td>
-                <td><input type="text" class="form-control" value="{{$wkt}}" readonly></td>
-                <td><input type="text" class="form-control"  value="{{$wktk}}" readonly></td>
-              </tr>
-              <tr>
-                <td><input type="text" class="form-control" value="Technology Relevance" readonly></td>
-                <td><input type="text" class="form-control" value="85" readonly></td>
-                <td><input type="text" class="form-control" value="Excellent" readonly></td>
-                <td><input type="text" class="form-control"  class="form-control"  value="Tools used are very appropriate" readonly></td>
-              </tr>
-              <tr>
-                <td><input type="text" class="form-control" value="Risk Exposure" readonly></td>
-                <td><input type="text" class="form-control" value="{{ceil($tI)}}" readonly></td>
-                <td><input type="text" class="form-control" value="{{$rrr}}" readonly></td>
-                <td><input type="text" class="form-control"  class="form-control"  value="{{$rrrd}}" readonly></td>
-              </tr>
-            </tbody>
-          </table>
+</body>
 
-          <!-- User Input vs AI Comparison -->
-          <h5 class="section-title">User Input vs AI Comparison</h5> <hr>
-
-          <div class="row font-weight-bold mb-2">
-            <div class="col-md-4">Project Duration</div>
-            <div class="col-md-4 text-center">User Input</div>
-            <div class="col-md-4 text-center">AI</div>
-          </div>
-
-          <div class="row mb-3">
-            <div class="col-md-4">
-              <input type="text" class="form-control" value="Estimated project running in weeks" readonly>
-            </div>
-            <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="{{$alloc->duration_months}}" readonly>
-            </div>
-            <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="{{$alloc->ai_duration_weeks}}" readonly>
-            </div>
-          </div>
-
-          <div class="row font-weight-bold mb-2">
-            <div class="col-md-4">Project Budget</div>
-            <div class="col-md-4 text-center">User Input</div>
-            <div class="col-md-4 text-center">AI</div>
-          </div>
-
-          <div class="row mb-3">
-            <div class="col-md-4">
-              <input type="text" class="form-control" value="Estimated budget" readonly>
-            </div>
-            <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="Rp {{$alloc->total_development_cost}}" readonly>
-            </div>
-            <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="Rp {{$hasil1}}" readonly>
-            </div>
-          </div>
-
-          <div class="row mb-3">
-            <div class="col-md-4">
-              <input type="text" class="form-control" value="Estimated additional cost" readonly>
-            </div>
-            <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="Rp {{$alloc->additional_cost}}" readonly>
-            </div>
-            <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="Rp {{$hasil2}}" readonly>
-            </div>
-          </div>
-
-          <div class="row font-weight-bold mb-2">
-            <div class="col-md-4">Team & Resource Allocation</div>
-            <div class="col-md-4 text-center">User Input</div>
-            <div class="col-md-4 text-center">AI</div>
-          </div>
-
-          <div class="row mb-3">
-            <div class="col-md-4">
-              <input type="text" class="form-control" value="Total team size" readonly>
-            </div>
-            <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="{{$teams->quantity}}" readonly>
-            </div>
-            <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="{{$teams->total_team}}" readonly>
-            </div>
-          </div>
-
-          <div class="row mb-3">
-            <div class="col-md-4">
-              <input type="text" class="form-control" value="Average team expenditure per" readonly>
-            </div>
-            <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="Rp {{$teams->avg_salary}}" readonly>
-            </div>
-            <div class="col-md-4 text-center">
-              <input type="text" class="form-control" value="Rp {{$teams->total_avg_salary}}" readonly>
-            </div>
-          </div>
-
-          </div>
-
-
-
-
-
-      </div>
-          
-@endsection
+</html>
