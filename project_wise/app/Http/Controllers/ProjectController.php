@@ -17,6 +17,10 @@ use App\Models\Risk;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+use App\Models\Projectx;
+use App\Models\Rawriskdata;
+use App\Models\Rawtechdata;
+use App\Models\Rawteamdata;
 
 
 class ProjectController extends Controller
