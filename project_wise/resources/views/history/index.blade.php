@@ -29,10 +29,10 @@
                 <tbody>
                 @foreach($data as $rows)
                 <tr>
-                    <td>{{$rows->name}}</td>
-                    <td>{{$rows->type_project}}</td>
-                    <td>{{$rows->start_date}}</td>
-                    <td>{{$rows->end_date}}</td>
+                    <td>{{$rows->projectName}}</td>
+                    <td>{{$rows->project_type}}</td>
+                    <td>{{$rows->startDate}}</td>
+                    <td>{{$rows->endDate}}</td>
                     <td><button class="btn btn-sm btn-outline-secondary">...</button></td>
                 </tr>
                  @endforeach

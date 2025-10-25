@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Projects;
+use Illuminate\Support\Facades\DB;
 
 class HistoryController extends Controller
 {
@@ -20,7 +21,8 @@ class HistoryController extends Controller
 
     public function index()
     {
-        $data = Projects::all();
+        // $data = Projects::all();
+        $data = DB::table('projectx')->get();
         return view('history.index',compact('data'));
     }
 
