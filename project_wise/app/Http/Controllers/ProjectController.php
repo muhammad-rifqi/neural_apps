@@ -269,8 +269,11 @@ class ProjectController extends Controller
     public function new(Request $request)
     {
 
-        DB::beginTransaction();
+        $total = ceil($request->duration_months * 4);
+        $num = $this->acakAngkaDenganTotal($total);
+        $imp = implode(',',$num);
 
+        DB::beginTransaction();
         try {
             $projectId = DB::table('projectx')->insertGetId([
                 'projectName' => $request->projectName,
@@ -282,6 +285,7 @@ class ProjectController extends Controller
                 'contingency_cost_input' => $request->contingency_cost_input,
                 'sdlc_method' => $request->sdlc_method,
                 'duration_months' => $request->duration_months,
+                'duration_weeks' => $imp,
                 'total_input_cost' => $request->total_input_cost,
                 'total_team_members' => $request->total_team_members,
                 'total_weighted_salary' => $request->total_weighted_salary,
@@ -367,5 +371,22 @@ class ProjectController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+
+    public function acakAngkaDenganTotal($total, $jumlah = 5){
+        $pembatas = [];
+        for ($i = 0; $i < $jumlah - 1; $i++) {
+            $pembatas[] = rand(0, $total);
+        }
+        sort($pembatas);
+        array_unshift($pembatas, 0);
+        $pembatas[] = $total;
+        $hasil = [];
+        for ($i = 0; $i < $jumlah; $i++) {
+        $hasil[] = ($pembatas[$i + 1] - $pembatas[$i]) + 1;
+        }
+        shuffle($hasil); 
+        return $hasil;
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Allocations;
 use App\Models\Teammember;
 use App\Models\Projectcategory;
 use App\Models\Risk;
+use Illuminate\Support\Facades\DB;
 
 class StudyController extends Controller
 {
@@ -22,6 +23,21 @@ class StudyController extends Controller
     }
 
     public function index($id)
+    {
+        $data = DB::table('projectx')->where('id', '=', $id)->first();
+        $tech = DB::table('raw_tech_data')->where('project_id', '=', $data->id)->get();
+        $teams = DB::table('raw_team_data')->where('project_id', '=', $data->id)->get();
+        $risk = DB::table('raw_risk_data')->where('project_id', '=', $data->id)->get();
+        $output = DB::table('outputs')->where('project_id', '=', $data->id)->first();
+        $rek = DB::table('recommendations')->where('project_id', '=', $data->id)->get();
+        $metrix = DB::table('derivedMetrics')->where('project_id', '=', $data->id)->first();
+        return view('study.index',compact('data','tech','teams','risk','output','rek','metrix'));
+    }
+
+
+
+
+    public function list($id)
     {
         $data = Projects::where('id', '=', $id)->first();
         $alloc = Allocations::where('project_id','=', $data->id)->first();
