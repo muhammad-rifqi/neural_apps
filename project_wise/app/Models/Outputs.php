@@ -10,4 +10,7 @@ class Outputs extends Model
     use HasFactory;
     protected $table = "outputs";
     public $timestamps = false;
+     protected $fillable = [
+        'project_id',
+    ];
 }

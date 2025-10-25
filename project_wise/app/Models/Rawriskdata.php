@@ -10,4 +10,7 @@ class Rawriskdata extends Model
     use HasFactory;
     protected $table = "raw_risk_data";
     public $timestamps = false;
+     protected $fillable = [
+        'project_id',
+    ];
 }

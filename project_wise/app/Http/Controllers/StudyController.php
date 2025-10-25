@@ -9,6 +9,13 @@ use App\Models\Teammember;
 use App\Models\Projectcategory;
 use App\Models\Risk;
 use Illuminate\Support\Facades\DB;
+use App\Models\Projectx;
+use App\Models\Rawriskdata;
+use App\Models\Rawtechdata;
+use App\Models\Rawteamdata;
+use App\Models\Outputs;
+use App\Models\Recomendations;
+use App\Models\Derivedmetrics;
 
 class StudyController extends Controller
 {

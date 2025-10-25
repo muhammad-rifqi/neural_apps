@@ -10,4 +10,10 @@ class Projectx extends Model
     use HasFactory;
     protected $table = "projectx";
     public $timestamps = false;
+     protected $fillable = [
+        'projectName',
+        'startDate',
+        'endDate',
+    ];
+    
 }

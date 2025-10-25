@@ -10,5 +10,8 @@ class Recomendations extends Model
    use HasFactory;
     protected $table = "recommendations";
     public $timestamps = false;
+     protected $fillable = [
+        'project_id',
+    ];
 }
 

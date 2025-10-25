@@ -10,4 +10,7 @@ class Derivedmetrics extends Model
     use HasFactory;
     protected $table = "derivedMetrics";
     public $timestamps = false;
+     protected $fillable = [
+        'project_id',
+    ];
 }
