@@ -326,7 +326,7 @@
         </form>
 
         <!-- Prediction Result Display -->
-        <div id="resultContainer"
+        <!-- <div id="resultContainer"
             class="prediction-result mt-10 p-6 rounded-xl text-center bg-white border border-gray-300 hidden">
             <h3 class="text-2xl font-bold mb-4 text-blue-700">Hasil Prediksi & Laporan Rekomendasi</h3>
 
@@ -341,15 +341,15 @@
                 <div id="reportContent">
                 </div>
             </div>
-        </div>
+        </div> -->
 
     <!-- Report Content -->
 
-        <div id="errorBox" class="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg hidden"
+        <!-- <div id="errorBox" class="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg hidden"
             role="alert">
             <p class="font-bold">Error:</p>
             <p id="errorMessage"></p>
-        </div>
+        </div> -->
 
     </div>
 
@@ -449,9 +449,9 @@
             document.getElementById('errorBox').classList.remove('hidden');
         }
 
-        function hideError() {
-            document.getElementById('errorBox').classList.add('hidden');
-        }
+        // function hideError() {
+        //     document.getElementById('errorBox').classList.add('hidden');
+        // }
 
         function formatDate(dateString) {
             const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -564,7 +564,7 @@
                 showError("Pastikan Anggaran Pokok, Durasi Proyek, Anggota Tim, dan minimal satu Teknologi ada dan bernilai positif/valid.");
                 return null;
             }
-            hideError();
+            // hideError();
 
             return {
                 projectName,
@@ -757,224 +757,224 @@
             };
         }
 
-        function generateReportHTML(features, result) {
-            const projectDurationWeeks = features.duration_months * 4.3; // Approx 4.3 weeks per month
+        // function generateReportHTML(features, result) {
+        //     const projectDurationWeeks = features.duration_months * 4.3; // Approx 4.3 weeks per month
 
-            // 1. Durasi dan Fase (TETAP)
-            let phaseHtml = `
-                    <div class="report-section">
-                    <h5 class="text-lg font-semibold text-gray-700 mb-3">1. Kerangka Waktu dan Fase Proyek</h5>
-                    <p class="mb-3 text-sm text-gray-600">Durasi total proyek diperkirakan ${features.duration_months} bulan (sekitar ${projectDurationWeeks.toFixed(0)} minggu), dimulai dari ${formatDate(features.startDate)} hingga ${formatDate(features.endDate)}.</p>
-                    <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
-                    <thead class="bg-blue-100">
-                    <tr>
-                    <th class="px-3 py-2 text-left text-xs font-medium text-blue-800 uppercase">Fase</th>
-                    <th class="px-3 py-2 text-left text-xs font-medium text-blue-800 uppercase">Durasi (Minggu)</th>
-                    <th class="px-3 py-2 text-left text-xs font-medium text-blue-800 uppercase">Kegiatan Utama</th>
-                    </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200 text-sm">
-                    <tr><td class="px-3 py-2 whitespace-nowrap">Penemuan & Akuisisi Data</td><td class="px-3 py-2 whitespace-nowrap">2</td><td class="px-3 py-2">Definisi metrik, identifikasi sumber data.</td></tr>
-                    <tr><td class="px-3 py-2 whitespace-nowrap">Pemrosesan Data & Rekayasa Fitur</td><td class="px-3 py-2 whitespace-nowrap">4</td><td class="px-3 py-2">Pembersihan data, normalisasi, pembuatan fitur.</td></tr>
-                    <tr><td class="px-3 py-2 whitespace-nowrap">Pengembangan Model & Evaluasi</td><td class="px-3 py-2 whitespace-nowrap">4</td><td class="px-3 py-2">Pelatihan model, *tuning* hyperparameter, validasi.</td></tr>
-                    <tr><td class="px-3 py-2 whitespace-nowrap">Integrasi & Penerapan (Deployment)</td><td class="px-3 py-2 whitespace-nowrap">2</td><td class="px-3 py-2">Membangun API, mengemas model (Docker), integrasi sistem.</td></tr>
-                    <tr><td class="px-3 py-2 whitespace-nowrap">Pemantauan & Serah Terima Akhir</td><td class="px-3 py-2 whitespace-nowrap">2</td><td class="px-3 py-2">Mengatur dasbor pemantauan kinerja model.</td></tr>
-                    <tr class="bg-gray-100 font-bold"><td class="px-3 py-2 whitespace-nowrap">TOTAL</td><td class="px-3 py-2 whitespace-nowrap">14</td><td class="px-3 py-2"></td></tr>
-                    </tbody>
-                    </table>
-                    </div>
-                    `;
+        //     // 1. Durasi dan Fase (TETAP)
+        //     let phaseHtml = `
+        //             <div class="report-section">
+        //             <h5 class="text-lg font-semibold text-gray-700 mb-3">1. Kerangka Waktu dan Fase Proyek</h5>
+        //             <p class="mb-3 text-sm text-gray-600">Durasi total proyek diperkirakan ${features.duration_months} bulan (sekitar ${projectDurationWeeks.toFixed(0)} minggu), dimulai dari ${formatDate(features.startDate)} hingga ${formatDate(features.endDate)}.</p>
+        //             <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+        //             <thead class="bg-blue-100">
+        //             <tr>
+        //             <th class="px-3 py-2 text-left text-xs font-medium text-blue-800 uppercase">Fase</th>
+        //             <th class="px-3 py-2 text-left text-xs font-medium text-blue-800 uppercase">Durasi (Minggu)</th>
+        //             <th class="px-3 py-2 text-left text-xs font-medium text-blue-800 uppercase">Kegiatan Utama</th>
+        //             </tr>
+        //             </thead>
+        //             <tbody class="bg-white divide-y divide-gray-200 text-sm">
+        //             <tr><td class="px-3 py-2 whitespace-nowrap">Penemuan & Akuisisi Data</td><td class="px-3 py-2 whitespace-nowrap">2</td><td class="px-3 py-2">Definisi metrik, identifikasi sumber data.</td></tr>
+        //             <tr><td class="px-3 py-2 whitespace-nowrap">Pemrosesan Data & Rekayasa Fitur</td><td class="px-3 py-2 whitespace-nowrap">4</td><td class="px-3 py-2">Pembersihan data, normalisasi, pembuatan fitur.</td></tr>
+        //             <tr><td class="px-3 py-2 whitespace-nowrap">Pengembangan Model & Evaluasi</td><td class="px-3 py-2 whitespace-nowrap">4</td><td class="px-3 py-2">Pelatihan model, *tuning* hyperparameter, validasi.</td></tr>
+        //             <tr><td class="px-3 py-2 whitespace-nowrap">Integrasi & Penerapan (Deployment)</td><td class="px-3 py-2 whitespace-nowrap">2</td><td class="px-3 py-2">Membangun API, mengemas model (Docker), integrasi sistem.</td></tr>
+        //             <tr><td class="px-3 py-2 whitespace-nowrap">Pemantauan & Serah Terima Akhir</td><td class="px-3 py-2 whitespace-nowrap">2</td><td class="px-3 py-2">Mengatur dasbor pemantauan kinerja model.</td></tr>
+        //             <tr class="bg-gray-100 font-bold"><td class="px-3 py-2 whitespace-nowrap">TOTAL</td><td class="px-3 py-2 whitespace-nowrap">14</td><td class="px-3 py-2"></td></tr>
+        //             </tbody>
+        //             </table>
+        //             </div>
+        //             `;
 
-            // 2. Anggaran (DIUBAH MENJADI REKOMENDASI MODEL)
-            const laborCost = result.derivedMetrics.projectedLaborCost;
-            const recommendedContingency = result.derivedMetrics.recommendedContingency;
-            const infraCostEstimate = laborCost * 0.05;
-            const totalProjectedCost = laborCost + infraCostEstimate + recommendedContingency;
+        //     // 2. Anggaran (DIUBAH MENJADI REKOMENDASI MODEL)
+        //     const laborCost = result.derivedMetrics.projectedLaborCost;
+        //     const recommendedContingency = result.derivedMetrics.recommendedContingency;
+        //     const infraCostEstimate = laborCost * 0.05;
+        //     const totalProjectedCost = laborCost + infraCostEstimate + recommendedContingency;
 
-            let budgetHtml = `
-                    <div class="report-section">
-                    <h5 class="text-lg font-semibold text-gray-700 mb-3">2. Rekomendasi Anggaran Proyek (Berdasarkan Model)</h5>
-                    <p class="mb-3 text-sm text-gray-600">Model memproyeksikan total biaya tenaga kerja selama ${features.duration_months} bulan dan merekomendasikan dana kontingensi berdasarkan skor risiko.</p>
+        //     let budgetHtml = `
+        //             <div class="report-section">
+        //             <h5 class="text-lg font-semibold text-gray-700 mb-3">2. Rekomendasi Anggaran Proyek (Berdasarkan Model)</h5>
+        //             <p class="mb-3 text-sm text-gray-600">Model memproyeksikan total biaya tenaga kerja selama ${features.duration_months} bulan dan merekomendasikan dana kontingensi berdasarkan skor risiko.</p>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-green-50 p-4 rounded-lg">
-                    <p class="text-sm font-medium text-green-700">A. Biaya Tenaga Kerja (Projected)</p>
-                    <p class="text-xl font-bold text-green-900">Rp ${formatCurrency(laborCost)}</p>
-                    <p class="text-xs text-gray-500">* Berdasarkan total gaji tim input (${features.total_team_members}) dan durasi.</p>
-                    </div>
-                    <div class="bg-yellow-50 p-4 rounded-lg">
-                    <p class="text-sm font-medium text-yellow-700">B. Dana Kontingensi (Direkomendasikan)</p>
-                    <p class="text-xl font-bold text-yellow-900">Rp ${formatCurrency(recommendedContingency.toFixed(0))}</p>
-                    <p class="text-xs text-gray-500">* Skala risiko (TRS ${result.derivedMetrics.TRS.toFixed(1)}/25) mempengaruhi rekomendasi ini.</p>
-                    </div>
-                    <div class="bg-blue-100 p-4 rounded-lg">
-                    <p class="text-sm font-medium text-blue-700">C. TOTAL ANGGARAN PROYEKSI</p>
-                    <p class="text-xl font-extrabold text-blue-900">Rp ${formatCurrency(totalProjectedCost.toFixed(0))}</p>
-                    <p class="text-xs text-gray-500">* Total (A + B + Est. Infrastruktur).</p>
-                    </div>
-                    </div>
+        //             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        //             <div class="bg-green-50 p-4 rounded-lg">
+        //             <p class="text-sm font-medium text-green-700">A. Biaya Tenaga Kerja (Projected)</p>
+        //             <p class="text-xl font-bold text-green-900">Rp ${formatCurrency(laborCost)}</p>
+        //             <p class="text-xs text-gray-500">* Berdasarkan total gaji tim input (${features.total_team_members}) dan durasi.</p>
+        //             </div>
+        //             <div class="bg-yellow-50 p-4 rounded-lg">
+        //             <p class="text-sm font-medium text-yellow-700">B. Dana Kontingensi (Direkomendasikan)</p>
+        //             <p class="text-xl font-bold text-yellow-900">Rp ${formatCurrency(recommendedContingency.toFixed(0))}</p>
+        //             <p class="text-xs text-gray-500">* Skala risiko (TRS ${result.derivedMetrics.TRS.toFixed(1)}/25) mempengaruhi rekomendasi ini.</p>
+        //             </div>
+        //             <div class="bg-blue-100 p-4 rounded-lg">
+        //             <p class="text-sm font-medium text-blue-700">C. TOTAL ANGGARAN PROYEKSI</p>
+        //             <p class="text-xl font-extrabold text-blue-900">Rp ${formatCurrency(totalProjectedCost.toFixed(0))}</p>
+        //             <p class="text-xs text-gray-500">* Total (A + B + Est. Infrastruktur).</p>
+        //             </div>
+        //             </div>
 
-                    <div class="mt-4 text-sm text-gray-600 p-3 bg-gray-100 rounded-lg">
-                    <p class="font-semibold text-base text-gray-800 mb-1">Perbandingan Anggaran Input:</p>
-                    <p>Anggaran Pokok Input: <span class="font-bold">Rp ${formatCurrency(features.base_budget_input)}</span></p>
-                    <p>Kontingensi Input: <span class="font-bold">Rp ${formatCurrency(features.contingency_cost_input)}</span></p>
-                    <p class="mt-2 italic text-xs">Pastikan anggaran input Anda mencukupi total proyeksi dan kontingensi yang direkomendasikan model untuk manajemen risiko yang optimal.</p>
-                    </div>
-                    </div>
-                    `;
+        //             <div class="mt-4 text-sm text-gray-600 p-3 bg-gray-100 rounded-lg">
+        //             <p class="font-semibold text-base text-gray-800 mb-1">Perbandingan Anggaran Input:</p>
+        //             <p>Anggaran Pokok Input: <span class="font-bold">Rp ${formatCurrency(features.base_budget_input)}</span></p>
+        //             <p>Kontingensi Input: <span class="font-bold">Rp ${formatCurrency(features.contingency_cost_input)}</span></p>
+        //             <p class="mt-2 italic text-xs">Pastikan anggaran input Anda mencukupi total proyeksi dan kontingensi yang direkomendasikan model untuk manajemen risiko yang optimal.</p>
+        //             </div>
+        //             </div>
+        //             `;
 
-            // 3. Tim (DIUBAH MENJADI ANALISIS EXPERTISE)
-            const avgExpertise = result.derivedMetrics.avgExpertise;
-            const expertiseRecommendation = avgExpertise < 3.0
-                ? `<span class="text-red-600">Level keahlian ini di bawah rata-rata ideal (3.0).</span> Risiko kualitas dan penundaan tinggi. Direkomendasikan menambah peran senior atau meningkatkan keahlian tim yang ada.`
-                : `<span class="text-green-600">Level keahlian ini optimal.</span> Tim ini mampu mengatasi tantangan teknis dengan baik.`;
+        //     // 3. Tim (DIUBAH MENJADI ANALISIS EXPERTISE)
+        //     const avgExpertise = result.derivedMetrics.avgExpertise;
+        //     const expertiseRecommendation = avgExpertise < 3.0
+        //         ? `<span class="text-red-600">Level keahlian ini di bawah rata-rata ideal (3.0).</span> Risiko kualitas dan penundaan tinggi. Direkomendasikan menambah peran senior atau meningkatkan keahlian tim yang ada.`
+        //         : `<span class="text-green-600">Level keahlian ini optimal.</span> Tim ini mampu mengatasi tantangan teknis dengan baik.`;
 
-            let teamHtml = `
-                    <div class="report-section">
-                    <h5 class="text-lg font-semibold text-gray-700 mb-3">3. Analisis Tim dan Rekomendasi Expertise</h5>
-                    <p class="mb-3 text-sm text-gray-600">Tim input Anda terdiri dari ${features.total_team_members} anggota. Berikut analisis model terhadap keahlian rata-rata tim:</p>
+        //     let teamHtml = `
+        //             <div class="report-section">
+        //             <h5 class="text-lg font-semibold text-gray-700 mb-3">3. Analisis Tim dan Rekomendasi Expertise</h5>
+        //             <p class="mb-3 text-sm text-gray-600">Tim input Anda terdiri dari ${features.total_team_members} anggota. Berikut analisis model terhadap keahlian rata-rata tim:</p>
 
-                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
-                    <p class="text-sm font-medium text-gray-700">Skor Keahlian Rata-Rata Tim:</p>
-                    <p class="text-3xl font-extrabold text-blue-700">${avgExpertise.toFixed(2)}/5.0</p>
-                    <p class="text-sm mt-2">${expertiseRecommendation}</p>
-                    </div>
+        //             <div class="bg-gray-100 p-4 rounded-lg mb-4">
+        //             <p class="text-sm font-medium text-gray-700">Skor Keahlian Rata-Rata Tim:</p>
+        //             <p class="text-3xl font-extrabold text-blue-700">${avgExpertise.toFixed(2)}/5.0</p>
+        //             <p class="text-sm mt-2">${expertiseRecommendation}</p>
+        //             </div>
 
-                    <h6 class="text-md font-semibold text-gray-600 mb-2">Rincian Tim Input (Untuk Referensi):</h6>
-                    <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
-                    <thead class="bg-green-100">
-                    <tr>
-                    <th class="px-3 py-2 text-left text-xs font-medium text-green-800 uppercase">Role</th>
-                    <th class="px-3 py-2 text-center text-xs font-medium text-green-800 uppercase">Qty</th>
-                    <th class="px-3 py-2 text-center text-xs font-medium text-green-800 uppercase">Expertise (1-5)</th>
-                    <th class="px-3 py-2 text-right text-xs font-medium text-green-800 uppercase">Gaji Bulanan (Rp)</th>
-                    </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200 text-sm">
-                    ${features.raw_team_data.map(t => `
-                    <tr>
-                    <td class="px-3 py-2 whitespace-nowrap">${t.role}</td>
-                    <td class="px-3 py-2 whitespace-nowrap text-center">${t.qty}</td>
-                    <td class="px-3 py-2 whitespace-nowrap text-center">${t.expertise}</td>
-                    <td class="px-3 py-2 whitespace-nowrap text-right">${formatCurrency(t.salary)}</td>
-                    </tr>
-                    `).join('')}
-                    </tbody>
-                    </table>
-                    </div>
-                    `;
+        //             <h6 class="text-md font-semibold text-gray-600 mb-2">Rincian Tim Input (Untuk Referensi):</h6>
+        //             <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+        //             <thead class="bg-green-100">
+        //             <tr>
+        //             <th class="px-3 py-2 text-left text-xs font-medium text-green-800 uppercase">Role</th>
+        //             <th class="px-3 py-2 text-center text-xs font-medium text-green-800 uppercase">Qty</th>
+        //             <th class="px-3 py-2 text-center text-xs font-medium text-green-800 uppercase">Expertise (1-5)</th>
+        //             <th class="px-3 py-2 text-right text-xs font-medium text-green-800 uppercase">Gaji Bulanan (Rp)</th>
+        //             </tr>
+        //             </thead>
+        //             <tbody class="bg-white divide-y divide-gray-200 text-sm">
+        //             ${features.raw_team_data.map(t => `
+        //             <tr>
+        //             <td class="px-3 py-2 whitespace-nowrap">${t.role}</td>
+        //             <td class="px-3 py-2 whitespace-nowrap text-center">${t.qty}</td>
+        //             <td class="px-3 py-2 whitespace-nowrap text-center">${t.expertise}</td>
+        //             <td class="px-3 py-2 whitespace-nowrap text-right">${formatCurrency(t.salary)}</td>
+        //             </tr>
+        //             `).join('')}
+        //             </tbody>
+        //             </table>
+        //             </div>
+        //             `;
 
-            // 4. Teknologi (DIUBAH MENJADI ANALISIS KOMPLEKSITAS & DIVERSIFIKASI)
-            const techDiversity = result.derivedMetrics.techDiversity;
-            const techComplexity = result.derivedMetrics.techComplexity;
-            const complexityRating = techComplexity > 5 ? 'Tinggi' : techComplexity > 2 ? 'Sedang' : 'Rendah';
-            const diversityRating = techDiversity < 2 ? 'Kurang Diversifikasi' : techDiversity >= 4 ? 'Diversifikasi Kuat' : 'Cukup Diversifikasi';
+        //     // 4. Teknologi (DIUBAH MENJADI ANALISIS KOMPLEKSITAS & DIVERSIFIKASI)
+        //     const techDiversity = result.derivedMetrics.techDiversity;
+        //     const techComplexity = result.derivedMetrics.techComplexity;
+        //     const complexityRating = techComplexity > 5 ? 'Tinggi' : techComplexity > 2 ? 'Sedang' : 'Rendah';
+        //     const diversityRating = techDiversity < 2 ? 'Kurang Diversifikasi' : techDiversity >= 4 ? 'Diversifikasi Kuat' : 'Cukup Diversifikasi';
 
-            let techRecommendation = '';
-            if (techComplexity > 8 && features.project_scale !== 'Large') {
-                techRecommendation = `<span class="text-red-600">Peringatan Kompleksitas:</span> Jumlah teknologi spesifik (${techComplexity}) terlalu tinggi untuk proyek skala ${features.project_scale}. Pertimbangkan konsolidasi untuk mengurangi biaya lisensi dan risiko integrasi.`;
-            } else if (techDiversity < 2 && techComplexity > 1) {
-                techRecommendation = `<span class="text-yellow-600">Diversifikasi Rendah:</span> Semua teknologi berfokus pada ${features.raw_tech_data[0]?.category_name}. Pastikan kategori penting lainnya (Database, Cloud) tidak diabaikan.`;
-            } else {
-                techRecommendation = `<span class="text-green-600">Analisis Model:</span> Profil teknologi menunjukkan keseimbangan yang baik antara spesialisasi dan cakupan kategori.`;
-            }
+        //     let techRecommendation = '';
+        //     if (techComplexity > 8 && features.project_scale !== 'Large') {
+        //         techRecommendation = `<span class="text-red-600">Peringatan Kompleksitas:</span> Jumlah teknologi spesifik (${techComplexity}) terlalu tinggi untuk proyek skala ${features.project_scale}. Pertimbangkan konsolidasi untuk mengurangi biaya lisensi dan risiko integrasi.`;
+        //     } else if (techDiversity < 2 && techComplexity > 1) {
+        //         techRecommendation = `<span class="text-yellow-600">Diversifikasi Rendah:</span> Semua teknologi berfokus pada ${features.raw_tech_data[0]?.category_name}. Pastikan kategori penting lainnya (Database, Cloud) tidak diabaikan.`;
+        //     } else {
+        //         techRecommendation = `<span class="text-green-600">Analisis Model:</span> Profil teknologi menunjukkan keseimbangan yang baik antara spesialisasi dan cakupan kategori.`;
+        //     }
 
 
-            let techHtml = `
-                <div class="report-section">
-                <h5 class="text-lg font-semibold text-gray-700 mb-3">4. Analisis dan Rekomendasi Teknologi</h5>
-                <p class="mb-3 text-sm text-gray-600">Model mengevaluasi jumlah teknologi spesifik dan diversifikasi kategorinya.</p>
+        //     let techHtml = `
+        //         <div class="report-section">
+        //         <h5 class="text-lg font-semibold text-gray-700 mb-3">4. Analisis dan Rekomendasi Teknologi</h5>
+        //         <p class="mb-3 text-sm text-gray-600">Model mengevaluasi jumlah teknologi spesifik dan diversifikasi kategorinya.</p>
 
-                <div class="grid grid-cols-2 gap-4 bg-gray-100 p-4 rounded-lg mb-4">
-                <div>
-                <p class="text-sm font-medium text-gray-700">Kompleksitas (Jumlah Spesifik):</p>
-                <p class="text-2xl font-bold text-purple-700">${techComplexity} | ${complexityRating}</p>
-                </div>
-                <div>
-                <p class="text-sm font-medium text-gray-700">Diversifikasi (Jumlah Kategori):</p>
-                <p class="text-2xl font-bold text-purple-700">${techDiversity} Kategori | ${diversityRating}</p>
-                </div>
-                </div>
-                <p class="text-sm mt-2 font-medium">${techRecommendation}</p>
+        //         <div class="grid grid-cols-2 gap-4 bg-gray-100 p-4 rounded-lg mb-4">
+        //         <div>
+        //         <p class="text-sm font-medium text-gray-700">Kompleksitas (Jumlah Spesifik):</p>
+        //         <p class="text-2xl font-bold text-purple-700">${techComplexity} | ${complexityRating}</p>
+        //         </div>
+        //         <div>
+        //         <p class="text-sm font-medium text-gray-700">Diversifikasi (Jumlah Kategori):</p>
+        //         <p class="text-2xl font-bold text-purple-700">${techDiversity} Kategori | ${diversityRating}</p>
+        //         </div>
+        //         </div>
+        //         <p class="text-sm mt-2 font-medium">${techRecommendation}</p>
 
-                <h6 class="text-md font-semibold text-gray-600 mt-4 mb-2">Rincian Teknologi Input (Untuk Referensi):</h6>
-                <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
-                <thead class="bg-purple-100">
-                <tr>
-                <th class="px-3 py-2 text-left text-xs font-medium text-purple-800 uppercase">Kategori</th>
-                <th class="px-3 py-2 text-left text-xs font-medium text-purple-800 uppercase">Nama Spesifik</th>
-                </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200 text-sm">
-                ${features.raw_tech_data.map(t => `
-                <tr>
-                <td class="px-3 py-2 whitespace-nowrap">${t.category_name}</td>
-                <td class="px-3 py-2 whitespace-nowrap">${t.name}</td>
-                </tr>
-                `).join('')}
-                </tbody>
-                </table>
-                </div>
-                `;
+        //         <h6 class="text-md font-semibold text-gray-600 mt-4 mb-2">Rincian Teknologi Input (Untuk Referensi):</h6>
+        //         <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+        //         <thead class="bg-purple-100">
+        //         <tr>
+        //         <th class="px-3 py-2 text-left text-xs font-medium text-purple-800 uppercase">Kategori</th>
+        //         <th class="px-3 py-2 text-left text-xs font-medium text-purple-800 uppercase">Nama Spesifik</th>
+        //         </tr>
+        //         </thead>
+        //         <tbody class="bg-white divide-y divide-gray-200 text-sm">
+        //         ${features.raw_tech_data.map(t => `
+        //         <tr>
+        //         <td class="px-3 py-2 whitespace-nowrap">${t.category_name}</td>
+        //         <td class="px-3 py-2 whitespace-nowrap">${t.name}</td>
+        //         </tr>
+        //         `).join('')}
+        //         </tbody>
+        //         </table>
+        //         </div>
+        //         `;
 
-            // 5. Risiko Awal (DIUBAH MENJADI TOTAL RISK SCORE)
-            const TRS = result.derivedMetrics.TRS;
-            const riskSeverity = TRS > 15 ? 'KRITIS' : TRS > 8 ? 'Signifikan' : 'Terkelola';
-            const riskColor = TRS > 15 ? 'bg-red-200 text-red-800' : TRS > 8 ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800';
+        //     // 5. Risiko Awal (DIUBAH MENJADI TOTAL RISK SCORE)
+        //     const TRS = result.derivedMetrics.TRS;
+        //     const riskSeverity = TRS > 15 ? 'KRITIS' : TRS > 8 ? 'Signifikan' : 'Terkelola';
+        //     const riskColor = TRS > 15 ? 'bg-red-200 text-red-800' : TRS > 8 ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800';
 
-            let riskHtml = `
-                <div class="report-section">
-                <h5 class="text-lg font-semibold text-gray-700 mb-3">5. Analisis dan Rekomendasi Risiko Awal</h5>
-                <p class="mb-3 text-sm text-gray-600">Model menghitung skor risiko total berdasarkan input Dampak dan Kemungkinan (D*K).</p>
+        //     let riskHtml = `
+        //         <div class="report-section">
+        //         <h5 class="text-lg font-semibold text-gray-700 mb-3">5. Analisis dan Rekomendasi Risiko Awal</h5>
+        //         <p class="mb-3 text-sm text-gray-600">Model menghitung skor risiko total berdasarkan input Dampak dan Kemungkinan (D*K).</p>
 
-                <div class="bg-gray-100 p-4 rounded-lg mb-4">
-                <p class="text-sm font-medium text-gray-700">Skor Risiko Gabungan (Total Risk Score - TRS):</p>
-                <div class="flex justify-between items-center mt-1">
-                <p class="text-3xl font-extrabold text-red-700">${TRS.toFixed(1)}/25.0</p>
-                <span class="px-3 py-1 rounded-full text-sm font-bold ${riskColor}">${riskSeverity}</span>
-                </div>
-                <p class="text-sm mt-2">Risiko rata-rata per item risiko: <span class="font-bold">${(TRS / features.risk_count).toFixed(1)}</span>. ${riskSeverity === 'KRITIS' ? 'Perlu tindakan mitigasi segera.' : ''}</p>
-                </div>
+        //         <div class="bg-gray-100 p-4 rounded-lg mb-4">
+        //         <p class="text-sm font-medium text-gray-700">Skor Risiko Gabungan (Total Risk Score - TRS):</p>
+        //         <div class="flex justify-between items-center mt-1">
+        //         <p class="text-3xl font-extrabold text-red-700">${TRS.toFixed(1)}/25.0</p>
+        //         <span class="px-3 py-1 rounded-full text-sm font-bold ${riskColor}">${riskSeverity}</span>
+        //         </div>
+        //         <p class="text-sm mt-2">Risiko rata-rata per item risiko: <span class="font-bold">${(TRS / features.risk_count).toFixed(1)}</span>. ${riskSeverity === 'KRITIS' ? 'Perlu tindakan mitigasi segera.' : ''}</p>
+        //         </div>
 
-                <h6 class="text-md font-semibold text-gray-600 mt-4 mb-2">Rincian Risiko Input (Untuk Referensi):</h6>
-                <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
-                <thead class="bg-red-100">
-                <tr>
-                <th class="px-3 py-2 text-left text-xs font-medium text-red-800 uppercase">Kategori Risiko</th>
-                <th class="px-3 py-2 text-center text-xs font-medium text-red-800 uppercase">Dampak (1-5)</th>
-                <th class="px-3 py-2 text-center text-xs font-medium text-red-800 uppercase">Kemungkinan (1-5)</th>
-                <th class="px-3 py-2 text-center text-xs font-medium text-red-800 uppercase">Tingkat Risiko (D*K)</th>
-                </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200 text-sm">
-                ${features.raw_risk_data.map(r => `
-                <tr>
-                <td class="px-3 py-2 whitespace-nowrap">${r.category_name}</td>
-                <td class="px-3 py-2 whitespace-nowrap text-center">${r.impact}</td>
-                <td class="px-3 py-2 whitespace-nowrap text-center">${r.likelihood}</td>
-                <td class="px-3 py-2 whitespace-nowrap text-center font-semibold">${(r.impact * r.likelihood).toFixed(1)}</td>
-                </tr>
-                `).join('')}
-                </tbody>
-                </table>
-                </div>
-                `;
+        //         <h6 class="text-md font-semibold text-gray-600 mt-4 mb-2">Rincian Risiko Input (Untuk Referensi):</h6>
+        //         <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+        //         <thead class="bg-red-100">
+        //         <tr>
+        //         <th class="px-3 py-2 text-left text-xs font-medium text-red-800 uppercase">Kategori Risiko</th>
+        //         <th class="px-3 py-2 text-center text-xs font-medium text-red-800 uppercase">Dampak (1-5)</th>
+        //         <th class="px-3 py-2 text-center text-xs font-medium text-red-800 uppercase">Kemungkinan (1-5)</th>
+        //         <th class="px-3 py-2 text-center text-xs font-medium text-red-800 uppercase">Tingkat Risiko (D*K)</th>
+        //         </tr>
+        //         </thead>
+        //         <tbody class="bg-white divide-y divide-gray-200 text-sm">
+        //         ${features.raw_risk_data.map(r => `
+        //         <tr>
+        //         <td class="px-3 py-2 whitespace-nowrap">${r.category_name}</td>
+        //         <td class="px-3 py-2 whitespace-nowrap text-center">${r.impact}</td>
+        //         <td class="px-3 py-2 whitespace-nowrap text-center">${r.likelihood}</td>
+        //         <td class="px-3 py-2 whitespace-nowrap text-center font-semibold">${(r.impact * r.likelihood).toFixed(1)}</td>
+        //         </tr>
+        //         `).join('')}
+        //         </tbody>
+        //         </table>
+        //         </div>
+        //         `;
 
-            // 6. Rekomendasi/Mitigasi Khusus (TETAP SAMA)
-            let recommendationHtml = `
-                    <div class="report-section border-b-0">
-                    <h5 class="text-lg font-semibold text-gray-700 mb-3">6. Rekomendasi Aksi Cepat (Model Gabungan)</h5>
-                    <ul class="list-disc list-inside text-left mx-auto max-w-full space-y-2 text-sm">
-                    ${result.recommendations.map(rec => {
-                                    const colorClass = rec.type === 'Negatif' ? 'text-red-600 font-medium' : 'text-green-600';
-                                    return `<li class="${colorClass}">${rec.text}</li>`;
-                                }).join('')}
-                    </ul>
-                    </div>
-                    `;
+        //     // 6. Rekomendasi/Mitigasi Khusus (TETAP SAMA)
+        //     let recommendationHtml = `
+        //             <div class="report-section border-b-0">
+        //             <h5 class="text-lg font-semibold text-gray-700 mb-3">6. Rekomendasi Aksi Cepat (Model Gabungan)</h5>
+        //             <ul class="list-disc list-inside text-left mx-auto max-w-full space-y-2 text-sm">
+        //             ${result.recommendations.map(rec => {
+        //                             const colorClass = rec.type === 'Negatif' ? 'text-red-600 font-medium' : 'text-green-600';
+        //                             return `<li class="${colorClass}">${rec.text}</li>`;
+        //                         }).join('')}
+        //             </ul>
+        //             </div>
+        //             `;
 
-            return phaseHtml + budgetHtml + teamHtml + techHtml + riskHtml + recommendationHtml;
-        } // akhir dari report
+        //     return phaseHtml + budgetHtml + teamHtml + techHtml + riskHtml + recommendationHtml;
+        // } // akhir dari report
 
         // --- 5. Event Handler Utama ---
 
@@ -983,37 +983,37 @@
 
             const features = engineerFeatures();
 
-            if (!features) {
-                document.getElementById('resultContainer').classList.add('hidden');
-                return;
-            }
+            // if (!features) {
+            //     document.getElementById('resultContainer').classList.add('hidden');
+            //     return;
+            // }
 
             const result = predict(features);
-            const resultContainer = document.getElementById('resultContainer');
-            const predictionOutput = document.getElementById('predictionOutput');
-            const predictionDetail = document.getElementById('predictionDetail');
-            const reportContent = document.getElementById('reportContent');
+            // const resultContainer = document.getElementById('resultContainer');
+            // const predictionOutput = document.getElementById('predictionOutput');
+            // const predictionDetail = document.getElementById('predictionDetail');
+            // const reportContent = document.getElementById('reportContent');
 
             // Tampilkan Hasil Prediksi Sederhana
-            resultContainer.classList.remove('hidden');
-            resultContainer.scrollIntoView({ behavior: 'smooth' });
+            // resultContainer.classList.remove('hidden');
+            // resultContainer.scrollIntoView({ behavior: 'smooth' });
 
-            const probabilityPercent = (result.probability * 100).toFixed(2);
+            // const probabilityPercent = (result.probability * 100).toFixed(2);
 
-            if (result.prediction === 1) {
-                predictionOutput.textContent = "SUKSES";
-                predictionOutput.classList.remove('bg-red-200', 'text-red-700');
-                predictionOutput.classList.add('bg-green-200', 'text-green-700');
-                predictionDetail.innerHTML = `Model memprediksi proyek **Sangat Mungkin Berhasil** dengan probabilitas gabungan: <strong>${probabilityPercent}%</strong>.`;
-            } else {
-                predictionOutput.textContent = "GAGAL";
-                predictionOutput.classList.remove('bg-green-200', 'text-green-700');
-                predictionOutput.classList.add('bg-red-200', 'text-red-700');
-                predictionDetail.innerHTML = `Model memprediksi proyek **Berisiko Tinggi Gagal** dengan probabilitas gabungan: <strong>${probabilityPercent}%</strong>. Harap tinjau laporan rinci di bawah.`;
-            }
+            // if (result.prediction === 1) {
+            //     predictionOutput.textContent = "SUKSES";
+            //     predictionOutput.classList.remove('bg-red-200', 'text-red-700');
+            //     predictionOutput.classList.add('bg-green-200', 'text-green-700');
+            //     predictionDetail.innerHTML = `Model memprediksi proyek **Sangat Mungkin Berhasil** dengan probabilitas gabungan: <strong>${probabilityPercent}%</strong>.`;
+            // } else {
+            //     predictionOutput.textContent = "GAGAL";
+            //     predictionOutput.classList.remove('bg-green-200', 'text-green-700');
+            //     predictionOutput.classList.add('bg-red-200', 'text-red-700');
+            //     predictionDetail.innerHTML = `Model memprediksi proyek **Berisiko Tinggi Gagal** dengan probabilitas gabungan: <strong>${probabilityPercent}%</strong>. Harap tinjau laporan rinci di bawah.`;
+            // }
 
             // Generate dan Tampilkan Laporan Detail
-            reportContent.innerHTML = generateReportHTML(features, result);
+            // reportContent.innerHTML = generateReportHTML(features, result);
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
             const project = {
@@ -1057,19 +1057,19 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(data)
-                    // if (data.status == 'success') {
-                    //     swal("Sukses!", "Data Project Information berhasil disimpan.", "success")
-                    //         .then(() => {
-                    //             // const userAgent = window.navigator.userAgent;
-                    //             // localStorage.setItem('sess_id',userAgent + '===' + data?.id_allocation + '===' + data?.id_project)
-                    //             window.location.href = '/project';
-                    //         });
-                    // } else {
-                    //     swal("Gagal!", "Data Project Information gagal disimpan.", "danger")
-                    //         .then(() => {
-                    //             window.location.reload();
-                    //         });
-                    // }
+                    if (data.status == 'success') {
+                        swal("Sukses!", "Data Project Information berhasil disimpan.", "success")
+                            .then(() => {
+                                // const userAgent = window.navigator.userAgent;
+                                // localStorage.setItem('sess_id',userAgent + '===' + data?.id_allocation + '===' + data?.id_project)
+                                window.location.href = '/home';
+                            });
+                    } else {
+                        swal("Gagal!", "Data Project Information gagal disimpan.", "danger")
+                            .then(() => {
+                                window.location.reload();
+                            });
+                    }
                 })
         });
 
