@@ -1,7 +1,7 @@
 @extends('layouts.apps')
 @section('content')   
 
- <div class="container" style="height: 600px; overflow-y:scroll">
+ <div class="container" style="height: 700px; overflow-y:scroll">
         <h1 align="center" style="margin-top: 50px">Great to see you, {{Auth::user()->name}}! Let’s Learn your post project.</h1>
         <hr/><br />
 
@@ -29,7 +29,7 @@
                 <tbody>
                 @foreach($data as $rows)
                 <tr>
-                    <td>{{$rows->projectName}}</td>
+                    <td>{{$rows->name}}</td>
                     <td>{{$rows->project_type}}</td>
                     <td>{{$rows->startDate}}</td>
                     <td>{{$rows->endDate}}</td>

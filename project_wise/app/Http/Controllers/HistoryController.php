@@ -21,8 +21,8 @@ class HistoryController extends Controller
 
     public function index()
     {
-        // $data = Projects::all();
-        $data = DB::table('projectx')->get();
+        $data = Projects::all();
+        // $data = DB::table('projectx')->get();
         return view('history.index',compact('data'));
     }
 
