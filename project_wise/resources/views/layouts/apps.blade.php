@@ -16,6 +16,10 @@
        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script> -->
 
+ <link 
+    rel="stylesheet" 
+    href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+  >
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
  <style>
@@ -43,12 +47,12 @@
             <div class="bottom-links">
                 <aside class="project-list" id="warna_box2">
                     <ul>
-                        <li>📄 <a href="{{ route('history') }}" class="warna_text"> Data History </a></li>
-                        <li>📄 <a href="#" class="warna_text" onclick="localStorage.setItem('warna', 'light'); window.location.href='/home';">  Light Mode </a> </li>
-                        <li>📄 <a href="{{ route('retraining') }}" class="warna_text">Model Retraining</a> </li>
-                        <li>📄 <a href="{{ route('account') }}" class="warna_text"> My Account </a> </li>
-                        <li>📄 <a href="{{ route('faq') }}" class="warna_text">  Update & Faq </a> </li>
-                        <li>📄 <a href="{{ route('logout') }}" class="warna_text"
+                        <li><i class="fas fa-database"></i> <a href="{{ route('history') }}" class="warna_text"> Data History </a></li>
+                        <li><i class="fas fa-sun"></i> <a href="#" class="warna_text" onclick="localStorage.setItem('warna', 'light'); window.location.href='/home';">  Light Mode </a> </li>
+                        <li><i class="fas fa-cog"></i> <a href="{{ route('retraining') }}" class="warna_text">Model Retraining</a> </li>
+                        <li><i class="fas fa-user"></i> <a href="{{ route('account') }}" class="warna_text"> My Account </a> </li>
+                        <li><i class="fas fa-question-circle"></i> <a href="{{ route('faq') }}" class="warna_text">  Update & Faq </a> </li>
+                        <li><i class="fas fa-sign-out-alt"></i> <a href="{{ route('logout') }}" class="warna_text"
                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
