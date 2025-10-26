@@ -33,7 +33,7 @@
                     <td>{{$rows->project_type}}</td>
                     <td>{{$rows->startDate}}</td>
                     <td>{{$rows->endDate}}</td>
-                    <td><button class="btn btn-sm btn-outline-secondary">...</button></td>
+                    <td><button class="btn btn-sm btn-outline-secondary" onclick="window.location.href='/history/edit/{{$rows->id}}'">Edit</button></td>
                 </tr>
                  @endforeach
                 </tbody>
