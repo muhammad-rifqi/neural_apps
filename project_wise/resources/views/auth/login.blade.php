@@ -17,8 +17,10 @@
                 <button class="new-project">+ New project</button>
             </div>
             <div class="bottom-links">
-                <button class="light-mode">🌞 Light mode</button>
-                <a href="#" class="faq">Updates & FAQ</a>
+                <ul class="project-list" style="list-style:none; line-height: 2.0;">
+                    <li><a href="#" class="light-mode">🌞 Light mode</a></li>
+                    <li><a href="#" class="light-mode">Updates & FAQ</a></li>
+                </ul>
             </div>
         </aside>
         <main class="main">

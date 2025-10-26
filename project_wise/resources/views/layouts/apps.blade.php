@@ -45,7 +45,7 @@
                     <ul>
                         <li>📄 <a href="{{ route('history') }}" class="warna_text"> Data History </a></li>
                         <li>📄 <a href="#" class="warna_text" onclick="localStorage.setItem('warna', 'light'); window.location.href='/home';">  Light Mode </a> </li>
-                        <!-- <li>📄 <a href="{{ route('retraining') }}" class="warna_text">Model Retraining</a> </li> -->
+                        <li>📄 <a href="{{ route('retraining') }}" class="warna_text">Model Retraining</a> </li>
                         <li>📄 <a href="{{ route('account') }}" class="warna_text"> My Account </a> </li>
                         <li>📄 <a href="{{ route('faq') }}" class="warna_text">  Update & Faq </a> </li>
                         <li>📄 <a href="{{ route('logout') }}" class="warna_text"
