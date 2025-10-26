@@ -171,7 +171,7 @@
                 <div class="score-box">
                   <h5 class="mb-3">Project Health Score</h5>
                   <div class="score-value">{{ceil($total_semuanya)}}</div>
-                  <div class="score-label text-white bg-dark d-inline-block px-3 py-1 rounded">{{$result}}</div>
+                  <div class="score-label text-white bg-dark d-inline-block px-3 py-1 rounded">{{$result??"-"}}</div>
                   <p class="mt-3 text-muted small">
                     Project aspect is acceptable but may need attention to avoid potential issues.
                   </p>

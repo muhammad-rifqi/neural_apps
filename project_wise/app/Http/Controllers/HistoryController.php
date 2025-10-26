@@ -71,7 +71,7 @@ class HistoryController extends Controller
         $resiko = Risk::where('project_id','=', $data->id)->get();   
         $totalImpact = $resiko->sum('val');
         $countImpact = $resiko->count('val');
-        return view('history.list',compact('data','alloc','teams','resiko','totalImpact','countImpact'));
+        return view('history.view',compact('data','alloc','teams','resiko','totalImpact','countImpact'));
     }
 
     /**
@@ -88,7 +88,7 @@ class HistoryController extends Controller
         $resiko = Risk::where('project_id','=', $data->id)->get();   
         $totalImpact = $resiko->sum('val');
         $countImpact = $resiko->count('val');
-        return view('history.list',compact('data','alloc','teams','resiko','totalImpact','countImpact'));
+        return view('history.edit',compact('data','alloc','teams','resiko','totalImpact','countImpact'));
     }
 
     /**

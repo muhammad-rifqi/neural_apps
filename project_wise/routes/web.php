@@ -33,4 +33,4 @@ Route::get('/recomendate/{id}', [App\Http\Controllers\StudyController::class, 'r
 Route::get('/result', [App\Http\Controllers\ResultController::class, 'index'])->name('result');
 Route::get('/history', [App\Http\Controllers\HistoryController::class, 'index'])->name('history');
 Route::get('/history/view/{id}', [App\Http\Controllers\HistoryController::class, 'show']);
-Route::get('/history/view/{id}', [App\Http\Controllers\HistoryController::class, 'edit']);
+Route::get('/history/edit/{id}', [App\Http\Controllers\HistoryController::class, 'edit']);
