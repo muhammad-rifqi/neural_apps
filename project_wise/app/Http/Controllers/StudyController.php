@@ -29,7 +29,7 @@ class StudyController extends Controller
         $this->middleware('auth');
     }
 
-    public function index($id)
+    public function list($id)
     {
         $data = DB::table('projectx')->where('id', '=', $id)->first();
         $tech = DB::table('raw_tech_data')->where('project_id', '=', $data->id)->get();
@@ -44,7 +44,7 @@ class StudyController extends Controller
 
 
 
-    public function list($id)
+    public function index($id)
     {
         $data = Projects::where('id', '=', $id)->first();
         $alloc = Allocations::where('project_id','=', $data->id)->first();
@@ -52,7 +52,7 @@ class StudyController extends Controller
         $resiko = Risk::where('project_id','=', $data->id)->get();   
         $totalImpact = $resiko->sum('val');
         $countImpact = $resiko->count('val');
-        return view('study.index',compact('data','alloc','teams','resiko','totalImpact','countImpact'));
+        return view('study.list',compact('data','alloc','teams','resiko','totalImpact','countImpact'));
     }
 
     /**

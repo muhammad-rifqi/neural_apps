@@ -49,7 +49,7 @@ class ProjectController extends Controller
         $rt = Risktype::all();
         $pt = Projecttype::all();
         $ps = Projectscale::all();
-        return view('project.index',compact('project','sdlcs','techs','roles','exp','rt','pt','ps'));
+        return view('project.list',compact('project','sdlcs','techs','roles','exp','rt','pt','ps'));
 
     }
 
