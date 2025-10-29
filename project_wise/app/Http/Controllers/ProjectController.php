@@ -476,6 +476,26 @@ class ProjectController extends Controller
         ]);        
     }
 
+    public function bacateam($projectID){
+        $tm = Teammember::where('allocation_id','=',$projectID)->get();
+        return response()->json([
+            'status' => 'success',
+            'data' => array(
+                "team" => $tm
+            ),
+        ]);     
+    }
+
+    public function bacaresiko($projectID){
+        $resk = Risk::where('project_id','=',$projectID)->get();
+        return response()->json([
+            'status' => 'success',
+            'data' => array(
+                "risk" => $resk
+            ),
+        ]);     
+    }
+
     public function gantiSdlc($id){
         $a = Sdlcs::where('id', '=' , $id)->first();
         return $a->name;

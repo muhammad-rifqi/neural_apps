@@ -34,7 +34,27 @@
 
                     <div class="tab-content text-left" id="myTabContent">
                         <div class="tab-pane fade show active p-3" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <div class="form-row">
+                             <div class="form-row">
+                                <div class="col-md-12">
+                                   <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Risk Type</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Impact</th>
+                                            <th scope="col">Likelihood</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="risks">
+                                
+
+                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="form-row w-100" style="margin-top: 20px">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                     <label for="risk-type">Risk Type *</label>
@@ -79,11 +99,14 @@
                                 </div>
                             </div>
 
-                             <div class="row">
-                                <div class="col-md-12">
-                                    <button class="btn btn-dark w-100" onclick="generate()">Generate</button>
+                             <div class="row" style="width: 100%; margin-top: 30px">
+                                <div class="col-md-6 text-left">
+                                    <button class="btn btn-default w-10">Back</button>
                                 </div>
-                            </div>    
+                                <div class="col-md-6 text-right">
+                                    <button class="btn btn-dark w-35" onclick="generate()">Generate</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -492,8 +515,7 @@
             if (data.status == 'success') {
                 swal("Sukses!", "Data Project Information berhasil disimpan.", "success")
                     .then(() => {
-                        // const userAgent = window.navigator.userAgent;
-                        // localStorage.setItem('sess_id',userAgent + '===' + data?.id_allocation + '===' + data?.id_project)
+                        localStorage.removeItem('sess_id')
                         window.location.href = '/home';
                     });
             } else {
@@ -503,7 +525,30 @@
                     });
             }
         })
-    }     
+    }   
+    
+    function bacaResk(){
+        const eee = localStorage.getItem('sess_id').split('===')[2];
+        fetch('/api/bacarisk/'+ eee)
+        .then(oooo => oooo.json())
+        .then((rws)=>{
+            var abs = '';
+            rws.data.risk.forEach(elements => {
+                abs +=`<tr>
+                        <th scope="row">${elements.risk_type_id}</th>
+                        <td>${elements.description}</td>
+                        <td>${elements.impact_level}</td>
+                        <td>${elements.likelihood}</td>
+                    </tr>`;
+            });
+            document.getElementById("risks").innerHTML = abs;
+        })
+    }
+
+    window.addEventListener("load",()=>{
+        bacaResk();
+    })
+
 </script>
 
 @endsection

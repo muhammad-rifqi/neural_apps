@@ -126,7 +126,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row p-2">
+                            <div class="row p-2" style="margin-top: 40px">
                                 <div class="col-md-12 p-2">
                                     <button class="btn btn-dark w-100" onclick="save1()">Next Section</button>
                                 </div>

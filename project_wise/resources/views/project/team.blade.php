@@ -32,9 +32,30 @@
                     </ul>
 
 
-                    <div class="tab-content text-left" id="myTabContent">
+                    <div class="tab-content text-left w-100" id="myTabContent">
                          <div class="tab-pane fade show active p-3" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <div class="row">
+
+                         <div class="row w-100">
+                                <div class="col-md-12">
+                                   <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Role</th>
+                                            <th scope="col">Quantity</th>
+                                            <th scope="col">Expertise</th>
+                                            <th scope="col">salary</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="teamps">
+                                
+
+                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row w-100" style="margin-top: 20px">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="role">Role Name <span class="required">*</span></label>
@@ -69,26 +90,19 @@
                                 <div class="col-md-3">
                                     <div class="form-group salary">
                                         <label for="salary">Average Salary <span class="required">*</span></label>
-                                            <input class="form" id="salary" style="width:150px; padding: 6px; border:1px solid #ccc; border-radius: 4px" type="number"  id="salary" name="salary" placeholder="Rp Average salary" />
+                                            <input class="form" id="salary" style="width:160px; padding: 6px; border:1px solid #ccc; border-radius: 4px" type="number"  id="salary" name="salary" placeholder="Rp Average salary" />
                                             <button class="btn btn-primary" onclick="save2()">Add</button>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                   
-                                
-
-
+                        
+                            <div class="row" style="width: 100%; margin-top: 20px">
+                                <div class="col-md-6 text-left">
+                                    <button class="btn btn-default w-10">Back</button>
                                 </div>
-                            </div>
-
-
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <button class="btn btn-dark w-100" onclick="next()">Next Section</button>
+                                <div class="col-md-6 text-right">
+                                    <button class="btn btn-dark w-10" onclick="next()">Next Section</button>
                                 </div>
                             </div>
 
@@ -171,6 +185,30 @@ function save2(){
         } 
     })
     }
+
+
+    function bacaData(){
+        const eee = localStorage.getItem('sess_id').split('===')[1];
+        fetch('/api/bacateam/'+ eee)
+        .then(ooo => ooo.json())
+        .then((rw)=>{
+            console.log(rw)
+            var ab = '';
+            rw.data.team.forEach(elements => {
+                ab +=`<tr>
+                        <th scope="row">${elements.role}</th>
+                        <td>${elements.quantity}</td>
+                        <td>${elements.expertise_level_id}</td>
+                        <td>${elements.avg_salary}</td>
+                    </tr>`;
+            });
+            document.getElementById("teamps").innerHTML = ab;
+        })
+    }
+
+    window.addEventListener("load",()=>{
+        bacaData();
+    })
 </script>
 
 @endsection
