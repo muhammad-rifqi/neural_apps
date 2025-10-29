@@ -1,6 +1,6 @@
  <?php
     use App\Models\Projects;
-    $projects_list = Projects::all();
+    $projects_list = Projects::where('status','=','N')->get();
 ?>
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">

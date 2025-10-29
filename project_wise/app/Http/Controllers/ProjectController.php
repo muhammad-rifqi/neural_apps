@@ -53,6 +53,20 @@ class ProjectController extends Controller
 
     }
 
+     public function proj()
+    {
+        $project = Projects::all();
+        $sdlcs = Sdlcs::all();
+        $techs = Technologys::all();
+        $roles = ['System Administrator','Frontend Dev','Backend Dev'];
+        $exp = ExpertiseLevel::all();
+        $rt = Risktype::all();
+        $pt = Projecttype::all();
+        $ps = Projectscale::all();
+        return view('project.index',compact('project','sdlcs','techs','roles','exp','rt','pt','ps'));
+
+    }
+
     public function riskp()
     {
         $project = Projects::all();
@@ -416,13 +430,47 @@ class ProjectController extends Controller
             "status"=> $a->status, 
             "created_at"=> $a->created_at,
             "last_updated_at"=> $a->last_updated_at,
-
         );
+
+        $c = Risk::where('project_id','=',$id)->get();
+        $que2 = array();
+        foreach($c as $ttt){
+            $que2[] = array(
+                "id"=> $ttt->id,
+                "project_id"=> $ttt->project_id,
+                "risk_type_id"=> $ttt->risk_type_id,
+                "risk_type_name" => $this->gantiRisk($ttt->risk_type_id),
+                "description"=> $ttt->description,
+                "impact_level"=> $ttt->impact_level,
+                "likelihood"=> $ttt->likelihood,
+                "risk_prediction"=> $ttt->risk_prediction,
+                "risk_type_prediction"=> $ttt->risk_type_prediction,
+                "mitigation_plan"=> $ttt->mitigation_plan,
+                "val"=> $ttt->val,
+                "status"=> $ttt->status,
+                "created_at"=> $ttt->created_at,
+                "last_updated_at"=> $ttt->last_updated_at,
+            );
+        }
+
+        $d = ProjectCategory::where('project_id','=',$id)->get();
+        $que1 = array();
+        foreach($d as $rrr){
+            $que1[] = array(
+                "category_id" => $rrr->technology_type_id,
+                "name" => $rrr->tools_name,
+                "category_name" => $this->gantiTech($rrr->technology_type_id)
+            );
+        }
+        $f = Teammember::where('allocation_id','=',$a->id)->get();
         return response()->json([
             'status' => 'success',
             'data' => array(
                 "project" => $p,
-                "allocation" => $arr1
+                "allocation" => $arr1,
+                "risk" => $que2,
+                "tech" => $que1,
+                "team" => $f
             ),
         ]);        
     }
@@ -434,6 +482,16 @@ class ProjectController extends Controller
 
     public function gantiProject($id){
         $a = Projects::where('id', '=' , $id)->first();
+        return $a->name;
+    }
+
+    public function gantiTech($id){
+        $a = Technologys::where('id', '=' , $id)->first();
+        return $a->name;
+    }
+
+    public function gantiRisk($id){
+        $a = Risktype::where('id', '=' , $id)->first();
         return $a->name;
     }
 }
