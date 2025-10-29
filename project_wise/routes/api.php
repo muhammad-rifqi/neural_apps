@@ -23,7 +23,7 @@ Route::post('/project_information', [App\Http\Controllers\ProjectController::cla
 Route::post('/team', [App\Http\Controllers\ProjectController::class, 'team'])->name('team');
 Route::post('/risk', [App\Http\Controllers\ProjectController::class, 'risk'])->name('risk');
 Route::post('/project_new', [App\Http\Controllers\ProjectController::class, 'new'])->name('project_new');
-
+Route::get('/selectedproject/{id}', [App\Http\Controllers\ProjectController::class, 'selectedproject']);
 
 // Route::middleware('auth:sanctum')->group(function () {
 //     Route::get('/user', function (Request $request) {

@@ -396,4 +396,44 @@ class ProjectController extends Controller
         shuffle($hasil); 
         return $hasil;
     }
+
+    public function selectedproject($id){
+
+        $p = Projects::findOrFail($id);
+        $a = Allocations::where('project_id','=',$id)->first();
+        $arr1 = array(
+            "id"=> $a->id,
+            "project_id"=> $a->project_id,
+            "project_name"=> $this->gantiProject($a->project_id),
+            "sdlc_method_id"=> $a->sdlc_method_id,
+            "sdlc_method_name"=> $this->gantiSdlc($a->sdlc_method_id),
+            "duration_months"=> $a->duration_months,
+            "total_development_cost"=> $a->total_development_cost,
+            "additional_cost"=> $a->additional_cost,
+            "ai_total_cost"=> $a->ai_total_cost,
+            "ai_additional_cost"=> $a->ai_additional_cost,
+            "ai_duration_weeks"=> $a->ai_duration_weeks,
+            "status"=> $a->status, 
+            "created_at"=> $a->created_at,
+            "last_updated_at"=> $a->last_updated_at,
+
+        );
+        return response()->json([
+            'status' => 'success',
+            'data' => array(
+                "project" => $p,
+                "allocation" => $arr1
+            ),
+        ]);        
+    }
+
+    public function gantiSdlc($id){
+        $a = Sdlcs::where('id', '=' , $id)->first();
+        return $a->name;
+    }
+
+    public function gantiProject($id){
+        $a = Projects::where('id', '=' , $id)->first();
+        return $a->name;
+    }
 }
