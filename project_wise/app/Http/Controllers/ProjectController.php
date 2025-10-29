@@ -297,6 +297,7 @@ class ProjectController extends Controller
         DB::beginTransaction();
         try {
             $projectId = DB::table('projectx')->insertGetId([
+                'project_id' => $request->project_id,
                 'projectName' => $request->projectName,
                 'project_type' => $request->project_type,
                 'project_scale' => $request->project_scale,

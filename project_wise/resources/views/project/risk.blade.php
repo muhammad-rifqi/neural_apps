@@ -442,11 +442,13 @@
 
     function generate(){
     var feature = localStorage.getItem('bodys');
+    const wwwww = localStorage.getItem('sess_id').split('===')[2]
     var features = JSON.parse(feature);
     var result = predict(features);
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     
         const project = {
+        project_id : wwwww,
         projectName: features.projectName,
         project_type: features.project_type,
         project_scale: features.project_scale,
