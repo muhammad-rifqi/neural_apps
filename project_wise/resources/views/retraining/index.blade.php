@@ -18,7 +18,7 @@
         </p>
         <hr/>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 bg-white text-dark">
                 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped w-100">
@@ -87,7 +87,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 bg-white text-dark">
                 <div class="table-responsive">
                 <table class="table table-bordered w-100">
                     <thead>

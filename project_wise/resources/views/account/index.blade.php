@@ -1,7 +1,7 @@
 @extends('layouts.apps')
 
 @section('content')   
-    <div class="container">
+    <div class="container" style="height: 600px; overflow-y:scroll">
         <h1 align="center" style="margin-top: 50px">Great to see you, {{Auth::user()->name}}! Let’s boost performance with retraining.</h1>
         <p class="subtitle" align="center">
         Configure and initiate the retraining process to update and improve the accuracy of your predictive machine learning models.
@@ -9,7 +9,7 @@
         <hr/>
             <h4>Profile Settings</h4>
             <form>
-                 <div class="row">
+                 <div class="row text-dark bg-white p-5">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="fullName">Full Name <span class="text-danger">*</span> <small class="text-muted">(required)</small></label>
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                 </div>
-                <div class="row">
+                <div class="row text-dark bg-white p-5">
                     <div class="col-md-12">
                         <h4 class="mt-4">Appearance Settings</h4>
                         <div class="form-group">

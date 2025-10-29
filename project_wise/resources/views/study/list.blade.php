@@ -39,6 +39,7 @@
     <div class="container" style="height: 600px; overflow-y:scroll">
         <h1 align="center" style="margin-top:50px;">Great to see you, {{Auth::user()->name}}! These Are the Recomendation result for study Yuk Project.</h1>
         <hr/>
+        <div class="bg-white p-5 text-dark">
           <div class="container py-4">
             <!-- Top Buttons -->
             <div class="d-flex justify-content-end mb-3">
@@ -320,11 +321,7 @@
           </div>
 
           </div>
-
-
-
-
-
+        </div>
       </div>
           
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.apps')
 
 @section('content')   
-    <div class="container">
+    <div class="container" style="height: 700px; overflow-y:scroll">
         <h1 align="center" style="margin-top:50px;">Great to see you, {{Auth::user()->name}}! Let’s boost performance with retraining.</h1>
         <p class="subtitle" align="center">
          Discover the latest product updates, feature enhancements, and answers to frequently asked questions.
@@ -10,7 +10,7 @@
         </p>
         <hr/><br />
            
-            <div class="table-responsive" style="height: 500px; overflow-y:scroll">
+            <div class="table-responsive text-dark bg-white p-5" style="height: 500px; overflow-y:scroll">
                 <table class="table table-bordered table-striped w-100">
                     <thead class="thead-default">
                     <tr>

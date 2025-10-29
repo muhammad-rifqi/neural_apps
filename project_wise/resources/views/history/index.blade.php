@@ -5,13 +5,13 @@
         <h1 align="center" style="margin-top: 50px">Great to see you, {{Auth::user()->name}}! Let’s Learn your post project.</h1>
         <hr/><br />
 
-        <div class="container mt-5">
+        <div class="container mt-5 bg-white text-dark p-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
             <h3>Project List</h3>
             <div>
-                <button class="btn btn-dark btn-sm">Upload Data History</button>
+                <!-- <button class="btn btn-dark btn-sm">Upload Data History</button>
                 <button class="btn btn-outline-secondary btn-sm">Filter</button>
-                <button class="btn btn-outline-dark btn-sm">More</button>
+                <button class="btn btn-outline-dark btn-sm">More</button> -->
             </div>
             </div>
 

@@ -36,14 +36,14 @@
   </style>
 
 
-    <div class="container" style="height: 800px; overflow-y:scroll">
+    <div class="container" style="height: 600px; overflow-y:scroll">
         <h1 align="center" style="margin-top:50px;">Great to see you, {{Auth::user()->name}}! These Are the Recomendation result for study Yuk Project.</h1>
         <hr/>
-          <div class="container py-4">
+          <div class="container py-4 bg-white p-5 text-dark">
             <!-- Top Buttons -->
             <div class="d-flex justify-content-end mb-3">
-              <button class="btn btn-dark">Download Result</button> &nbsp;&nbsp;
-              <button class="btn btn-outline-secondary">More</button>
+              <button class="btn btn-dark" onclick="window.open('/study/list/{{$summary->id??23}}')">Download Result</button> &nbsp;&nbsp;
+              <!-- <button class="btn btn-outline-secondary">More</button> -->
             </div>
 
             <!-- Tabs -->
