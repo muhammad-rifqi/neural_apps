@@ -30,9 +30,9 @@
                 @foreach($data as $rows)
                 <tr>
                     <td>{{$rows->name}}</td>
-                    <td>{{$rows->project_type}}</td>
-                    <td>{{$rows->startDate}}</td>
-                    <td>{{$rows->endDate}}</td>
+                    <td>{{$rows->type_project}}</td>
+                    <td>{{$rows->start_date}}</td>
+                    <td>{{$rows->end_date}}</td>
                     <td>
                         <button class="btn btn-sm btn-outline-secondary" onclick="window.location.href='/history/view/{{$rows->id}}'">View</button>
                         <button class="btn btn-sm btn-outline-secondary" onclick="window.location.href='/history/edit/{{$rows->id}}'">Edit</button>

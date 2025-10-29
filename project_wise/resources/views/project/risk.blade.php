@@ -441,14 +441,67 @@
     }
 
     function generate(){
-    var feature = engine();
-    var features = localStorage.getItem('bodys');
-    var prediction = predict(features);
-    console.log(features);
-    console.log(prediction);
-    }
+    var feature = localStorage.getItem('bodys');
+    var features = JSON.parse(feature);
+    var result = predict(features);
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    
+        const project = {
+        projectName: features.projectName,
+        project_type: features.project_type,
+        project_scale: features.project_scale,
+        startDate: features.startDate,
+        endDate: features.endDate,
+        raw_tech_data: features.raws_tech_data,
+        raw_team_data: features.raws_team_data,
+        raw_risk_data: features.raws_risk_data,
+        base_budget_input: features.base_budget_input,
+        contingency_cost_input: features.contingency_cost_input,
+        sdlc_method: features.sdlc_method,
+        duration_months: features.duration_months,
+        total_input_cost: features.total_input_cost,
+        total_team_members: features.total_team_members,
+        total_weighted_salary: features.total_weighted_salary,
+        avg_member_salary: features.avg_member_salary,
+        avg_expertise_score: features.avg_expertise_score,
+        risk_count: features.risk_count,
+        avg_impact_level: features.avg_impact_level,
+        avg_likelihood: features.avg_likelihood,
+        tech_count: features.tech_count,
+        distinct_tech_count: features.distinct_tech_count,
+        probability: result.probability,
+        prediction: result.prediction,
+        recommendations: result.recommendations,
+        derivedMetrics: result.derivedMetrics,
+    };
 
-     
+    fetch('/api/project_new', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+        },
+        body: JSON.stringify(project),
+        credentials: "same-origin"
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            if (data.status == 'success') {
+                swal("Sukses!", "Data Project Information berhasil disimpan.", "success")
+                    .then(() => {
+                        // const userAgent = window.navigator.userAgent;
+                        // localStorage.setItem('sess_id',userAgent + '===' + data?.id_allocation + '===' + data?.id_project)
+                        window.location.href = '/home';
+                    });
+            } else {
+                swal("Gagal!", "Data Project Information gagal disimpan.", "danger")
+                    .then(() => {
+                        window.location.reload();
+                    });
+            }
+        })
+    }     
 </script>
 
 @endsection
