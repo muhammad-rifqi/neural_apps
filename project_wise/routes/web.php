@@ -30,6 +30,7 @@ Route::get('/account', [App\Http\Controllers\AccountController::class, 'index'])
 Route::get('/faq', [App\Http\Controllers\FaqController::class, 'index'])->name('faq');
 Route::get('/study/{id}', [App\Http\Controllers\StudyController::class, 'index']);
 Route::get('/study/list/{id}', [App\Http\Controllers\StudyController::class, 'list']);
+Route::get('/study/result/{id}', [App\Http\Controllers\StudyController::class, 'result']);
 Route::get('/current/{id}', [App\Http\Controllers\StudyController::class, 'current']);
 Route::get('/recomendate/{id}', [App\Http\Controllers\StudyController::class, 'recomendate']);
 Route::get('/result', [App\Http\Controllers\ResultController::class, 'index'])->name('result');

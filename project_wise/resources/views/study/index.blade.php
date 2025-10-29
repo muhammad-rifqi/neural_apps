@@ -6,7 +6,7 @@ $num = explode(',',$data->duration_weeks);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Wise</title>
+    <title>ProjectWise Dashboard</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -78,7 +78,7 @@ $num = explode(',',$data->duration_weeks);
     <div class="max-w-4xl mx-auto">
         <header class="text-left mb-10">
             <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-700">Predictive Project Planner</h1>
-            <p class="text-gray-500 mt-2">Masukkan detail proyek untuk memprediksi keberhasilan menggunakan model
+            <p class="text-gray-500 mt-2">Berikut tingkat keberhasilan menggunakan model
                 Stacking (GB → ANN → NB).</p>
             <p class="text-red-500 mt-2"><a href="/home">[ kembali ke dashboard ]</a></p>
         </header>
@@ -369,5 +369,5 @@ $num = explode(',',$data->duration_weeks);
         </div>
 
 </body>
-
+<script>window.print();</script>
 </html>

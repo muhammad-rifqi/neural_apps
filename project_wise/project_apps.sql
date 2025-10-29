@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2025 at 04:29 AM
+-- Generation Time: Oct 29, 2025 at 11:54 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.3.28
 
@@ -196,7 +196,9 @@ INSERT INTO `allocations` (`id`, `project_id`, `sdlc_method_id`, `duration_month
 (147, 147, 2, 9, 1100000, 105000, '20000000', '25000000', '6', 'archived', '2024-04-04 17:00:00', '2025-10-26 10:28:45'),
 (148, 148, 3, 9, 700000, 65000, '20000000', '25000000', '6', 'archived', '2024-05-24 17:00:00', '2025-10-26 10:28:45'),
 (149, 149, 2, 9, 850000, 80000, '20000000', '25000000', '6', 'archived', '2024-07-24 17:00:00', '2025-10-26 10:28:45'),
-(150, 150, 1, 9, 600000, 55000, '20000000', '25000000', '6', 'archived', '2024-09-24 17:00:00', '2025-10-26 10:28:45');
+(150, 150, 1, 9, 600000, 55000, '20000000', '25000000', '6', 'archived', '2024-09-24 17:00:00', '2025-10-26 10:28:45'),
+(151, 151, 1, 13, 5000000, 10000000, '5,000,000', '10,000,000', '14', 'NULL', '2025-10-29 08:28:44', '2025-10-29 08:28:44'),
+(152, 152, 1, 4, 4000000, 10000000, '4,000,000', '10,000,000', '5', 'NULL', '2025-10-29 09:20:26', '2025-10-29 09:20:26');
 
 -- --------------------------------------------------------
 
@@ -221,7 +223,7 @@ CREATE TABLE `derivedmetrics` (
 --
 
 INSERT INTO `derivedmetrics` (`id`, `project_id`, `TRS`, `projectedLaborCost`, `recommendedContingency`, `avgExpertise`, `techDiversity`, `techComplexity`, `inputTeamSize`) VALUES
-(21, 20, '12', '198000', '19008', '3.25', '1', '2', '4');
+(23, 23, '6.25', '33800000', '1690000', '4', '2', '2', '3');
 
 -- --------------------------------------------------------
 
@@ -304,7 +306,7 @@ CREATE TABLE `outputs` (
 --
 
 INSERT INTO `outputs` (`id`, `project_id`, `probability`, `prediction`) VALUES
-(17, 20, '0.5315', '0');
+(19, 23, '0.95', '1');
 
 -- --------------------------------------------------------
 
@@ -357,164 +359,167 @@ CREATE TABLE `projects` (
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `create_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `last_updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `last_updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `status` enum('Y','N') NOT NULL DEFAULT 'N'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `projects`
 --
 
-INSERT INTO `projects` (`id`, `name`, `type_project`, `scale`, `start_date`, `end_date`, `create_at`, `last_updated_at`) VALUES
-(1, 'Sutidy', 'Sotware', 'Small', '2025-10-01', '2025-11-01', '2025-10-11 07:04:33', '2025-10-11 07:04:33'),
-(2, 'Portal Berita', 'Sotware', 'Small', '2025-10-01', '2025-11-01', '2025-10-12 10:57:52', '2025-10-12 10:57:52'),
-(3, 'ERP System Implementation', 'infrastructure_improvements', 'high', '2010-05-10', '2011-08-10', '2010-05-04 17:00:00', '2010-05-07 17:00:00'),
-(4, 'Legacy Inventory Management', 'software_development', 'medium', '2010-07-01', '2011-03-01', '2010-06-24 17:00:00', '2010-06-27 17:00:00'),
-(5, 'Online Learning Platform', 'software_development', 'medium', '2010-09-01', '2011-09-01', '2010-08-24 17:00:00', '2010-08-27 17:00:00'),
-(6, 'Mobile Sales Tracking App', 'software_development', 'low', '2010-02-10', '2010-08-10', '2010-02-04 17:00:00', '2010-02-07 17:00:00'),
-(7, 'Data Warehouse Migration', 'infrastructure_improvements', 'medium', '2010-04-15', '2011-01-15', '2010-04-09 17:00:00', '2010-04-11 17:00:00'),
-(8, 'CRM System for SMEs', 'software_development', 'medium', '2010-06-01', '2011-03-01', '2010-05-24 17:00:00', '2010-06-01 17:00:00'),
-(9, 'Legacy Email Server Replacement', 'infrastructure_improvements', 'medium', '2010-08-01', '2011-05-01', '2010-07-24 17:00:00', '2010-07-27 17:00:00'),
-(10, 'Internal Communication Tool', 'software_development', 'medium', '2010-10-01', '2011-07-01', '2010-09-24 17:00:00', '2010-09-27 17:00:00'),
-(11, 'Cloud-Based ERP System', 'software_development', 'high', '2011-01-10', '2012-06-10', '2011-01-04 17:00:00', '2011-01-07 17:00:00'),
-(12, 'Mobile Sales Dashboard', 'software_development', 'medium', '2011-03-01', '2011-12-01', '2011-02-24 17:00:00', '2011-03-01 17:00:00'),
-(13, 'Data Center Virtualization', 'infrastructure_improvements', 'high', '2011-05-05', '2012-08-05', '2011-04-30 17:00:00', '2011-05-02 17:00:00'),
-(14, 'Legacy HR System Modernization', 'software_development', 'medium', '2011-07-01', '2012-03-01', '2011-06-24 17:00:00', '2011-06-27 17:00:00'),
-(15, 'Online Payment Gateway Integration', 'software_development', 'medium', '2011-09-01', '2012-09-01', '2011-08-24 17:00:00', '2011-08-27 17:00:00'),
-(16, 'Internal Document Management Portal', 'software_development', 'medium', '2011-02-15', '2011-08-15', '2011-02-09 17:00:00', '2011-02-11 17:00:00'),
-(17, 'Legacy CRM Migration to Cloud', 'infrastructure_improvements', 'medium', '2011-04-10', '2012-01-10', '2011-04-04 17:00:00', '2011-04-07 17:00:00'),
-(18, 'Enterprise Resource Planning Tool', 'software_development', 'high', '2011-06-01', '2012-03-01', '2011-05-24 17:00:00', '2011-06-01 17:00:00'),
-(19, 'Email Archiving System', 'infrastructure_improvements', 'medium', '2011-08-01', '2012-05-01', '2011-07-24 17:00:00', '2011-07-27 17:00:00'),
-(20, 'Remote Collaboration Tool', 'software_development', 'medium', '2011-10-01', '2012-07-01', '2011-09-24 17:00:00', '2011-09-27 17:00:00'),
-(21, 'Big Data Analytics Platform', 'software_development', 'high', '2012-01-10', '2013-06-10', '2012-01-04 17:00:00', '2012-01-07 17:00:00'),
-(22, 'Cloud-Based Inventory System', 'infrastructure_improvements', 'medium', '2012-03-01', '2013-02-01', '2012-02-24 17:00:00', '2012-03-01 17:00:00'),
-(23, 'Mobile Customer Loyalty App', 'software_development', 'medium', '2012-05-05', '2013-04-05', '2012-04-30 17:00:00', '2012-05-02 17:00:00'),
-(24, 'Legacy System Retirement', 'infrastructure_improvements', 'high', '2012-07-01', '2013-06-01', '2012-06-24 17:00:00', '2012-06-27 17:00:00'),
-(25, 'Online Marketplace Integration', 'software_development', 'medium', '2012-09-01', '2013-09-01', '2012-08-24 17:00:00', '2012-08-27 17:00:00'),
-(26, 'Enterprise Mobility Management', 'software_development', 'medium', '2012-02-15', '2012-11-15', '2012-02-09 17:00:00', '2012-02-11 17:00:00'),
-(27, 'Virtual Desktop Infrastructure', 'infrastructure_improvements', 'high', '2012-04-10', '2013-01-10', '2012-04-04 17:00:00', '2012-04-07 17:00:00'),
-(28, 'Customer Feedback Portal', 'software_development', 'medium', '2012-06-01', '2013-03-01', '2012-05-24 17:00:00', '2012-06-01 17:00:00'),
-(29, 'Network Security Upgrade', 'infrastructure_improvements', 'medium', '2012-08-01', '2013-05-01', '2012-07-24 17:00:00', '2012-07-27 17:00:00'),
-(30, 'Social Collaboration Tool', 'software_development', 'medium', '2012-10-01', '2013-07-01', '2012-09-24 17:00:00', '2012-09-27 17:00:00'),
-(31, 'Cloud-Based Customer Analytics', 'software_development', 'high', '2013-01-10', '2014-04-10', '2013-01-04 17:00:00', '2013-01-07 17:00:00'),
-(32, 'Mobile Loyalty Platform', 'software_development', 'medium', '2013-03-01', '2014-02-01', '2013-02-24 17:00:00', '2013-03-01 17:00:00'),
-(33, 'Enterprise Resource Planning (ERP) System', 'infrastructure_improvements', 'high', '2013-05-05', '2014-08-05', '2013-04-30 17:00:00', '2013-05-02 17:00:00'),
-(34, 'Legacy Data Migration to Cloud', 'infrastructure_improvements', 'medium', '2013-07-01', '2014-06-01', '2013-06-24 17:00:00', '2013-06-27 17:00:00'),
-(35, 'Online Payment Gateway Security Upgrade', 'software_development', 'medium', '2013-09-01', '2014-09-01', '2013-08-24 17:00:00', '2013-08-27 17:00:00'),
-(36, 'Internal Collaboration Chat Tool', 'software_development', 'medium', '2013-02-15', '2013-11-15', '2013-02-09 17:00:00', '2013-02-11 17:00:00'),
-(37, 'Virtual Desktop Infrastructure (VDI)', 'infrastructure_improvements', 'high', '2013-04-10', '2014-01-10', '2013-04-04 17:00:00', '2013-04-07 17:00:00'),
-(38, 'Customer Feedback Management Portal', 'software_development', 'medium', '2013-06-01', '2014-03-01', '2013-05-24 17:00:00', '2013-06-01 17:00:00'),
-(39, 'Network Infrastructure Overhaul', 'infrastructure_improvements', 'medium', '2013-08-01', '2014-05-01', '2013-07-24 17:00:00', '2013-07-27 17:00:00'),
-(40, 'Social Media Marketing Dashboard', 'software_development', 'medium', '2013-10-01', '2014-07-01', '2013-09-24 17:00:00', '2013-09-27 17:00:00'),
-(41, 'Cloud-Based CRM System Upgrade', 'software_development', 'high', '2014-01-10', '2015-04-10', '2014-01-04 17:00:00', '2014-01-07 17:00:00'),
-(42, 'Mobile Payment Gateway Integration', 'software_development', 'medium', '2014-03-01', '2015-02-01', '2014-02-24 17:00:00', '2014-03-01 17:00:00'),
-(43, 'Enterprise IoT Platform', 'software_development', 'high', '2014-05-05', '2015-08-05', '2014-04-30 17:00:00', '2014-05-02 17:00:00'),
-(44, 'Legacy System Retirement to Cloud', 'infrastructure_improvements', 'medium', '2014-07-01', '2015-06-01', '2014-06-24 17:00:00', '2014-06-27 17:00:00'),
-(45, 'Online Marketplace Analytics', 'software_development', 'medium', '2014-09-01', '2015-09-01', '2014-08-24 17:00:00', '2014-08-27 17:00:00'),
-(46, 'Internal Chatbot Integration Tool', 'software_development', 'medium', '2014-02-15', '2014-11-15', '2014-02-09 17:00:00', '2014-02-11 17:00:00'),
-(47, 'Containerization Infrastructure Migration', 'infrastructure_improvements', 'high', '2014-04-10', '2015-01-10', '2014-04-04 17:00:00', '2014-04-07 17:00:00'),
-(48, 'Real-Time Feedback Portal', 'software_development', 'medium', '2014-06-01', '2015-03-01', '2014-05-24 17:00:00', '2014-06-01 17:00:00'),
-(49, 'Network Security Automation', 'infrastructure_improvements', 'medium', '2014-08-01', '2015-05-01', '2014-07-24 17:00:00', '2014-07-27 17:00:00'),
-(50, 'Social Media Analytics Dashboard', 'software_development', 'medium', '2014-10-01', '2015-07-01', '2014-09-24 17:00:00', '2014-09-27 17:00:00'),
-(51, 'Cloud-Native Microservices Architecture', 'software_development', 'high', '2015-01-15', '2016-04-15', '2015-01-09 17:00:00', '2015-01-11 17:00:00'),
-(52, 'Mobile Health Monitoring App', 'software_development', 'medium', '2015-03-01', '2016-02-01', '2015-02-24 17:00:00', '2015-03-01 17:00:00'),
-(53, 'Enterprise IoT Data Platform', 'software_development', 'high', '2015-05-10', '2016-08-10', '2015-05-04 17:00:00', '2015-05-07 17:00:00'),
-(54, 'Legacy System Containerization', 'infrastructure_improvements', 'medium', '2015-07-01', '2016-06-01', '2015-06-24 17:00:00', '2015-06-27 17:00:00'),
-(55, 'Real-Time Analytics Dashboard', 'software_development', 'medium', '2015-09-01', '2016-09-01', '2015-08-24 17:00:00', '2015-08-27 17:00:00'),
-(56, 'Internal AI Chatbot Integration', 'software_development', 'medium', '2015-02-15', '2015-11-15', '2015-02-09 17:00:00', '2015-02-11 17:00:00'),
-(57, 'CI/CD Pipeline Infrastructure', 'infrastructure_improvements', 'high', '2015-04-10', '2016-01-10', '2015-04-04 17:00:00', '2015-04-07 17:00:00'),
-(58, 'Customer Feedback Portal', 'software_development', 'medium', '2015-06-01', '2016-03-01', '2015-05-24 17:00:00', '2015-06-01 17:00:00'),
-(59, 'Zero Trust Security Framework', 'infrastructure_improvements', 'medium', '2015-08-01', '2016-05-01', '2015-07-24 17:00:00', '2015-07-27 17:00:00'),
-(60, 'Social Media Engagement Tool', 'software_development', 'medium', '2015-10-01', '2016-07-01', '2015-09-24 17:00:00', '2015-09-27 17:00:00'),
-(61, 'Cloud-Native Machine Learning Platform', 'software_development', 'high', '2016-01-10', '2017-04-10', '2016-01-04 17:00:00', '2016-01-07 17:00:00'),
-(62, 'Mobile Health Monitoring App v2', 'software_development', 'medium', '2016-03-01', '2017-02-01', '2016-02-24 17:00:00', '2016-03-01 17:00:00'),
-(63, 'Enterprise IoT Integration Hub', 'software_development', 'high', '2016-05-05', '2017-08-05', '2016-04-30 17:00:00', '2016-05-02 17:00:00'),
-(64, 'Legacy System Containerization', 'infrastructure_improvements', 'medium', '2016-07-01', '2017-06-01', '2016-06-24 17:00:00', '2016-06-27 17:00:00'),
-(65, 'Real-Time Customer Analytics Dashboard', 'software_development', 'medium', '2016-09-01', '2017-09-01', '2016-08-24 17:00:00', '2016-08-27 17:00:00'),
-(66, 'Internal AI Chatbot Integration v2', 'software_development', 'medium', '2016-02-15', '2016-11-15', '2016-02-09 17:00:00', '2016-02-11 17:00:00'),
-(67, 'CI/CD Pipeline Infrastructure v2', 'infrastructure_improvements', 'high', '2016-04-10', '2017-01-10', '2016-04-04 17:00:00', '2016-04-07 17:00:00'),
-(68, 'Customer Feedback Portal v2', 'software_development', 'medium', '2016-06-01', '2017-03-01', '2016-05-24 17:00:00', '2016-06-01 17:00:00'),
-(69, 'Zero Trust Security Framework v2', 'infrastructure_improvements', 'medium', '2016-08-01', '2017-05-01', '2016-07-24 17:00:00', '2016-07-27 17:00:00'),
-(70, 'Social Media Engagement Tool v2', 'software_development', 'medium', '2016-10-01', '2017-07-01', '2016-09-24 17:00:00', '2016-09-27 17:00:00'),
-(71, 'AI-Powered Customer Support Platform', 'software_development', 'high', '2017-01-15', '2018-04-15', '2017-01-09 17:00:00', '2017-01-11 17:00:00'),
-(72, 'Mobile Health Monitoring App v3', 'software_development', 'medium', '2017-03-01', '2018-02-01', '2017-02-24 17:00:00', '2017-03-01 17:00:00'),
-(73, 'Enterprise IoT Data Analytics Hub', 'software_development', 'high', '2017-05-05', '2018-08-05', '2017-04-30 17:00:00', '2017-05-02 17:00:00'),
-(74, 'Legacy System Containerization v2', 'infrastructure_improvements', 'medium', '2017-07-01', '2018-06-01', '2017-06-24 17:00:00', '2017-06-27 17:00:00'),
-(75, 'Real-Time Customer Behavior Dashboard', 'software_development', 'medium', '2017-09-01', '2018-09-01', '2017-08-24 17:00:00', '2017-08-27 17:00:00'),
-(76, 'Internal AI Chatbot v3', 'software_development', 'medium', '2017-02-15', '2017-11-15', '2017-02-09 17:00:00', '2017-02-11 17:00:00'),
-(77, 'CI/CD Pipeline Infrastructure v3', 'infrastructure_improvements', 'high', '2017-04-10', '2018-01-10', '2017-04-04 17:00:00', '2017-04-07 17:00:00'),
-(78, 'Customer Feedback Portal v3', 'software_development', 'medium', '2017-06-01', '2018-03-01', '2017-05-24 17:00:00', '2017-06-01 17:00:00'),
-(79, 'Zero Trust Security Framework v3', 'infrastructure_improvements', 'medium', '2017-08-01', '2018-05-01', '2017-07-24 17:00:00', '2017-07-27 17:00:00'),
-(80, 'Social Media Engagement Tool v3', 'software_development', 'medium', '2017-10-01', '2018-07-01', '2017-09-24 17:00:00', '2017-09-27 17:00:00'),
-(81, 'AI-Powered Customer Support Platform v2', 'software_development', 'high', '2018-01-10', '2019-04-10', '2018-01-04 17:00:00', '2018-01-07 17:00:00'),
-(82, 'Mobile Health Monitoring App v4', 'software_development', 'medium', '2018-03-01', '2019-02-01', '2018-02-24 17:00:00', '2018-03-01 17:00:00'),
-(83, 'Enterprise IoT Data Analytics Hub v2', 'software_development', 'high', '2018-05-05', '2019-08-05', '2018-04-30 17:00:00', '2018-05-02 17:00:00'),
-(84, 'Legacy System Containerization v3', 'infrastructure_improvements', 'medium', '2018-07-01', '2019-06-01', '2018-06-24 17:00:00', '2018-06-27 17:00:00'),
-(85, 'Real-Time Customer Behavior Dashboard v2', 'software_development', 'medium', '2018-09-01', '2019-09-01', '2018-08-24 17:00:00', '2018-08-27 17:00:00'),
-(86, 'Internal AI Chatbot v4', 'software_development', 'medium', '2018-02-15', '2018-11-15', '2018-02-09 17:00:00', '2018-02-11 17:00:00'),
-(87, 'CI/CD Pipeline Infrastructure v4', 'infrastructure_improvements', 'high', '2018-04-10', '2019-01-10', '2018-04-04 17:00:00', '2018-04-07 17:00:00'),
-(88, 'Customer Feedback Portal v4', 'software_development', 'medium', '2018-06-01', '2019-03-01', '2018-05-24 17:00:00', '2018-06-01 17:00:00'),
-(89, 'Zero Trust Security Framework v4', 'infrastructure_improvements', 'medium', '2018-08-01', '2019-05-01', '2018-07-24 17:00:00', '2018-07-27 17:00:00'),
-(90, 'Social Media Engagement Tool v4', 'software_development', 'medium', '2018-10-01', '2019-07-01', '2018-09-24 17:00:00', '2018-09-27 17:00:00'),
-(91, 'Cybersecurity Risk Assessment Framework', 'software_development', 'high', '2019-01-10', '2020-04-10', '2019-01-04 17:00:00', '2019-01-07 17:00:00'),
-(92, 'DevOps Toolchain Integration Platform', 'infrastructure_improvements', 'medium', '2019-03-01', '2020-02-01', '2019-02-24 17:00:00', '2019-03-01 17:00:00'),
-(93, 'AI Ethics & Fairness Audit System', 'software_development', 'high', '2019-05-05', '2020-08-05', '2019-04-30 17:00:00', '2019-05-02 17:00:00'),
-(94, 'Data Governance & Compliance Platform', 'software_development', 'medium', '2019-07-01', '2020-06-01', '2019-06-24 17:00:00', '2019-06-27 17:00:00'),
-(95, 'Cloud-Native Security Mesh', 'infrastructure_improvements', 'medium', '2019-09-01', '2020-09-01', '2019-08-24 17:00:00', '2019-08-27 17:00:00'),
-(96, 'Blockchain-Based Supply Chain Tracker', 'software_development', 'medium', '2019-02-15', '2019-11-15', '2019-02-09 17:00:00', '2019-02-11 17:00:00'),
-(97, 'Edge Computing for Real-Time Analytics', 'software_development', 'high', '2019-04-10', '2020-01-10', '2019-04-04 17:00:00', '2019-04-07 17:00:00'),
-(98, 'IoT Device Security Hardening', 'infrastructure_improvements', 'medium', '2019-06-01', '2020-03-01', '2019-05-24 17:00:00', '2019-06-01 17:00:00'),
-(99, 'Quantum Key Distribution Simulation', 'software_development', 'high', '2019-08-01', '2020-05-01', '2019-07-24 17:00:00', '2019-07-27 17:00:00'),
-(100, 'Ethical AI Bias Detection Tool', 'software_development', 'medium', '2019-10-01', '2020-07-01', '2019-09-24 17:00:00', '2019-09-27 17:00:00'),
-(101, 'Hybrid Remote Work Infrastructure', 'infrastructure_improvements', 'high', '2020-01-15', '2021-04-15', '2020-01-09 17:00:00', '2020-01-11 17:00:00'),
-(102, 'AI Model Explainability Platform', 'software_development', 'medium', '2020-03-01', '2021-02-01', '2020-02-24 17:00:00', '2020-03-01 17:00:00'),
-(103, 'Cloud-Native Security Mesh v2', 'infrastructure_improvements', 'high', '2020-05-05', '2021-08-05', '2020-04-30 17:00:00', '2020-05-02 17:00:00'),
-(104, 'Data Privacy Compliance Platform', 'software_development', 'medium', '2020-07-01', '2021-06-01', '2020-06-24 17:00:00', '2020-06-27 17:00:00'),
-(105, 'Blockchain Scalability Optimization', 'software_development', 'medium', '2020-09-01', '2021-09-01', '2020-08-24 17:00:00', '2020-08-27 17:00:00'),
-(106, 'Quantum Cryptography Integration', 'software_development', 'medium', '2020-02-10', '2020-11-10', '2020-02-04 17:00:00', '2020-02-07 17:00:00'),
-(107, 'Edge AI for Industrial IoT', 'software_development', 'high', '2020-04-10', '2021-01-10', '2020-04-04 17:00:00', '2020-04-07 17:00:00'),
-(108, 'API Gateway Security Enhancement', 'infrastructure_improvements', 'medium', '2020-06-01', '2021-03-01', '2020-05-24 17:00:00', '2020-06-01 17:00:00'),
-(109, 'AI Bias Mitigation Framework', 'software_development', 'medium', '2020-08-01', '2021-05-01', '2020-07-24 17:00:00', '2020-07-27 17:00:00'),
-(110, 'Zero Trust Architecture for Remote Work', 'infrastructure_improvements', 'high', '2020-10-01', '2021-07-01', '2020-09-24 17:00:00', '2020-09-27 17:00:00'),
-(111, 'AI Ethics Compliance Framework', 'software_development', 'high', '2021-01-15', '2022-04-15', '2021-01-09 17:00:00', '2021-01-11 17:00:00'),
-(112, 'Hybrid Cloud Security Mesh', 'infrastructure_improvements', 'medium', '2021-03-01', '2022-02-01', '2021-02-24 17:00:00', '2021-03-01 17:00:00'),
-(113, 'Edge AI for Smart Manufacturing', 'software_development', 'high', '2021-05-05', '2022-08-05', '2021-04-30 17:00:00', '2021-05-02 17:00:00'),
-(114, 'Blockchain Identity Verification Platform', 'software_development', 'medium', '2021-07-01', '2022-06-01', '2021-06-24 17:00:00', '2021-06-27 17:00:00'),
-(115, 'Quantum-Resistant Cryptography', 'software_development', 'medium', '2021-09-01', '2022-09-01', '2021-08-24 17:00:00', '2021-08-27 17:00:00'),
-(116, 'Remote Work Zero Trust Architecture', 'infrastructure_improvements', 'medium', '2021-02-10', '2021-11-10', '2021-02-04 17:00:00', '2021-02-07 17:00:00'),
-(117, 'Cloud-Native API Gateway Security', 'infrastructure_improvements', 'high', '2021-04-10', '2022-01-10', '2021-04-04 17:00:00', '2021-04-07 17:00:00'),
-(118, 'Data Privacy Impact Assessment Tool', 'software_development', 'medium', '2021-06-01', '2022-03-01', '2021-05-24 17:00:00', '2021-06-01 17:00:00'),
-(119, 'AI Bias Detection & Mitigation Engine', 'software_development', 'medium', '2021-08-01', '2022-05-01', '2021-07-24 17:00:00', '2021-07-27 17:00:00'),
-(120, 'Decentralized Identity Management System', 'software_development', 'high', '2021-10-01', '2022-07-01', '2021-09-24 17:00:00', '2021-09-27 17:00:00'),
-(121, 'AI Governance Framework', 'software_development', 'high', '2022-01-15', '2023-04-15', '2022-01-09 17:00:00', '2022-01-11 17:00:00'),
-(122, 'Quantum-Resistant Network Infrastructure', 'infrastructure_improvements', 'medium', '2022-03-01', '2023-02-01', '2022-02-24 17:00:00', '2022-03-01 17:00:00'),
-(123, 'Edge AI for Smart Cities', 'software_development', 'high', '2022-05-05', '2023-08-05', '2022-04-30 17:00:00', '2022-05-02 17:00:00'),
-(124, 'Decentralized Identity Verification System', 'software_development', 'medium', '2022-07-01', '2023-06-01', '2022-06-24 17:00:00', '2022-06-27 17:00:00'),
-(125, 'Cloud-Native API Security Mesh', 'infrastructure_improvements', 'medium', '2022-09-01', '2023-09-01', '2022-08-24 17:00:00', '2022-08-27 17:00:00'),
-(126, 'Zero Trust Architecture for Hybrid Cloud', 'software_development', 'medium', '2022-02-10', '2022-11-10', '2022-02-04 17:00:00', '2022-02-07 17:00:00'),
-(127, 'AI Bias Mitigation & Audit Tool', 'software_development', 'high', '2022-04-10', '2023-01-10', '2022-04-04 17:00:00', '2022-04-07 17:00:00'),
-(128, 'Data Sovereignty Compliance Platform', 'infrastructure_improvements', 'medium', '2022-06-01', '2023-03-01', '2022-05-24 17:00:00', '2022-06-01 17:00:00'),
-(129, 'Quantum Key Distribution for Cloud', 'software_development', 'medium', '2022-08-01', '2023-05-01', '2022-07-24 17:00:00', '2022-07-27 17:00:00'),
-(130, 'Edge AI for Autonomous Vehicles', 'software_development', 'high', '2022-10-01', '2023-07-01', '2022-09-24 17:00:00', '2022-09-27 17:00:00'),
-(131, 'Generative AI for Content Creation', 'software_development', 'high', '2023-01-15', '2024-04-15', '2023-01-09 17:00:00', '2023-01-11 17:00:00'),
-(132, 'Quantum-Resistant Network Architecture', 'infrastructure_improvements', 'medium', '2023-03-01', '2024-02-01', '2023-02-24 17:00:00', '2023-03-01 17:00:00'),
-(133, 'Edge AI for Autonomous Drones', 'software_development', 'high', '2023-05-05', '2024-08-05', '2023-04-30 17:00:00', '2023-05-02 17:00:00'),
-(134, 'Decentralized Finance (DeFi) Platform', 'software_development', 'medium', '2023-07-01', '2024-06-01', '2023-06-24 17:00:00', '2023-06-27 17:00:00'),
-(135, 'Cloud-Native AI Governance Framework', 'infrastructure_improvements', 'medium', '2023-09-01', '2024-09-01', '2023-08-24 17:00:00', '2023-08-27 17:00:00'),
-(136, 'Zero Trust Architecture for GenAI', 'software_development', 'medium', '2023-02-10', '2023-11-10', '2023-02-04 17:00:00', '2023-02-07 17:00:00'),
-(137, 'AI Ethics & Bias Mitigation Engine', 'software_development', 'high', '2023-04-10', '2024-01-10', '2023-04-04 17:00:00', '2023-04-07 17:00:00'),
-(138, 'Sustainable Data Center Infrastructure', 'infrastructure_improvements', 'medium', '2023-06-01', '2024-03-01', '2023-05-24 17:00:00', '2023-06-01 17:00:00'),
-(139, 'Quantum Key Distribution for IoT', 'software_development', 'medium', '2023-08-01', '2024-05-01', '2023-07-24 17:00:00', '2023-07-27 17:00:00'),
-(140, 'Edge AI for Smart Energy Grids', 'software_development', 'high', '2023-10-01', '2024-07-01', '2023-09-24 17:00:00', '2023-09-27 17:00:00'),
-(141, 'Climate-Resilient AI Platform', 'software_development', 'high', '2024-01-15', '2025-04-15', '2024-01-09 17:00:00', '2024-01-11 17:00:00'),
-(142, 'Bio-Inspired Neuromorphic Computing', 'infrastructure_improvements', 'medium', '2024-03-01', '2025-02-01', '2024-02-24 17:00:00', '2024-03-01 17:00:00'),
-(143, 'Digital Twin for Smart Cities', 'software_development', 'high', '2024-05-05', '2025-08-05', '2024-04-30 17:00:00', '2024-05-02 17:00:00'),
-(144, 'Quantum Machine Learning for Drug Discovery', 'software_development', 'medium', '2024-07-01', '2025-06-01', '2024-06-24 17:00:00', '2024-06-27 17:00:00'),
-(145, 'Decentralized AI Governance Framework', 'infrastructure_improvements', 'medium', '2024-09-01', '2025-09-01', '2024-08-24 17:00:00', '2024-08-27 17:00:00'),
-(146, 'Edge AI for Space Exploration', 'software_development', 'medium', '2024-02-10', '2024-11-10', '2024-02-04 17:00:00', '2024-02-07 17:00:00'),
-(147, 'Generative AI for Climate Modeling', 'software_development', 'high', '2024-04-10', '2025-01-10', '2024-04-04 17:00:00', '2024-04-07 17:00:00'),
-(148, 'Sustainable Energy Grid Optimization', 'infrastructure_improvements', 'medium', '2024-06-01', '2025-03-01', '2024-05-24 17:00:00', '2024-06-01 17:00:00'),
-(149, 'Neuromorphic AI for Autonomous Systems', 'software_development', 'medium', '2024-08-01', '2025-05-01', '2024-07-24 17:00:00', '2024-07-27 17:00:00'),
-(150, 'Decentralized Climate Data Marketplace', 'software_development', 'high', '2024-10-01', '2025-07-01', '2024-09-24 17:00:00', '2024-09-27 17:00:00');
+INSERT INTO `projects` (`id`, `name`, `type_project`, `scale`, `start_date`, `end_date`, `create_at`, `last_updated_at`, `status`) VALUES
+(1, 'Sutidy', 'Sotware', 'Small', '2025-10-01', '2025-11-01', '2025-10-11 07:04:33', '2025-10-29 10:53:42', 'Y'),
+(2, 'Portal Berita', 'Sotware', 'Small', '2025-10-01', '2025-11-01', '2025-10-12 10:57:52', '2025-10-29 10:53:51', 'Y'),
+(3, 'ERP System Implementation', 'infrastructure_improvements', 'high', '2010-05-10', '2011-08-10', '2010-05-04 17:00:00', '2010-05-07 17:00:00', 'Y'),
+(4, 'Legacy Inventory Management', 'software_development', 'medium', '2010-07-01', '2011-03-01', '2010-06-24 17:00:00', '2010-06-27 17:00:00', 'Y'),
+(5, 'Online Learning Platform', 'software_development', 'medium', '2010-09-01', '2011-09-01', '2010-08-24 17:00:00', '2010-08-27 17:00:00', 'Y'),
+(6, 'Mobile Sales Tracking App', 'software_development', 'low', '2010-02-10', '2010-08-10', '2010-02-04 17:00:00', '2010-02-07 17:00:00', 'Y'),
+(7, 'Data Warehouse Migration', 'infrastructure_improvements', 'medium', '2010-04-15', '2011-01-15', '2010-04-09 17:00:00', '2010-04-11 17:00:00', 'Y'),
+(8, 'CRM System for SMEs', 'software_development', 'medium', '2010-06-01', '2011-03-01', '2010-05-24 17:00:00', '2010-06-01 17:00:00', 'Y'),
+(9, 'Legacy Email Server Replacement', 'infrastructure_improvements', 'medium', '2010-08-01', '2011-05-01', '2010-07-24 17:00:00', '2010-07-27 17:00:00', 'Y'),
+(10, 'Internal Communication Tool', 'software_development', 'medium', '2010-10-01', '2011-07-01', '2010-09-24 17:00:00', '2010-09-27 17:00:00', 'Y'),
+(11, 'Cloud-Based ERP System', 'software_development', 'high', '2011-01-10', '2012-06-10', '2011-01-04 17:00:00', '2011-01-07 17:00:00', 'Y'),
+(12, 'Mobile Sales Dashboard', 'software_development', 'medium', '2011-03-01', '2011-12-01', '2011-02-24 17:00:00', '2011-03-01 17:00:00', 'Y'),
+(13, 'Data Center Virtualization', 'infrastructure_improvements', 'high', '2011-05-05', '2012-08-05', '2011-04-30 17:00:00', '2011-05-02 17:00:00', 'Y'),
+(14, 'Legacy HR System Modernization', 'software_development', 'medium', '2011-07-01', '2012-03-01', '2011-06-24 17:00:00', '2011-06-27 17:00:00', 'Y'),
+(15, 'Online Payment Gateway Integration', 'software_development', 'medium', '2011-09-01', '2012-09-01', '2011-08-24 17:00:00', '2011-08-27 17:00:00', 'Y'),
+(16, 'Internal Document Management Portal', 'software_development', 'medium', '2011-02-15', '2011-08-15', '2011-02-09 17:00:00', '2011-02-11 17:00:00', 'Y'),
+(17, 'Legacy CRM Migration to Cloud', 'infrastructure_improvements', 'medium', '2011-04-10', '2012-01-10', '2011-04-04 17:00:00', '2011-04-07 17:00:00', 'Y'),
+(18, 'Enterprise Resource Planning Tool', 'software_development', 'high', '2011-06-01', '2012-03-01', '2011-05-24 17:00:00', '2011-06-01 17:00:00', 'Y'),
+(19, 'Email Archiving System', 'infrastructure_improvements', 'medium', '2011-08-01', '2012-05-01', '2011-07-24 17:00:00', '2011-07-27 17:00:00', 'Y'),
+(20, 'Remote Collaboration Tool', 'software_development', 'medium', '2011-10-01', '2012-07-01', '2011-09-24 17:00:00', '2011-09-27 17:00:00', 'Y'),
+(21, 'Big Data Analytics Platform', 'software_development', 'high', '2012-01-10', '2013-06-10', '2012-01-04 17:00:00', '2012-01-07 17:00:00', 'Y'),
+(22, 'Cloud-Based Inventory System', 'infrastructure_improvements', 'medium', '2012-03-01', '2013-02-01', '2012-02-24 17:00:00', '2012-03-01 17:00:00', 'Y'),
+(23, 'Mobile Customer Loyalty App', 'software_development', 'medium', '2012-05-05', '2013-04-05', '2012-04-30 17:00:00', '2012-05-02 17:00:00', 'Y'),
+(24, 'Legacy System Retirement', 'infrastructure_improvements', 'high', '2012-07-01', '2013-06-01', '2012-06-24 17:00:00', '2012-06-27 17:00:00', 'Y'),
+(25, 'Online Marketplace Integration', 'software_development', 'medium', '2012-09-01', '2013-09-01', '2012-08-24 17:00:00', '2012-08-27 17:00:00', 'Y'),
+(26, 'Enterprise Mobility Management', 'software_development', 'medium', '2012-02-15', '2012-11-15', '2012-02-09 17:00:00', '2012-02-11 17:00:00', 'Y'),
+(27, 'Virtual Desktop Infrastructure', 'infrastructure_improvements', 'high', '2012-04-10', '2013-01-10', '2012-04-04 17:00:00', '2012-04-07 17:00:00', 'Y'),
+(28, 'Customer Feedback Portal', 'software_development', 'medium', '2012-06-01', '2013-03-01', '2012-05-24 17:00:00', '2012-06-01 17:00:00', 'Y'),
+(29, 'Network Security Upgrade', 'infrastructure_improvements', 'medium', '2012-08-01', '2013-05-01', '2012-07-24 17:00:00', '2012-07-27 17:00:00', 'Y'),
+(30, 'Social Collaboration Tool', 'software_development', 'medium', '2012-10-01', '2013-07-01', '2012-09-24 17:00:00', '2012-09-27 17:00:00', 'Y'),
+(31, 'Cloud-Based Customer Analytics', 'software_development', 'high', '2013-01-10', '2014-04-10', '2013-01-04 17:00:00', '2013-01-07 17:00:00', 'Y'),
+(32, 'Mobile Loyalty Platform', 'software_development', 'medium', '2013-03-01', '2014-02-01', '2013-02-24 17:00:00', '2013-03-01 17:00:00', 'Y'),
+(33, 'Enterprise Resource Planning (ERP) System', 'infrastructure_improvements', 'high', '2013-05-05', '2014-08-05', '2013-04-30 17:00:00', '2013-05-02 17:00:00', 'Y'),
+(34, 'Legacy Data Migration to Cloud', 'infrastructure_improvements', 'medium', '2013-07-01', '2014-06-01', '2013-06-24 17:00:00', '2013-06-27 17:00:00', 'Y'),
+(35, 'Online Payment Gateway Security Upgrade', 'software_development', 'medium', '2013-09-01', '2014-09-01', '2013-08-24 17:00:00', '2013-08-27 17:00:00', 'Y'),
+(36, 'Internal Collaboration Chat Tool', 'software_development', 'medium', '2013-02-15', '2013-11-15', '2013-02-09 17:00:00', '2013-02-11 17:00:00', 'Y'),
+(37, 'Virtual Desktop Infrastructure (VDI)', 'infrastructure_improvements', 'high', '2013-04-10', '2014-01-10', '2013-04-04 17:00:00', '2013-04-07 17:00:00', 'Y'),
+(38, 'Customer Feedback Management Portal', 'software_development', 'medium', '2013-06-01', '2014-03-01', '2013-05-24 17:00:00', '2013-06-01 17:00:00', 'Y'),
+(39, 'Network Infrastructure Overhaul', 'infrastructure_improvements', 'medium', '2013-08-01', '2014-05-01', '2013-07-24 17:00:00', '2013-07-27 17:00:00', 'Y'),
+(40, 'Social Media Marketing Dashboard', 'software_development', 'medium', '2013-10-01', '2014-07-01', '2013-09-24 17:00:00', '2013-09-27 17:00:00', 'Y'),
+(41, 'Cloud-Based CRM System Upgrade', 'software_development', 'high', '2014-01-10', '2015-04-10', '2014-01-04 17:00:00', '2014-01-07 17:00:00', 'Y'),
+(42, 'Mobile Payment Gateway Integration', 'software_development', 'medium', '2014-03-01', '2015-02-01', '2014-02-24 17:00:00', '2014-03-01 17:00:00', 'Y'),
+(43, 'Enterprise IoT Platform', 'software_development', 'high', '2014-05-05', '2015-08-05', '2014-04-30 17:00:00', '2014-05-02 17:00:00', 'Y'),
+(44, 'Legacy System Retirement to Cloud', 'infrastructure_improvements', 'medium', '2014-07-01', '2015-06-01', '2014-06-24 17:00:00', '2014-06-27 17:00:00', 'Y'),
+(45, 'Online Marketplace Analytics', 'software_development', 'medium', '2014-09-01', '2015-09-01', '2014-08-24 17:00:00', '2014-08-27 17:00:00', 'Y'),
+(46, 'Internal Chatbot Integration Tool', 'software_development', 'medium', '2014-02-15', '2014-11-15', '2014-02-09 17:00:00', '2014-02-11 17:00:00', 'Y'),
+(47, 'Containerization Infrastructure Migration', 'infrastructure_improvements', 'high', '2014-04-10', '2015-01-10', '2014-04-04 17:00:00', '2014-04-07 17:00:00', 'Y'),
+(48, 'Real-Time Feedback Portal', 'software_development', 'medium', '2014-06-01', '2015-03-01', '2014-05-24 17:00:00', '2014-06-01 17:00:00', 'Y'),
+(49, 'Network Security Automation', 'infrastructure_improvements', 'medium', '2014-08-01', '2015-05-01', '2014-07-24 17:00:00', '2014-07-27 17:00:00', 'Y'),
+(50, 'Social Media Analytics Dashboard', 'software_development', 'medium', '2014-10-01', '2015-07-01', '2014-09-24 17:00:00', '2014-09-27 17:00:00', 'Y'),
+(51, 'Cloud-Native Microservices Architecture', 'software_development', 'high', '2015-01-15', '2016-04-15', '2015-01-09 17:00:00', '2015-01-11 17:00:00', 'Y'),
+(52, 'Mobile Health Monitoring App', 'software_development', 'medium', '2015-03-01', '2016-02-01', '2015-02-24 17:00:00', '2015-03-01 17:00:00', 'Y'),
+(53, 'Enterprise IoT Data Platform', 'software_development', 'high', '2015-05-10', '2016-08-10', '2015-05-04 17:00:00', '2015-05-07 17:00:00', 'Y'),
+(54, 'Legacy System Containerization', 'infrastructure_improvements', 'medium', '2015-07-01', '2016-06-01', '2015-06-24 17:00:00', '2015-06-27 17:00:00', 'Y'),
+(55, 'Real-Time Analytics Dashboard', 'software_development', 'medium', '2015-09-01', '2016-09-01', '2015-08-24 17:00:00', '2015-08-27 17:00:00', 'Y'),
+(56, 'Internal AI Chatbot Integration', 'software_development', 'medium', '2015-02-15', '2015-11-15', '2015-02-09 17:00:00', '2015-02-11 17:00:00', 'Y'),
+(57, 'CI/CD Pipeline Infrastructure', 'infrastructure_improvements', 'high', '2015-04-10', '2016-01-10', '2015-04-04 17:00:00', '2015-04-07 17:00:00', 'Y'),
+(58, 'Customer Feedback Portal', 'software_development', 'medium', '2015-06-01', '2016-03-01', '2015-05-24 17:00:00', '2015-06-01 17:00:00', 'Y'),
+(59, 'Zero Trust Security Framework', 'infrastructure_improvements', 'medium', '2015-08-01', '2016-05-01', '2015-07-24 17:00:00', '2015-07-27 17:00:00', 'Y'),
+(60, 'Social Media Engagement Tool', 'software_development', 'medium', '2015-10-01', '2016-07-01', '2015-09-24 17:00:00', '2015-09-27 17:00:00', 'Y'),
+(61, 'Cloud-Native Machine Learning Platform', 'software_development', 'high', '2016-01-10', '2017-04-10', '2016-01-04 17:00:00', '2016-01-07 17:00:00', 'Y'),
+(62, 'Mobile Health Monitoring App v2', 'software_development', 'medium', '2016-03-01', '2017-02-01', '2016-02-24 17:00:00', '2016-03-01 17:00:00', 'Y'),
+(63, 'Enterprise IoT Integration Hub', 'software_development', 'high', '2016-05-05', '2017-08-05', '2016-04-30 17:00:00', '2016-05-02 17:00:00', 'Y'),
+(64, 'Legacy System Containerization', 'infrastructure_improvements', 'medium', '2016-07-01', '2017-06-01', '2016-06-24 17:00:00', '2016-06-27 17:00:00', 'Y'),
+(65, 'Real-Time Customer Analytics Dashboard', 'software_development', 'medium', '2016-09-01', '2017-09-01', '2016-08-24 17:00:00', '2016-08-27 17:00:00', 'Y'),
+(66, 'Internal AI Chatbot Integration v2', 'software_development', 'medium', '2016-02-15', '2016-11-15', '2016-02-09 17:00:00', '2016-02-11 17:00:00', 'Y'),
+(67, 'CI/CD Pipeline Infrastructure v2', 'infrastructure_improvements', 'high', '2016-04-10', '2017-01-10', '2016-04-04 17:00:00', '2016-04-07 17:00:00', 'Y'),
+(68, 'Customer Feedback Portal v2', 'software_development', 'medium', '2016-06-01', '2017-03-01', '2016-05-24 17:00:00', '2016-06-01 17:00:00', 'Y'),
+(69, 'Zero Trust Security Framework v2', 'infrastructure_improvements', 'medium', '2016-08-01', '2017-05-01', '2016-07-24 17:00:00', '2016-07-27 17:00:00', 'Y'),
+(70, 'Social Media Engagement Tool v2', 'software_development', 'medium', '2016-10-01', '2017-07-01', '2016-09-24 17:00:00', '2016-09-27 17:00:00', 'Y'),
+(71, 'AI-Powered Customer Support Platform', 'software_development', 'high', '2017-01-15', '2018-04-15', '2017-01-09 17:00:00', '2017-01-11 17:00:00', 'Y'),
+(72, 'Mobile Health Monitoring App v3', 'software_development', 'medium', '2017-03-01', '2018-02-01', '2017-02-24 17:00:00', '2017-03-01 17:00:00', 'Y'),
+(73, 'Enterprise IoT Data Analytics Hub', 'software_development', 'high', '2017-05-05', '2018-08-05', '2017-04-30 17:00:00', '2017-05-02 17:00:00', 'Y'),
+(74, 'Legacy System Containerization v2', 'infrastructure_improvements', 'medium', '2017-07-01', '2018-06-01', '2017-06-24 17:00:00', '2017-06-27 17:00:00', 'Y'),
+(75, 'Real-Time Customer Behavior Dashboard', 'software_development', 'medium', '2017-09-01', '2018-09-01', '2017-08-24 17:00:00', '2017-08-27 17:00:00', 'Y'),
+(76, 'Internal AI Chatbot v3', 'software_development', 'medium', '2017-02-15', '2017-11-15', '2017-02-09 17:00:00', '2017-02-11 17:00:00', 'Y'),
+(77, 'CI/CD Pipeline Infrastructure v3', 'infrastructure_improvements', 'high', '2017-04-10', '2018-01-10', '2017-04-04 17:00:00', '2017-04-07 17:00:00', 'Y'),
+(78, 'Customer Feedback Portal v3', 'software_development', 'medium', '2017-06-01', '2018-03-01', '2017-05-24 17:00:00', '2017-06-01 17:00:00', 'Y'),
+(79, 'Zero Trust Security Framework v3', 'infrastructure_improvements', 'medium', '2017-08-01', '2018-05-01', '2017-07-24 17:00:00', '2017-07-27 17:00:00', 'Y'),
+(80, 'Social Media Engagement Tool v3', 'software_development', 'medium', '2017-10-01', '2018-07-01', '2017-09-24 17:00:00', '2017-09-27 17:00:00', 'Y'),
+(81, 'AI-Powered Customer Support Platform v2', 'software_development', 'high', '2018-01-10', '2019-04-10', '2018-01-04 17:00:00', '2018-01-07 17:00:00', 'Y'),
+(82, 'Mobile Health Monitoring App v4', 'software_development', 'medium', '2018-03-01', '2019-02-01', '2018-02-24 17:00:00', '2018-03-01 17:00:00', 'Y'),
+(83, 'Enterprise IoT Data Analytics Hub v2', 'software_development', 'high', '2018-05-05', '2019-08-05', '2018-04-30 17:00:00', '2018-05-02 17:00:00', 'Y'),
+(84, 'Legacy System Containerization v3', 'infrastructure_improvements', 'medium', '2018-07-01', '2019-06-01', '2018-06-24 17:00:00', '2018-06-27 17:00:00', 'Y'),
+(85, 'Real-Time Customer Behavior Dashboard v2', 'software_development', 'medium', '2018-09-01', '2019-09-01', '2018-08-24 17:00:00', '2018-08-27 17:00:00', 'Y'),
+(86, 'Internal AI Chatbot v4', 'software_development', 'medium', '2018-02-15', '2018-11-15', '2018-02-09 17:00:00', '2018-02-11 17:00:00', 'Y'),
+(87, 'CI/CD Pipeline Infrastructure v4', 'infrastructure_improvements', 'high', '2018-04-10', '2019-01-10', '2018-04-04 17:00:00', '2018-04-07 17:00:00', 'Y'),
+(88, 'Customer Feedback Portal v4', 'software_development', 'medium', '2018-06-01', '2019-03-01', '2018-05-24 17:00:00', '2018-06-01 17:00:00', 'Y'),
+(89, 'Zero Trust Security Framework v4', 'infrastructure_improvements', 'medium', '2018-08-01', '2019-05-01', '2018-07-24 17:00:00', '2018-07-27 17:00:00', 'Y'),
+(90, 'Social Media Engagement Tool v4', 'software_development', 'medium', '2018-10-01', '2019-07-01', '2018-09-24 17:00:00', '2018-09-27 17:00:00', 'Y'),
+(91, 'Cybersecurity Risk Assessment Framework', 'software_development', 'high', '2019-01-10', '2020-04-10', '2019-01-04 17:00:00', '2019-01-07 17:00:00', 'Y'),
+(92, 'DevOps Toolchain Integration Platform', 'infrastructure_improvements', 'medium', '2019-03-01', '2020-02-01', '2019-02-24 17:00:00', '2019-03-01 17:00:00', 'Y'),
+(93, 'AI Ethics & Fairness Audit System', 'software_development', 'high', '2019-05-05', '2020-08-05', '2019-04-30 17:00:00', '2019-05-02 17:00:00', 'Y'),
+(94, 'Data Governance & Compliance Platform', 'software_development', 'medium', '2019-07-01', '2020-06-01', '2019-06-24 17:00:00', '2019-06-27 17:00:00', 'Y'),
+(95, 'Cloud-Native Security Mesh', 'infrastructure_improvements', 'medium', '2019-09-01', '2020-09-01', '2019-08-24 17:00:00', '2019-08-27 17:00:00', 'Y'),
+(96, 'Blockchain-Based Supply Chain Tracker', 'software_development', 'medium', '2019-02-15', '2019-11-15', '2019-02-09 17:00:00', '2019-02-11 17:00:00', 'Y'),
+(97, 'Edge Computing for Real-Time Analytics', 'software_development', 'high', '2019-04-10', '2020-01-10', '2019-04-04 17:00:00', '2019-04-07 17:00:00', 'Y'),
+(98, 'IoT Device Security Hardening', 'infrastructure_improvements', 'medium', '2019-06-01', '2020-03-01', '2019-05-24 17:00:00', '2019-06-01 17:00:00', 'Y'),
+(99, 'Quantum Key Distribution Simulation', 'software_development', 'high', '2019-08-01', '2020-05-01', '2019-07-24 17:00:00', '2019-07-27 17:00:00', 'Y'),
+(100, 'Ethical AI Bias Detection Tool', 'software_development', 'medium', '2019-10-01', '2020-07-01', '2019-09-24 17:00:00', '2019-09-27 17:00:00', 'Y'),
+(101, 'Hybrid Remote Work Infrastructure', 'infrastructure_improvements', 'high', '2020-01-15', '2021-04-15', '2020-01-09 17:00:00', '2020-01-11 17:00:00', 'Y'),
+(102, 'AI Model Explainability Platform', 'software_development', 'medium', '2020-03-01', '2021-02-01', '2020-02-24 17:00:00', '2020-03-01 17:00:00', 'Y'),
+(103, 'Cloud-Native Security Mesh v2', 'infrastructure_improvements', 'high', '2020-05-05', '2021-08-05', '2020-04-30 17:00:00', '2020-05-02 17:00:00', 'Y'),
+(104, 'Data Privacy Compliance Platform', 'software_development', 'medium', '2020-07-01', '2021-06-01', '2020-06-24 17:00:00', '2020-06-27 17:00:00', 'Y'),
+(105, 'Blockchain Scalability Optimization', 'software_development', 'medium', '2020-09-01', '2021-09-01', '2020-08-24 17:00:00', '2020-08-27 17:00:00', 'Y'),
+(106, 'Quantum Cryptography Integration', 'software_development', 'medium', '2020-02-10', '2020-11-10', '2020-02-04 17:00:00', '2020-02-07 17:00:00', 'Y'),
+(107, 'Edge AI for Industrial IoT', 'software_development', 'high', '2020-04-10', '2021-01-10', '2020-04-04 17:00:00', '2020-04-07 17:00:00', 'Y'),
+(108, 'API Gateway Security Enhancement', 'infrastructure_improvements', 'medium', '2020-06-01', '2021-03-01', '2020-05-24 17:00:00', '2020-06-01 17:00:00', 'Y'),
+(109, 'AI Bias Mitigation Framework', 'software_development', 'medium', '2020-08-01', '2021-05-01', '2020-07-24 17:00:00', '2020-07-27 17:00:00', 'Y'),
+(110, 'Zero Trust Architecture for Remote Work', 'infrastructure_improvements', 'high', '2020-10-01', '2021-07-01', '2020-09-24 17:00:00', '2020-09-27 17:00:00', 'Y'),
+(111, 'AI Ethics Compliance Framework', 'software_development', 'high', '2021-01-15', '2022-04-15', '2021-01-09 17:00:00', '2021-01-11 17:00:00', 'Y'),
+(112, 'Hybrid Cloud Security Mesh', 'infrastructure_improvements', 'medium', '2021-03-01', '2022-02-01', '2021-02-24 17:00:00', '2021-03-01 17:00:00', 'Y'),
+(113, 'Edge AI for Smart Manufacturing', 'software_development', 'high', '2021-05-05', '2022-08-05', '2021-04-30 17:00:00', '2021-05-02 17:00:00', 'Y'),
+(114, 'Blockchain Identity Verification Platform', 'software_development', 'medium', '2021-07-01', '2022-06-01', '2021-06-24 17:00:00', '2021-06-27 17:00:00', 'Y'),
+(115, 'Quantum-Resistant Cryptography', 'software_development', 'medium', '2021-09-01', '2022-09-01', '2021-08-24 17:00:00', '2021-08-27 17:00:00', 'Y'),
+(116, 'Remote Work Zero Trust Architecture', 'infrastructure_improvements', 'medium', '2021-02-10', '2021-11-10', '2021-02-04 17:00:00', '2021-02-07 17:00:00', 'Y'),
+(117, 'Cloud-Native API Gateway Security', 'infrastructure_improvements', 'high', '2021-04-10', '2022-01-10', '2021-04-04 17:00:00', '2021-04-07 17:00:00', 'Y'),
+(118, 'Data Privacy Impact Assessment Tool', 'software_development', 'medium', '2021-06-01', '2022-03-01', '2021-05-24 17:00:00', '2021-06-01 17:00:00', 'Y'),
+(119, 'AI Bias Detection & Mitigation Engine', 'software_development', 'medium', '2021-08-01', '2022-05-01', '2021-07-24 17:00:00', '2021-07-27 17:00:00', 'Y'),
+(120, 'Decentralized Identity Management System', 'software_development', 'high', '2021-10-01', '2022-07-01', '2021-09-24 17:00:00', '2021-09-27 17:00:00', 'Y'),
+(121, 'AI Governance Framework', 'software_development', 'high', '2022-01-15', '2023-04-15', '2022-01-09 17:00:00', '2022-01-11 17:00:00', 'Y'),
+(122, 'Quantum-Resistant Network Infrastructure', 'infrastructure_improvements', 'medium', '2022-03-01', '2023-02-01', '2022-02-24 17:00:00', '2022-03-01 17:00:00', 'Y'),
+(123, 'Edge AI for Smart Cities', 'software_development', 'high', '2022-05-05', '2023-08-05', '2022-04-30 17:00:00', '2022-05-02 17:00:00', 'Y'),
+(124, 'Decentralized Identity Verification System', 'software_development', 'medium', '2022-07-01', '2023-06-01', '2022-06-24 17:00:00', '2022-06-27 17:00:00', 'Y'),
+(125, 'Cloud-Native API Security Mesh', 'infrastructure_improvements', 'medium', '2022-09-01', '2023-09-01', '2022-08-24 17:00:00', '2022-08-27 17:00:00', 'Y'),
+(126, 'Zero Trust Architecture for Hybrid Cloud', 'software_development', 'medium', '2022-02-10', '2022-11-10', '2022-02-04 17:00:00', '2022-02-07 17:00:00', 'Y'),
+(127, 'AI Bias Mitigation & Audit Tool', 'software_development', 'high', '2022-04-10', '2023-01-10', '2022-04-04 17:00:00', '2022-04-07 17:00:00', 'Y'),
+(128, 'Data Sovereignty Compliance Platform', 'infrastructure_improvements', 'medium', '2022-06-01', '2023-03-01', '2022-05-24 17:00:00', '2022-06-01 17:00:00', 'Y'),
+(129, 'Quantum Key Distribution for Cloud', 'software_development', 'medium', '2022-08-01', '2023-05-01', '2022-07-24 17:00:00', '2022-07-27 17:00:00', 'Y'),
+(130, 'Edge AI for Autonomous Vehicles', 'software_development', 'high', '2022-10-01', '2023-07-01', '2022-09-24 17:00:00', '2022-09-27 17:00:00', 'Y'),
+(131, 'Generative AI for Content Creation', 'software_development', 'high', '2023-01-15', '2024-04-15', '2023-01-09 17:00:00', '2023-01-11 17:00:00', 'Y'),
+(132, 'Quantum-Resistant Network Architecture', 'infrastructure_improvements', 'medium', '2023-03-01', '2024-02-01', '2023-02-24 17:00:00', '2023-03-01 17:00:00', 'Y'),
+(133, 'Edge AI for Autonomous Drones', 'software_development', 'high', '2023-05-05', '2024-08-05', '2023-04-30 17:00:00', '2023-05-02 17:00:00', 'Y'),
+(134, 'Decentralized Finance (DeFi) Platform', 'software_development', 'medium', '2023-07-01', '2024-06-01', '2023-06-24 17:00:00', '2023-06-27 17:00:00', 'Y'),
+(135, 'Cloud-Native AI Governance Framework', 'infrastructure_improvements', 'medium', '2023-09-01', '2024-09-01', '2023-08-24 17:00:00', '2023-08-27 17:00:00', 'Y'),
+(136, 'Zero Trust Architecture for GenAI', 'software_development', 'medium', '2023-02-10', '2023-11-10', '2023-02-04 17:00:00', '2023-02-07 17:00:00', 'Y'),
+(137, 'AI Ethics & Bias Mitigation Engine', 'software_development', 'high', '2023-04-10', '2024-01-10', '2023-04-04 17:00:00', '2023-04-07 17:00:00', 'Y'),
+(138, 'Sustainable Data Center Infrastructure', 'infrastructure_improvements', 'medium', '2023-06-01', '2024-03-01', '2023-05-24 17:00:00', '2023-06-01 17:00:00', 'Y'),
+(139, 'Quantum Key Distribution for IoT', 'software_development', 'medium', '2023-08-01', '2024-05-01', '2023-07-24 17:00:00', '2023-07-27 17:00:00', 'Y'),
+(140, 'Edge AI for Smart Energy Grids', 'software_development', 'high', '2023-10-01', '2024-07-01', '2023-09-24 17:00:00', '2023-09-27 17:00:00', 'Y'),
+(141, 'Climate-Resilient AI Platform', 'software_development', 'high', '2024-01-15', '2025-04-15', '2024-01-09 17:00:00', '2024-01-11 17:00:00', 'Y'),
+(142, 'Bio-Inspired Neuromorphic Computing', 'infrastructure_improvements', 'medium', '2024-03-01', '2025-02-01', '2024-02-24 17:00:00', '2024-03-01 17:00:00', 'Y'),
+(143, 'Digital Twin for Smart Cities', 'software_development', 'high', '2024-05-05', '2025-08-05', '2024-04-30 17:00:00', '2024-05-02 17:00:00', 'Y'),
+(144, 'Quantum Machine Learning for Drug Discovery', 'software_development', 'medium', '2024-07-01', '2025-06-01', '2024-06-24 17:00:00', '2024-06-27 17:00:00', 'Y'),
+(145, 'Decentralized AI Governance Framework', 'infrastructure_improvements', 'medium', '2024-09-01', '2025-09-01', '2024-08-24 17:00:00', '2024-08-27 17:00:00', 'Y'),
+(146, 'Edge AI for Space Exploration', 'software_development', 'medium', '2024-02-10', '2024-11-10', '2024-02-04 17:00:00', '2024-02-07 17:00:00', 'Y'),
+(147, 'Generative AI for Climate Modeling', 'software_development', 'high', '2024-04-10', '2025-01-10', '2024-04-04 17:00:00', '2024-04-07 17:00:00', 'Y'),
+(148, 'Sustainable Energy Grid Optimization', 'infrastructure_improvements', 'medium', '2024-06-01', '2025-03-01', '2024-05-24 17:00:00', '2024-06-01 17:00:00', 'Y'),
+(149, 'Neuromorphic AI for Autonomous Systems', 'software_development', 'medium', '2024-08-01', '2025-05-01', '2024-07-24 17:00:00', '2024-07-27 17:00:00', 'Y'),
+(150, 'Decentralized Climate Data Marketplace', 'software_development', 'high', '2024-10-01', '2025-07-01', '2024-09-24 17:00:00', '2024-09-27 17:00:00', 'Y'),
+(151, 'Sistem Inventory', 'Software Development', 'Small', '2025-10-01', '2026-01-01', '2025-10-29 08:28:44', '2025-10-29 08:28:44', 'N'),
+(152, 'Sistem Akunting', 'Software Development', 'Small', '2025-10-01', '2025-11-01', '2025-10-29 09:20:26', '2025-10-29 09:20:26', 'N');
 
 -- --------------------------------------------------------
 
@@ -524,6 +529,7 @@ INSERT INTO `projects` (`id`, `name`, `type_project`, `scale`, `start_date`, `en
 
 CREATE TABLE `projectx` (
   `id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL DEFAULT 0,
   `projectName` varchar(255) DEFAULT NULL,
   `startDate` date DEFAULT NULL,
   `endDate` date DEFAULT NULL,
@@ -550,8 +556,8 @@ CREATE TABLE `projectx` (
 -- Dumping data for table `projectx`
 --
 
-INSERT INTO `projectx` (`id`, `projectName`, `startDate`, `endDate`, `duration_months`, `duration_weeks`, `total_input_cost`, `base_budget_input`, `contingency_cost_input`, `total_team_members`, `total_weighted_salary`, `avg_member_salary`, `avg_expertise_score`, `risk_count`, `avg_impact_level`, `tech_count`, `distinct_tech_count`, `project_type`, `project_scale`, `sdlc_method`, `avg_likelihood`) VALUES
-(20, 'Implementasi Sistem Akuntansi X', '2025-01-01', '2025-07-01', '6', '2,21,2,3,1', '175000', '150000', '25000', '4', '33000', '8250', '3.25', '1', '4', '2', '1', 'Software Development', 'Medium', 'Agile', '3');
+INSERT INTO `projectx` (`id`, `project_id`, `projectName`, `startDate`, `endDate`, `duration_months`, `duration_weeks`, `total_input_cost`, `base_budget_input`, `contingency_cost_input`, `total_team_members`, `total_weighted_salary`, `avg_member_salary`, `avg_expertise_score`, `risk_count`, `avg_impact_level`, `tech_count`, `distinct_tech_count`, `project_type`, `project_scale`, `sdlc_method`, `avg_likelihood`) VALUES
+(23, 152, 'Sistem Inventory', '2025-10-01', '2026-01-01', '13', '9,5,5,10,28', '15000000', '5000000', '10000000', '3', '2600000', '866667', '4', '2', '2.50', '2', '2', 'Software Development', 'Small', 'Waterfall', '2.50');
 
 -- --------------------------------------------------------
 
@@ -586,7 +592,11 @@ INSERT INTO `project_categories` (`id`, `project_id`, `technology_type_id`, `too
 (11, 2, '1', 'Frontend', 'React.js', '2025-10-12 10:57:52'),
 (12, 2, '4', 'DevOps', 'Google Cloud Server', '2025-10-12 10:57:52'),
 (13, 2, '8', 'Security Tool', 'Cloudflare', '2025-10-12 10:57:52'),
-(14, 2, '2', 'Backend', 'EXPRESS.JS', '2025-10-12 10:57:52');
+(14, 2, '2', 'Backend', 'EXPRESS.JS', '2025-10-12 10:57:52'),
+(15, 151, '2', 'Backend', 'Express.js', '2025-10-29 08:28:44'),
+(16, 151, '1', 'Frontend', 'React.JS', '2025-10-29 08:28:44'),
+(17, 152, '2', 'Backend', 'Express.js', '2025-10-29 09:20:26'),
+(18, 152, '1', 'Frontend', 'React Native', '2025-10-29 09:20:26');
 
 -- --------------------------------------------------------
 
@@ -624,9 +634,15 @@ CREATE TABLE `project_type` (
 --
 
 INSERT INTO `project_type` (`id`, `name`) VALUES
-(1, 'Sotware'),
-(2, 'Hardware'),
-(3, 'Security');
+(1, 'Software Development'),
+(2, 'System Integration'),
+(3, 'Cloud Migration'),
+(4, 'Data Migration'),
+(5, 'Security Implementation'),
+(6, 'Data Science/Analytics'),
+(7, 'Infrastructure Upgrade'),
+(8, 'Hardware Installation'),
+(9, 'Marketing Campaign');
 
 -- --------------------------------------------------------
 
@@ -648,7 +664,8 @@ CREATE TABLE `raw_risk_data` (
 --
 
 INSERT INTO `raw_risk_data` (`id`, `project_id`, `category_id`, `impact`, `likelihood`, `category_name`) VALUES
-(18, 20, 1, '4', '3', 'Technical');
+(21, 23, 1, '3', '3', 'Human Resource'),
+(22, 23, 2, '2', '2', 'Budget');
 
 -- --------------------------------------------------------
 
@@ -670,8 +687,8 @@ CREATE TABLE `raw_team_data` (
 --
 
 INSERT INTO `raw_team_data` (`id`, `project_id`, `role`, `qty`, `expertise`, `salary`) VALUES
-(37, 20, 'Project Manager', 1, '4', 12000),
-(38, 20, 'Developer', 3, '3', 7000);
+(41, 23, 'Frontend Dev', 1, '4', 2000000),
+(42, 23, 'Bcakend Dev', 2, '4', 300000);
 
 -- --------------------------------------------------------
 
@@ -692,8 +709,8 @@ CREATE TABLE `raw_tech_data` (
 --
 
 INSERT INTO `raw_tech_data` (`id`, `project_id`, `category_id`, `name`, `category_name`) VALUES
-(37, 20, 1, 'React', 'Frontend'),
-(38, 20, 1, 'PostgreSQL', 'Frontend');
+(41, 23, 2, 'Backend', 'Backend'),
+(42, 23, 1, 'Frontend', 'Frontend');
 
 -- --------------------------------------------------------
 
@@ -713,9 +730,9 @@ CREATE TABLE `recommendations` (
 --
 
 INSERT INTO `recommendations` (`id`, `project_id`, `type`, `text`) VALUES
-(46, 20, 'Negatif', '**Fokus Risiko:** Tingkat Risiko Gabungan (Dampak * Kemungkinan) adalah 12.0/25. Segera prioritaskan Rencana Mitigasi untuk kategori risiko kritis.'),
-(47, 20, 'Negatif', '**Diversitas Teknologi:** Hanya 1 kategori teknologi yang tercakup. Untuk proyek skala Medium, pastikan cakupan teknologi (misalnya, Database, Cloud, DevOps) memadai untuk menghindari celah fungsional.'),
-(48, 20, 'Positif', '**Dana Kontingensi:** Anggaran kontingensi Anda kuat dan melebihi rekomendasi berbasis risiko. Ini memberikan *buffer* yang baik terhadap biaya tak terduga.');
+(52, 23, 'Positif', '**Keahlian Tim Kuat:** Anggota tim memiliki tingkat keahlian yang tinggi, faktor kunci keberhasilan.'),
+(53, 23, 'Negatif', '**Metode SDLC:** Metode Waterfall memiliki fleksibilitas rendah. Pertimbangkan pendekatan yang lebih adaptif seperti Agile, Scrum, atau Iterative untuk meningkatkan kemampuan tim merespons perubahan.'),
+(54, 23, 'Positif', '**Dana Kontingensi:** Anggaran kontingensi Anda kuat dan melebihi rekomendasi berbasis risiko. Ini memberikan *buffer* yang baik terhadap biaya tak terduga.');
 
 -- --------------------------------------------------------
 
@@ -967,7 +984,11 @@ INSERT INTO `risk` (`id`, `project_id`, `risk_type_id`, `description`, `impact_l
 (221, 45, 5, 'Risiko kebocoran data pelanggan karena celah keamanan.', 'high', 'high', '--', '--', 'Implementasi enkripsi end-to-end.', 70, 'mitigated', '2014-09-09 17:00:00', '2025-10-26 10:53:13'),
 (222, 45, 3, 'Keterlambatan karena integrasi dengan sistem lama.', 'medium', 'medium', '--', '--', 'Uji coba komprehensif sebelum deployment.', 70, 'mitigated', '2014-09-30 17:00:00', '2025-10-26 10:53:13'),
 (223, 45, 10, 'Pengeboran scope proyek dari klien.', 'medium', 'medium', '--', '--', 'Tetapkan scope dokumentasi dan tandatangani perubahan.', 70, 'mitigated', '2014-10-31 17:00:00', '2025-10-26 10:53:13'),
-(224, 45, 12, 'Pemborosan sumber daya karena perencanaan buruk.', 'medium', 'medium', '--', '--', 'Buat rencana anggaran detail dan audit bulanan.', 70, 'mitigated', '2014-11-30 17:00:00', '2025-10-26 10:53:13');
+(224, 45, 12, 'Pemborosan sumber daya karena perencanaan buruk.', 'medium', 'medium', '--', '--', 'Buat rencana anggaran detail dan audit bulanan.', 70, 'mitigated', '2014-11-30 17:00:00', '2025-10-26 10:53:13'),
+(225, 151, 1, 'Keterangan', 'high', 'like', 'Critical Risk', 'Finance', NULL, 80, NULL, '2025-10-29 08:42:47', '2025-10-29 08:42:47'),
+(226, 151, 2, 'Keterangan', 'medium', 'possible', 'Medium Risk', 'Operational', NULL, 50, NULL, '2025-10-29 08:43:01', '2025-10-29 08:43:01'),
+(227, 152, 3, 'Keterangan', 'high', 'like', 'Critical Risk', 'Compliance', NULL, 80, NULL, '2025-10-29 09:21:20', '2025-10-29 09:21:20'),
+(228, 152, 5, 'Keterangan', 'medium', 'like', 'High Risk', 'Unknown', NULL, 50, NULL, '2025-10-29 09:21:30', '2025-10-29 09:21:30');
 
 -- --------------------------------------------------------
 
@@ -1630,7 +1651,12 @@ INSERT INTO `team_member` (`id`, `allocation_id`, `role`, `quantity`, `expertise
 (544, 109, 'DevOps Engineer', 4, 2, 13000, '6', '200000000', '100000000', '2020-07-24 17:00:00', '2025-10-26 10:44:13'),
 (545, 109, 'QA Automation Engineer', 3, 1, 7000, '6', '200000000', '100000000', '2020-07-24 17:00:00', '2025-10-26 10:44:13'),
 (546, 110, 'Project Manager', 1, 5, 25000, '6', '200000000', '100000000', '2020-09-24 17:00:00', '2025-10-26 10:44:13'),
-(547, 110, 'Security Architect', 2, 4, 21000, '6', '200000000', '100000000', '2020-09-24 17:00:00', '2025-10-26 10:44:13');
+(547, 110, 'Security Architect', 2, 4, 21000, '6', '200000000', '100000000', '2020-09-24 17:00:00', '2025-10-26 10:44:13'),
+(548, 151, 'Frontend Dev', 1, 4, 2000000, '1', '2000000', '2000000', '2025-10-29 08:29:51', '2025-10-29 08:29:51'),
+(549, 151, 'Bcakend Dev', 2, 4, 300000, '2', '600000', '300000', '2025-10-29 08:30:06', '2025-10-29 08:30:06'),
+(550, 152, 'System Administrator', 2, 4, 4000000, '3', '8000000', '2666667', '2025-10-29 09:20:41', '2025-10-29 09:20:41'),
+(551, 152, 'Frontend Dev', 1, 4, 2000000, '1', '2000000', '2000000', '2025-10-29 09:20:54', '2025-10-29 09:20:54'),
+(552, 152, 'Bcakend Dev', 1, 4, 3000000, '1', '3000000', '3000000', '2025-10-29 09:21:05', '2025-10-29 09:21:05');
 
 -- --------------------------------------------------------
 
@@ -1847,13 +1873,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `allocations`
 --
 ALTER TABLE `allocations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 
 --
 -- AUTO_INCREMENT for table `derivedmetrics`
 --
 ALTER TABLE `derivedmetrics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `expertise_level`
@@ -1877,7 +1903,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `outputs`
 --
 ALTER TABLE `outputs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1889,19 +1915,19 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 
 --
 -- AUTO_INCREMENT for table `projectx`
 --
 ALTER TABLE `projectx`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `project_categories`
 --
 ALTER TABLE `project_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `project_scale`
@@ -1913,37 +1939,37 @@ ALTER TABLE `project_scale`
 -- AUTO_INCREMENT for table `project_type`
 --
 ALTER TABLE `project_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `raw_risk_data`
 --
 ALTER TABLE `raw_risk_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `raw_team_data`
 --
 ALTER TABLE `raw_team_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `raw_tech_data`
 --
 ALTER TABLE `raw_tech_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `recommendations`
 --
 ALTER TABLE `recommendations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `risk`
 --
 ALTER TABLE `risk`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=229;
 
 --
 -- AUTO_INCREMENT for table `risk_categories`
@@ -1967,7 +1993,7 @@ ALTER TABLE `sdlc_method`
 -- AUTO_INCREMENT for table `team_member`
 --
 ALTER TABLE `team_member`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=548;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=553;
 
 --
 -- AUTO_INCREMENT for table `technology_type`

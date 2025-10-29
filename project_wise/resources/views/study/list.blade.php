@@ -36,14 +36,14 @@
   </style>
 
 
-    <div class="container" style="height: 800px; overflow-y:scroll">
+    <div class="container" style="height: 600px; overflow-y:scroll">
         <h1 align="center" style="margin-top:50px;">Great to see you, {{Auth::user()->name}}! These Are the Recomendation result for study Yuk Project.</h1>
         <hr/>
           <div class="container py-4">
             <!-- Top Buttons -->
             <div class="d-flex justify-content-end mb-3">
-              <button class="btn btn-dark">Download Result</button> &nbsp;&nbsp; 
-              <button class="btn btn-outline-secondary">More</button>
+              <button class="btn btn-dark" onclick="window.open('/study/list/{{$summary->id??23}}')">Download Result</button> &nbsp;&nbsp; 
+              <!-- <button class="btn btn-outline-secondary">More</button> -->
             </div>
 
             <!-- Tabs -->
@@ -173,7 +173,7 @@
                   <div class="score-value">{{ceil($total_semuanya)}}</div>
                   <div class="score-label text-white bg-dark d-inline-block px-3 py-1 rounded">{{$result??"-"}}</div>
                   <p class="mt-3 text-muted small">
-                    Project aspect is acceptable but may need attention to avoid potential issues.
+                   Aspek proyek dapat diterima tetapi mungkin perlu diperhatikan untuk menghindari potensi masalah.
                   </p>
                 </div>
               </div>
@@ -183,10 +183,10 @@
                 <div class="summary-box">
                   <h5 class="mb-3 font-weight-bold">Summary Description</h5>
                   <p>
-                    A project health score of 73 indicates a moderate condition. This suggests the project is progressing with a reasonable degree of stability. Most foundational elements are in place, but there may be imbalances or inefficiencies in areas like budget allocation, team composition, or risk mitigation that could impact overall outcomes if left unaddressed.
+                    Skor kesehatan proyek sebesar {{ceil($total_semuanya)}} menunjukkan kondisi sedang. Hal ini menunjukkan bahwa proyek berjalan dengan tingkat stabilitas yang wajar. Sebagian besar elemen dasar sudah ada, tetapi mungkin terdapat ketidakseimbangan atau inefisiensi di area seperti alokasi anggaran, komposisi tim, atau mitigasi risiko yang dapat memengaruhi hasil keseluruhan jika tidak ditangani.
                   </p>
                   <p>
-                    While the project is still on track, it is recommended to review key metrics and implement minor adjustments. Proactive refinements at this stage can elevate performance, minimize risks, and strengthen the likelihood of project success.
+                    <a href="/study/result/{{$summary->id??23}}">Lihat Detailnya</a>
                   </p>
                 </div>
               </div>

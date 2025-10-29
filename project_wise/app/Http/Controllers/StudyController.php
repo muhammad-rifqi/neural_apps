@@ -31,6 +31,7 @@ class StudyController extends Controller
 
     public function list($id)
     {
+        $data1 = Projects::where('id', '=', $id)->first();
         $data = DB::table('projectx')->where('id', '=', $id)->first();
         $tech = DB::table('raw_tech_data')->where('project_id', '=', $data->id)->get();
         $teams = DB::table('raw_team_data')->where('project_id', '=', $data->id)->get();
@@ -38,7 +39,22 @@ class StudyController extends Controller
         $output = DB::table('outputs')->where('project_id', '=', $data->id)->first();
         $rek = DB::table('recommendations')->where('project_id', '=', $data->id)->get();
         $metrix = DB::table('derivedMetrics')->where('project_id', '=', $data->id)->first();
-        return view('study.index',compact('data','tech','teams','risk','output','rek','metrix'));
+        $summary = Projectx::where('project_id','=',$data1->id)->first();
+        return view('study.index',compact('data','tech','teams','risk','output','rek','metrix','summary'));
+    }
+
+    public function result($id)
+    {
+        $data1 = Projects::where('id', '=', $id)->first();
+        $data = DB::table('projectx')->where('id', '=', $id)->first();
+        $tech = DB::table('raw_tech_data')->where('project_id', '=', $data->id)->get();
+        $teams = DB::table('raw_team_data')->where('project_id', '=', $data->id)->get();
+        $risk = DB::table('raw_risk_data')->where('project_id', '=', $data->id)->get();
+        $output = DB::table('outputs')->where('project_id', '=', $data->id)->first();
+        $rek = DB::table('recommendations')->where('project_id', '=', $data->id)->get();
+        $metrix = DB::table('derivedMetrics')->where('project_id', '=', $data->id)->first();
+        $summary = Projectx::where('project_id','=',$data1->id)->first();
+        return view('study.result',compact('data','tech','teams','risk','output','rek','metrix','summary'));
     }
 
 
@@ -52,7 +68,8 @@ class StudyController extends Controller
         $resiko = Risk::where('project_id','=', $data->id)->get();   
         $totalImpact = $resiko->sum('val');
         $countImpact = $resiko->count('val');
-        return view('study.list',compact('data','alloc','teams','resiko','totalImpact','countImpact'));
+        $summary = Projectx::where('project_id','=',$data->id)->first();
+        return view('study.list',compact('data','alloc','teams','resiko','totalImpact','countImpact','summary'));
     }
 
     /**
