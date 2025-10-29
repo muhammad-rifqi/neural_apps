@@ -214,14 +214,14 @@
               <tr>
                 <td><input type="text" class="form-control" value="Budget Adequacy" readonly></td>
                 <td><input type="text" class="form-control" value="{{ceil($hasil_akhir)}}" readonly></td>
-                <td><input type="text" class="form-control" value="{{$bd??0}}" readonly></td>
-                <td><input type="text" class="form-control"  value="{{$bdk??0}}" readonly></td>
+                <td><input type="text" class="form-control" value="{{$bd??''}}" readonly></td>
+                <td><input type="text" class="form-control"  value="{{$bdk??''}}" readonly></td>
               </tr>
               <tr>
                 <td><input type="text" class="form-control" value="Timeline Feasibility" readonly></td>
                 <td><input type="text" class="form-control" value="{{ceil($waktu)}}" readonly></td>
-                <td><input type="text" class="form-control" value="{{$wkt??0}}" readonly></td>
-                <td><input type="text" class="form-control"  value="{{$wktk??0}}" readonly></td>
+                <td><input type="text" class="form-control" value="{{$wkt??''}}" readonly></td>
+                <td><input type="text" class="form-control"  value="{{$wktk??''}}" readonly></td>
               </tr>
               <tr>
                 <td><input type="text" class="form-control" value="Technology Relevance" readonly></td>
