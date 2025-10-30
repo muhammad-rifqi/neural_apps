@@ -476,6 +476,20 @@ class ProjectController extends Controller
         ]);        
     }
 
+    public function teamp_delete($id){
+        $data = Teammember::findOrFail($id);
+        $data->delete();
+        return redirect('/teamp');
+
+    }
+
+     public function riskp_delete($id){
+        $data = Risk::findOrFail($id);
+        $data->delete();
+        return redirect('/riskp');
+
+    }
+
     public function bacateam($projectID){
         $tm = Teammember::where('allocation_id','=',$projectID)->get();
         return response()->json([

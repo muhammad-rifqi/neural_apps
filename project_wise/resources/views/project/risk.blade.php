@@ -44,6 +44,7 @@
                                             <th scope="col">Description</th>
                                             <th scope="col">Impact</th>
                                             <th scope="col">Likelihood</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody id="risks">
@@ -539,6 +540,7 @@
                         <td>${elements.description}</td>
                         <td>${elements.impact_level}</td>
                         <td>${elements.likelihood}</td>
+                        <td><a class="btn btn-danger" href="/riskp/delete/${elements.id}" onclick="return confirm('Apakah Anda Yakin?')">Hapus</a></td>
                     </tr>`;
             });
             document.getElementById("risks").innerHTML = abs;

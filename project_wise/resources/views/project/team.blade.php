@@ -45,6 +45,7 @@
                                             <th scope="col">Quantity</th>
                                             <th scope="col">Expertise</th>
                                             <th scope="col">salary</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody id="teamps">
@@ -200,6 +201,7 @@ function save2(){
                         <td>${elements.quantity}</td>
                         <td>${elements.expertise_level_id}</td>
                         <td>${elements.avg_salary}</td>
+                        <td><a class="btn btn-danger" href="/teamp/delete/${elements.id}" onclick="return confirm('Apakah Anda Yakin?')">Hapus</a></td>
                     </tr>`;
             });
             document.getElementById("teamps").innerHTML = ab;
