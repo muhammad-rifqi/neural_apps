@@ -43,7 +43,7 @@
     $hasil2 = (int)$angka_bersih2;
     @endphp
 
-    <div class="container" style="height: 600px; overflow-y:scroll">
+    <div class="container" style="height: 1200px; overflow-y:scroll;scrollbar-width: none;">
         <h1 align="center" style="margin-top:50px;">Great to see you, {{Auth::user()->name}}! These Are the Recomendation result for study Yuk Project.</h1>
         <hr/>
           <div class="container py-4 bg-white p-5 text-dark">

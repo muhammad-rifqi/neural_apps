@@ -13,7 +13,7 @@
     }
   </style>
         <main class="main">
-            <section class="welcome-section" style="height: 800px; overflow-y:scroll">
+            <section class="welcome-section" style="height: 1200px; overflow-y:scroll;scrollbar-width: none;">
                 
                 <h2 style="margin-top:200px" id="warna_text">Hi,{{ Auth::user()->name }}! Let’s power up your next project.</h2>
                 <div class="welcome-section_tab">

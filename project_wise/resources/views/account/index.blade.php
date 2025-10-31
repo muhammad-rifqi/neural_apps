@@ -1,7 +1,7 @@
 @extends('layouts.apps')
 
 @section('content')   
-    <div class="container" style="height: 600px; overflow-y:scroll">
+    <div class="container" style="height: 1200px; overflow-y:scroll;scrollbar-width: none;">
         <h1 align="center" style="margin-top: 50px">Great to see you, {{Auth::user()->name}}! Let’s boost performance with retraining.</h1>
         <p class="subtitle" align="center">
         Configure and initiate the retraining process to update and improve the accuracy of your predictive machine learning models.

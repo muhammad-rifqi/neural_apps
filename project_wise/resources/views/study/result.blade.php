@@ -7,7 +7,7 @@ $num = explode(',', $data->duration_weeks);
 ?>
 
 
-<div class="container my-5" style="height: 600px; overflow-y:scroll">
+<div class="container my-5" style="height: 1200px; overflow-y:scroll;scrollbar-width: none;">
     <div id="resultContainer" class="card p-4 prediction-result">
     <header class="mb-5">
         <h1 class="display-4 text-dark font-weight-bold" id="warna_texts">Predictive Project Planner</h1>

@@ -13,7 +13,7 @@
     }
   </style>
         <main class="main">
-            <section class="welcome-section" style="height: 800px; overflow-y:scroll">
+            <section class="welcome-section" style="height: 1200px; overflow-y:scroll;scrollbar-width: none;">
                 
                 <h2 style="margin-top:200px" id="warna_text">Hi,{{ Auth::user()->name }}! Let’s power up your next project.</h2>
                 <div class="welcome-section_tab">
@@ -187,7 +187,9 @@
         const wwww = localStorage.getItem('sess_id').split('===')[2];
         fetch('/api/selectedproject/'+wwww)
                 .then(resp => resp.json())
-                .then((rows)=>{
+                .then((rowss)=>{
+                    const jsify = JSON.stringify(rowss);
+                    const rows = JSON.parse(jsify);
                     const projectName = rows.data.project.name;
                     const startDate = rows.data.project.start_date;
                     const endDate = rows.data.project.end_date

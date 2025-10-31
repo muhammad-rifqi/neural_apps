@@ -1,7 +1,7 @@
 @extends('layouts.apps')
 
 @section('content')   
-    <div class="container" style="height: 700px; overflow-y:scroll">
+    <div class="container" style="height: 1200px; overflow-y:scroll;scrollbar-width: none;">
         <h1 align="center" style="margin-top:50px;">Great to see you, {{Auth::user()->name}}! Let’s boost performance with retraining.</h1>
         <p class="subtitle" align="center">
          Discover the latest product updates, feature enhancements, and answers to frequently asked questions.
