@@ -87,6 +87,29 @@
                             </div>
 
                             <hr>
+
+                            <div class="row tech-row">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Technologi</th>
+                                                <th scope="col">Description</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="techlist">
+                                    
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <hr>
+
                              
                             <div class="row tech-row">
                                 <div class="col-md-5">
@@ -182,7 +205,7 @@
         localStorage.setItem('tech-'+tuse2[0],tuse2[1]+'-'+tusedesc);
         swal("Success!", "Technology Have Been Save!", "success")
             .then(() => {
-               return false;
+               list_tech();
             });     
         }
     }
@@ -267,5 +290,32 @@ function save1(){
         } 
     })
     }
+
+    function list_tech(){
+        if (!localStorage.length) {
+            return; 
+        }
+            var htmls = '';
+            Object.keys(localStorage)
+                .filter(k => k.startsWith("tech-"))
+                .forEach(k => {
+                    htmls += `<tr>
+                        <td>${localStorage.getItem(k).split('-')[0]} </td><td> ${localStorage.getItem(k).split('-')[1]}</td>
+                        <td><button class="btn btn-danger" onclick="removeItem('${k}')">Delete</button></td>
+                        </tr>`;
+                });
+                document.getElementById("techlist").innerHTML = htmls;
+
+    }
+
+    function removeItem(key) {
+        localStorage.removeItem(key);
+        list_tech();
+    }
+
+    window.addEventListener("load",(event)=>{
+        list_tech();
+    })
+
 </script>
 @endsection

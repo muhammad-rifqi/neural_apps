@@ -518,6 +518,11 @@
             if (data.status == 'success') {
                 swal("Sukses!", "Data Project Information berhasil disimpan.", "success")
                     .then(() => {
+                        Object.keys(localStorage).forEach(key => {
+                            if (key.startsWith("tech")) {
+                                localStorage.removeItem(key);
+                            }
+                        });
                         localStorage.removeItem('sess_id')
                         window.location.href = '/home';
                     });
