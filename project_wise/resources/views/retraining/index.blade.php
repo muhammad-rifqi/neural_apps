@@ -3,7 +3,7 @@
 @section('content')   
 
 <style>
-    .log-box { background: #111; color: #0f0; padding: 10px; height: 550px; overflow-y: auto; font-size: 13px; }
+    .log-box { background: #111; color: #0f0; padding: 10px; height: 400px; overflow-y: auto; font-size: 13px; }
     .progress-bar { width: 100%; background: #ddd; border-radius: 5px; margin: 10px 0; }
     .progress { height: 20px; width: 0%; background: #4caf50; border-radius: 5px; text-align: center; color: #fff; }
     button { padding: 10px; margin: 5px; cursor: pointer; }
@@ -28,10 +28,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <!-- <tr>
                             <td>Confusion Matrix</td>
                             <td><input type="text" class="form-control" id="acc" value="0 %" readonly></td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td>Accuracy Score</td>
                             <td><input type="text" class="form-control" id="nbacc" value="0 %" readonly></td>
@@ -56,7 +56,7 @@
                             <td>ROC-AUC</td>
                             <td><input type="text" class="form-control" id="roc" value="0 %" readonly></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>Data Scope <span class="text-primary">●</span></td>
                             <td>
                             <select class="form-control">
@@ -71,16 +71,17 @@
                         <tr>
                             <td>Amount of training</td>
                             <td><input type="text" class="form-control" value="✓ Training complete" readonly></td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td>Initiate Retraining</td>
-                            <td> <div class="progress-bar">
+                            <td> 
+                                <!-- <div class="progress-bar">
                                     <div id="progress" class="progress">0%</div>
-                                </div> 
+                                </div>  -->
                                 <button id="startBtn" class="btn btn-default btn-block" style="border:1px solid #000">Initiate Retraining</button> 
-                                <button class="btn btn-default btn-block" id="saveDB" style="border:1px solid #000">Save To DB</button> 
+                                <!-- <button class="btn btn-default btn-block" id="saveDB" style="border:1px solid #000">Save To DB</button> 
                                 <button class="btn btn-default btn-block" id="saveBtn" style="border:1px solid #000">Download Model</button>
-                                <button id="loadBtn" hidden> Load Model</button>
+                                <button id="loadBtn" hidden> Load Model</button> -->
                             </td>
                         </tr>
                         </tbody>
@@ -109,7 +110,16 @@
         </div>
     </div>
 
+
     <script>
+      document.getElementById("startBtn").addEventListener("click", async ()=>{
+          
+
+
+      });
+    </script>  
+
+    <!-- <script>
     const logBox = document.getElementById("logBox");
     const progressBar = document.getElementById("progress");
     const accSpan = document.getElementById("acc");
@@ -327,6 +337,6 @@
 
       trainedModel=model; trainedNB=nb;
     });
-  </script>
+  </script> -->
 
 @endsection
