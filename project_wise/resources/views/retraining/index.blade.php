@@ -11,7 +11,7 @@
     .metrics p { margin: 6px 0; }
   </style>
 
-    <div class="container" style="height: 1200px; overflow-y:scroll;scrollbar-width: none;">
+    <div class="container" style="height: 1200px; overflow-y:scroll;scrollbar-width: none;" id="warna_text">
         <h1 align="center" style="margin-top: 80px;">Great to see you, {{Auth::user()->name}}! Let’s boost performance with retraining.</h1>
         <p class="subtitle" align="center">
         Configure and initiate the retraining process to update and improve the accuracy of your predictive machine learning models.
