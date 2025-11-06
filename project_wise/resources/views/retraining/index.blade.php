@@ -122,13 +122,7 @@
             document.getElementById("rec").value = (data.data.hybrid_results.recall * parseInt(100)).toFixed(2)+"%";  
             document.getElementById("f1").value = (data.data.hybrid_results.f1 * parseInt(100)).toFixed(2)+"%";  
             document.getElementById("roc").value = (data.data.hybrid_results.roc_auc * parseInt(100)).toFixed(2)+"%";
-
-            fetch(data.log)
-            .then(rows => rows.text())
-            .then((row) => {
-                document.getElementById("logBox").innerHTML = row;
-            })  
-        })
+          document.getElementById("logBox").innerHTML = data.log;
       });
     </script>  
 
