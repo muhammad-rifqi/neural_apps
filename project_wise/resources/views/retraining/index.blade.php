@@ -113,9 +113,11 @@
 
     <script>
       document.getElementById("startBtn").addEventListener("click", async ()=>{
-          
-
-
+        await fetch('http://localhost:8080/project_wise/bridge.php')
+        .then(response => response.json())
+        .then((data) => {
+            console.log(data)
+        })
       });
     </script>  
 
